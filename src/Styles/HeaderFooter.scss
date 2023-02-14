@@ -1,0 +1,73 @@
+body{
+    background: url(../Images/seamless-beige-stone-texture_124507-10698.jpg);
+    background-size: cover;
+}
+
+.App-nav-list{
+    display: flex;
+    flex-direction: row;
+	background: linear-gradient(to bottom,  #2b2322,  #1a1615);
+    color: #f5f5f5;
+	height: 50px;
+	border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5);
+
+    li{
+        margin: 9px 15px;
+        list-style: none;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: 'Roboto', sans-serif;
+        background-color: #1a1615;
+        a{
+            text-decoration: none;
+            color: #f5f5f5;
+        }
+        &:hover
+        {
+            background-color: #472424;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+    }
+}
+.App-logo{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    left: 6px;
+    top: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.App-nav{
+    left: 0;
+    /*.ShadowForBanner{
+        width: 50px;
+        height: 90px;
+        position: absolute;
+        box-shadow: 0 5px 10px 6px rgba(0,0,0,0.5);
+        margin: -50px 0px 0px 90.3%;
+    }
+    .ShadowForBanner2{
+        width: 50px;
+        height: 80px;
+        position: absolute;
+        box-shadow: 0 10px 10px 5px rgba(0,0,0,0.5);
+        margin: -50px 0px 0px 95.3%;
+    }
+    .App-banner{
+        position: absolute;
+        width: 70px;
+        height: 100px;
+        margin: -50px 0px 0px 90%;
+    }
+    .App-banner2{
+        position: absolute;
+        width: 60px;
+        height: 90px;
+        margin: -50px 0px 0px 95%;
+    }*/
+}
