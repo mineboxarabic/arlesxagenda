@@ -5,18 +5,24 @@ export function ToolsSubMenu(){
         <div className="ToolsSubMenu">
 
             <div className="Tools">
-                <div className="ToolsSubMenu__title">
-                    <h2>Tools</h2>
-                </div>
-                <div className="ToolsSubMenu__content">
-                    <ul>
-                        <li><a href="https://www.google.com/maps">Google Maps</a></li>
-                        <li><a href="https://www.google.com/maps">Google Maps</a></li>
-                        <li><a href="https://www.google.com/maps">Google Maps</a></li>
-                        <li><a href="https://www.google.com/maps">Google Maps</a></li>
-                        <li><a href="https://www.google.com/maps">Google Maps</a></li>
-                    </ul>
-                </div>
+                <h6 className='TourismA'>Tourism a</h6>
+                <h1 className='Arles'>Arles</h1>
+                <h2>Tools</h2>
+                <form>
+                    <label htmlFor="search">Search</label>
+                    <input type="text" placeholder='Search...' id="search" name="search" />
+                </form>
+
+                <select className="Tools_When">
+
+                </select>
+                <select className="Tools_Where">
+
+                </select>
+                <select className="Tools_What">
+
+                </select>
+
             </div>
             <div className="BackgroundImage">
                 
