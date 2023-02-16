@@ -3,70 +3,123 @@ body{
     background-size: cover;
 }
 
-.App-nav-list{
-    display: flex;
-    flex-direction: row;
-	background: linear-gradient(to bottom,  #2b2322,  #1a1615);
-    color: #f5f5f5;
-	height: 50px;
-	border-radius: 8px;
-    text-decoration: none;
-    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5);
 
-    li{
-        margin: 9px 15px;
-        list-style: none;
-        font-size: 1.2rem;
-        font-weight: 600;
-        cursor: pointer;
-        font-family: 'Roboto', sans-serif;
-        background-color: #1a1615;
-        a{
-            text-decoration: none;
-            color: #f5f5f5;
-        }
-        &:hover
-        {
-            background-color: #472424;
-            border-radius: 8px;
-            transition: all 0.3s ease-in-out;
-        }
-    }
-}
-.App-logo{
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    left: 6px;
-    top: 18px;
-    border-radius: 50%;
-    cursor: pointer;
-}
+
 .App-nav{
-    /*.ShadowForBanner{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    .App-logo{
+        z-index: 1;
+        padding: -100px;
+        position: absolute;
+        width: 47px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    .Language-Selection{
+        position: relative;
+        display: flex;
+        top: -10px;
+        left: 80%;
+        height:30px;
         width: 50px;
-        height: 90px;
-        position: absolute;
-        box-shadow: 0 5px 10px 6px rgba(0,0,0,0.5);
-        margin: -50px 0px 0px 90.3%;
+        background-color: #413a30;
+        background: radial-gradient(circle, #e6dbc1, #dfc4b0);
+        border-radius: 8px;
+        cursor: pointer;
+
+        text-align: center;
+        
+        font-size: 20px;
+        .Language-Selection-ComboBox{
+            display: hidden;
+            height: 0px;
+            width: 30px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: -10;
+        }
+        &:hover{
+            .Language-Selection-ComboBox{
+                position:absolute;
+                display: flex;
+                flex-direction: column;
+                background-color: #413a30;
+                background: radial-gradient(circle, #e6dbc1, #dfc4b0);
+                border-radius: 8px;
+                box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5);
+                margin: 0;
+                padding: 0;
+                top:18px;
+                z-index: 1;
+                height: 40px;
+                width: 30px;
+                transition: all 0.3s ease-in-out;
+
+                div{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 20px;
+                    width: 30px;
+
+                    &:hover{
+                        background-color: #57382d;
+                        border-radius: 2px;
+                        transition: all 0.1s ease-in;
+                    }
+                }
+            }
+
+        }
+
+       
     }
-    .ShadowForBanner2{
-        width: 50px;
-        height: 80px;
+    .App-nav-list{
         position: absolute;
-        box-shadow: 0 10px 10px 5px rgba(0,0,0,0.5);
-        margin: -50px 0px 0px 95.3%;
+        display: flex;
+        background: linear-gradient(to bottom,  #2b2322,  #1a1615);
+        border-radius: 8px;
+        box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5);
+        margin: 0;
+        padding-left: 10%;
+        height: 100%;
+        width: 95%;
+        li{
+            //margin: 9px 15px;
+            position: relative;
+            list-style: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            background-color: #1a1615;
+            height: 100%;
+            width:15%;
+                
+            a{
+                position: absolute;
+                margin : 0;
+                padding: 0;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                color: #f5f5f5;
+            }
+            &:hover
+            {
+                background-color: #472424;
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+        }
     }
-    .App-banner{
-        position: absolute;
-        width: 70px;
-        height: 100px;
-        margin: -50px 0px 0px 90%;
-    }
-    .App-banner2{
-        position: absolute;
-        width: 60px;
-        height: 90px;
-        margin: -50px 0px 0px 95%;
-    }*/
 }
