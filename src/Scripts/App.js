@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import {Event} from './Event';
 import { Header, Footer } from './HeaderAndFooter';
 import { ToolsSubMenu } from './ToolsSubMenu';
-
+import { EventGrid } from '../Objects/EventGrid';
+import { EventObject } from '../Objects/EventObject';
 function App() {
   //====================================================================================\\
   let events = [];
@@ -22,6 +23,17 @@ function App() {
     <>
       <Header />
       <ToolsSubMenu />
+      <EventGrid>
+        <EventObject />
+        <EventObject />
+        <EventObject />
+        <EventObject />
+
+        <EventObject />
+        <EventObject />
+        <EventObject />
+        <EventObject />
+      </EventGrid>
       <Footer />
     </>
   );

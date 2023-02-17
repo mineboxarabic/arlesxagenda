@@ -2,6 +2,7 @@ import '../Styles/HeaderFooter.scss'
 import { useState } from 'react'
 import Banner1 from '../Images/Banner1.png'
 import Logo from '../Images/Logo.png'
+import { useEffect } from 'react'
 import CSSHeaderFooter from '../Styles/HeaderFooter.scss'
 function Banner({leftPosition,sizeX,sizeY}){
     let sizeXString = sizeX + "px";
@@ -43,6 +44,12 @@ function ComboBox({selected}){
 
     let [selectedLanguage, setSelectedLanguage] = useState(selected);
     let [style, setStyle] = useState();
+
+
+
+    function setDisplay(display){
+        document.querySelector('.Language-Selection-ComboBox').style.setProperty('--state_of_popup', display);
+    }
 
     return (
         <>

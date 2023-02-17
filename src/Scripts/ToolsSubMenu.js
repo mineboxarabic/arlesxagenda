@@ -2,6 +2,9 @@ import Background2 from '../Images/Background2.png';
 import { ComboBoxView } from '../Objects/ComboBoxView';
 import '../Styles/ToolsSubMenu.scss';
 export function ToolsSubMenu(){
+    function showWhere(){
+                        
+    }
     return (
         <div className="ToolsSubMenu">
 
@@ -12,26 +15,21 @@ export function ToolsSubMenu(){
                     
                 </div>
                 <div className="Tools_Buttons">
-                    <ComboBoxView>
-                        <h1>test</h1>
-                        <h1>test</h1>
-                        <h1>test</h1>
-                    </ComboBoxView>
-                <h2>Tools</h2>
+
+                    <h2>Tools</h2>
                     <form>
                         <label htmlFor="search">Search</label>
                         <input type="text" placeholder='Search...' id="search" name="search" />
                     </form>
 
-                    <select className="Tools_When">
+                    <ComboBoxView Text="Where ?">
+                        
+                    </ComboBoxView>
 
-                    </select>
-                    <select className="Tools_Where">
-
-                    </select>
-                    <select className="Tools_What">
-
-                    </select>
+                    <ComboBoxView Text="When ?">
+                    </ComboBoxView>
+                    <ComboBoxView Text="What ?">
+                    </ComboBoxView>
                 </div>
                 
 
