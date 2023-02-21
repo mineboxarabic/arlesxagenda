@@ -24,15 +24,9 @@ function App() {
       <Header />
       <ToolsSubMenu />
       <EventGrid>
-        <EventObject />
-        <EventObject />
-        <EventObject />
-        <EventObject />
-
-        <EventObject />
-        <EventObject />
-        <EventObject />
-        <EventObject />
+        {eventsData.map((event) => {
+          return <EventObject EventData={event} language='fr' />;
+        })}
       </EventGrid>
       <Footer />
     </>
