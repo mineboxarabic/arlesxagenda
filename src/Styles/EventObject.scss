@@ -1,26 +1,36 @@
+
+@font-face {
+    font-family: 'Old Roman Font';
+    src: url(../Fonts/Archeologicaps.ttf);
+}
+@font-face {
+    font-family: 'Little Roman Font';
+    src: url(../Fonts/Insula-mj5.ttf);
+}
 .Event{
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
     cursor: pointer;
-    background-color: #e0d8c4;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px ;
-    border-bottom-right-radius: 20px ;
-    background-image: url(../Images/Background3.png);
     .Event_Body{
-        background-image: url(../Images/Background3.png);
-        box-shadow: #734c32 2px 5px 20px 10px inset;
-        border-top-left-radius: 50%;
-        border-top-right-radius: 50%;
-        border-bottom-left-radius: 20px ;
-        border-bottom-right-radius: 20px ;
+        
+        position: relative;
+        background-image: url(../Images/MainEventBackground.png);
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        //box-shadow: #734c32 2px 5px 20px 10px inset;
         width: 100%;
         height: 100%;
 
-        position: relative;
+        &:hover{
+
+            transform: scale(1.05);
+            transition: all 0.3s ease-in-out;
+
+        }
+
+        
         &:after{
             box-shadow: #593518 0px 0px 20px 5px;
             z-index: -1;
@@ -35,62 +45,110 @@
             border-bottom-left-radius: 20px ;
             border-bottom-right-radius: 20px ;
         }
+
+
         .Event_Description{
-            font-size: 2px;
+            font-size: 1em;
+            position: absolute;
+            width: 86%;
+            height: 30%;
+            top: 58%;
+            left: 15px;
+            font-family: 'Little Roman Font';
+
+            overflow-y: scroll;
+            text-overflow: ellipsis;
+            color: white;
+            $scrollbar-width: 7px;
+            &::-webkit-scrollbar{
+                width: $scrollbar-width;
+                
+                &-thumb{
+                    background-color: #593518;
+                    border-radius: 10px;
+                    &:hover{
+                        background-color: #693e2b;
+                        $scrollbar-width: 10px;
+                    }
+                }
+
+
+            }
+
+            margin: 0;
         }
     }
     .Event_Title{
-        background: linear-gradient(to bottom, #695f4a 22%,#634f2c 24%, #81755c 26%, #cfc09f 27%,#766a48 40%,#3a2c0f 78%); 
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        color: rgb(245, 20, 20);
-        font-family: 'Playfair Display', serif;
-        position: relative;
-        text-transform: uppercase;	
-        font-size: 30px;
+        position: absolute;
         width: 100%;
-        height: 200px;
-        margin: 0;
-        font-weight: 400;
-        text-shadow: #3a2c0f 0.1em 0.1em 0.2em;
+        height: 39px;
+        text-align: center;
+        font-size: 1em;
+        font-family: 'Old Roman Font';
+        color: rgb(237, 237, 89);
+        top: 12.4em ;
+
+        text-shadow : 0px 0px 2px black;
+
+        text-overflow: ellipsis;
+        overflow: hidden;
+        
         &::after{
-            background: none;
-            content: attr(data-heading);
-            left: 0;
-            top: 0;
-            z-index: -1;
-            position: absolute;
-            text-shadow: 
-                -1px 0 1px #c6bb9f, 
-                0 1px 1px #c6bb9f, 
-                5px 5px 10px rgba(0, 0, 0, 0.4),
-                -5px -5px 10px rgba(0, 0, 0, 0.4);
+           
         }
         
     
     }   
 
+    $Event_Image_Width : 85%;
+    $Event_Image_Height : 190px;
+    $Event_Image_Top : 19px;
     .Event_Image_Container{
+
         position: relative;
         width: 100%;
-        height: 200px;
+        height: 100%;
+        top: 0;
+        left: 0;
+        
         img{
-            z-index: 0;
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: $Event_Image_Width;
+            height: $Event_Image_Height;
+            top: $Event_Image_Top;
+            left: 7%;
+
             border-top-left-radius: 50%;
             border-top-right-radius: 50%;
-            box-shadow: inset 5em 1em gold;
+
+            border-bottom-left-radius: 20px ;
+            border-bottom-right-radius: 20px ;
+
+
+            
+
         }
-        div{
+
+        .Event_Image_Shadow{
+            position: absolute;
+            width: $Event_Image_Width;
+            height: $Event_Image_Height;
+            top: $Event_Image_Top;
+            left: 7%;
+
             border-top-left-radius: 50%;
             border-top-right-radius: 50%;
-            box-shadow: inset 0.4em 0.5em 1em 1em rgb(0, 0, 0);
-            width: 100%;
-            height: 100%;
-            position: absolute;
+
+            border-bottom-left-radius: 20px ;
+            border-bottom-right-radius: 20px ;
+            box-shadow: #593518 0px 0px 20px 5px inset;
+            &:hover{
+                filter: brightness(0.5);
+                transition: all 0.3s ease-in-out;
+            }
         }
     }
+    
+        
 
 }

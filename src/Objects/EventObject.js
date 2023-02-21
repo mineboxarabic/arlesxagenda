@@ -5,7 +5,7 @@ export function EventObject(props){
     function languageSwip(Object,lang){
 
     }
-    return (
+    /*return (
         <>
             <div className="Event">
             <h3 className="Event_Title" >{EventData.title.fr}</h3>
@@ -15,6 +15,22 @@ export function EventObject(props){
                         <div className='Event_Image_Shadow'></div>
                     </div>
                     <p className='Event_Description'>{EventData.description.fr}</p>
+                </div>
+            </div>
+        </>
+    )*/
+
+    return (
+        <>
+            <div className="Event">
+                <div className='Event_Body'>
+                <h3 className="Event_Title" >{EventData.title.fr}</h3>
+                    <div className='Event_Image_Container'>
+                        <img src={EventData.image} alt="EventImage"/>
+                        <div className='Event_Image_Shadow'></div>
+                    </div>
+                    <p className='Event_Description'>{EventData.description.fr}</p>
+                    {console.log(EventData.description)}
                 </div>
             </div>
         </>
