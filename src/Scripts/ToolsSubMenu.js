@@ -1,6 +1,7 @@
 import Background2 from '../Images/Background2.png';
 import { ComboBoxView } from '../Objects/ComboBoxView';
 import '../Styles/ToolsSubMenu.scss';
+import { Calender } from '../Objects/Calender';
 export function ToolsSubMenu(){
     function showWhere(){
                         
@@ -27,6 +28,8 @@ export function ToolsSubMenu(){
                     </ComboBoxView>
 
                     <ComboBoxView Text="When ?">
+                        <h1> When ?</h1>
+                        
                     </ComboBoxView>
                     <ComboBoxView Text="What ?">
                     </ComboBoxView>

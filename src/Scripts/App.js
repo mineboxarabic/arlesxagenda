@@ -22,7 +22,7 @@ function App() {
 
 
   return (
-    /*<>
+    <>
       <Header />
       <ToolsSubMenu />
       <EventGrid>
@@ -31,9 +31,6 @@ function App() {
         })}
       </EventGrid>
       <Footer />
-    </>*/
-    <>
-      <Calender />
     </>
   );
 }

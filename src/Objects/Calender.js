@@ -1,22 +1,26 @@
 import { useState } from "react";
 import { DateTime } from "luxon";
 
+import '../Styles/Calender.scss';
+function square(props) {
+  return <button className="square" key={props.cle}>{props.value}</button>;
+}
 export function Calender(){
-    const [Umonth, setUMonth] = useState(DateTime.local().month - 1);
+    const [Umonth, setUMonth] = useState(1);
     const [Uyear, setUYear] = useState(DateTime.local().year - 1);
 
     function fillCalender(){
         let date = DateTime.local(Uyear,Umonth);
         let days = date.daysInMonth;
-        let firstDay = date.startOf('month').month;
-        let lastDay = date.endOf('month').c.month;
         let calender = [];
-        console.log(firstDay);
-        console.log(lastDay);
+        for(let i = 1; i <= days; i++){
+            calender.push(square({cle: i, value: i}));
+        }
+
+        return calender;
         
     }
     return (
-        <>
             <div className="Calender">
                 <div className="Calender_Header">
                     <div className="Calender_Header_Month">
@@ -42,7 +46,11 @@ export function Calender(){
                     </div>
                     <div className="Calender_Body_Dates">
 
-                        {fillCalender()}
+                        {fillCalender().map((date) => {
+                            return date;
+                        }
+                        )
+                         }
 
 
                     </div>
@@ -51,7 +59,5 @@ export function Calender(){
 
                 </div>
             </div>
-
-        </>
     )
 }

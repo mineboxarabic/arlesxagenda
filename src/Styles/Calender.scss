@@ -1,0 +1,82 @@
+
+.Calender{
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 20px;
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5);
+    padding: 5%;
+    background-color: antiquewhite;
+    .Calender_Header{
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        align-items: center;
+        button{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e6dbc1;
+            border: none;
+            cursor: pointer;
+            &:hover{
+                background-color: #dfc4b0;
+                transition: all 0.3s ease-in-out;
+            }
+
+            &::after{
+                content: "";
+                position: relative;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                border-top-left-radius: 50%;
+                border-top-right-radius: 50%;
+                border-bottom-left-radius: 20px ;
+                border-bottom-right-radius: 20px ;
+                box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5);
+
+            }
+        }
+
+        
+        .Calender_Header_Month{
+            display: flex;
+        }
+        .Calender_Header_Year{
+            display: flex;
+        }
+        
+    }
+    
+    .Calender_Body{
+        width: 350px;
+        .Calender_Body_Days{
+            display: flex;
+            .Calender_Body_Days_Day{
+                width: 50px;
+                display: flex;
+            }
+        }
+        
+
+    }
+
+}
+.square{
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    cursor: pointer;
+
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    &:hover{
+        background-color: rgb(255, 227, 227);
+        transition: all 0.3s ease-in-out;
+    }
+}
