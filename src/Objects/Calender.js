@@ -32,6 +32,9 @@ function BodyDays(props){
     }
     for(let i = 0; i < days.length; i++){
         //fill the array with the days
+        if(i === selectedDay - 1){
+            selectedDays[i] = true;
+        }
         days[i] = <Square cle={i} value={i + 1} Selected={selectedDays[i]} onSelect={()=>{handleDayClick(i)}}/>;
     }
 
@@ -62,6 +65,8 @@ export function Calender(){
     const [MonthName , setMonthName] = useState(DateTime.local(Uyear,Umonth).monthLong);
     const [YearName , setYearName] = useState(Uyear);
     const [selectedDay, setSelectedDay] = useState(DateTime.local().day);
+
+    const [dayNumber , setDayNumber] = useState(DateTime.local(Uyear,Umonth).day);
 
     function fillCalender(){
         let date = DateTime.local(Uyear,Umonth);
@@ -94,6 +99,8 @@ export function Calender(){
                 setMonthName(DateTime.local(Uyear,Umonth - 1).monthLong);
             }
         }
+
+        fillCalender();
        
     }
 
@@ -106,6 +113,7 @@ export function Calender(){
             setUYear(Uyear - 1);
             setYearName(Uyear - 1);
         }
+         fillCalender();
     }
     return (
             <div className="Calender">
