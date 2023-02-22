@@ -1,0 +1,57 @@
+@keyframes popup {
+    0% {
+      opacity: 0;
+      width: 100px;
+        height: 100px;
+    }
+    100% {
+      opacity: 1;
+      width: 300px;
+        height: 300px;
+    }
+  }
+@mixin mainStyle {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
+    background-color: white;
+    animation: popup 0.3s ease-in-out;
+    .PopUp_CloseButton{
+        //put the close button in the top right corner
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30px;
+        height: 40px;
+        background-color: red;
+        //remove the border
+        border: none;
+
+        cursor: pointer;
+        &:hover{
+            background-color: #fb3e3e;
+            transition: all 0.2s ease-in-out;
+        }
+        
+    }
+    
+}
+#WhereComboPopUp{
+    @include mainStyle;
+}
+
+#WhenComboPopUp{
+    @include mainStyle;
+    width: 400px;
+    height: 430px;
+    .PopUp_CloseButton{
+        z-index: 1;
+    }
+}
+
+#WhatComboPopUp{
+    @include mainStyle;
+}

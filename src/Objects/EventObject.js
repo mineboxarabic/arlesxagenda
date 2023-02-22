@@ -30,7 +30,6 @@ export function EventObject(props){
                         <div className='Event_Image_Shadow'></div>
                     </div>
                     <p className='Event_Description'>{EventData.description.fr}</p>
-                    {console.log(EventData.description)}
                 </div>
             </div>
         </>

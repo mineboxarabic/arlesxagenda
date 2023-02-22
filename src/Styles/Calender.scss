@@ -1,12 +1,25 @@
+@keyframes popup {
+    0% {
+      opacity: 0;
+      width: 100px;
+        height: 100px;
+    }
+    100% {
+      opacity: 1;
+      width: 300px;
+        height: 300px;
+    }
+  }
 
 .Calender{
     position: absolute;
     width: 350px;
     height: 350px;
-    border-radius: 20px;
-    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5);
-    padding: 5%;
-    background-color: antiquewhite;
+    //border-radius: 20px;
+    //box-shadow: 0 10px 10px 0 rgba(0,0,0,0.5);
+    padding: 6%;
+    //background-color: antiquewhite;
+    animation: popup 0.5s ease-in-out;
     .Calender_Header{
         width: 350px;
         display: flex;
@@ -65,7 +78,7 @@
     }
 
 }
-.square{
+.UnSelectedSquare{
     width: 50px;
     height: 50px;
     background-color: white;
@@ -79,4 +92,20 @@
         background-color: rgb(255, 227, 227);
         transition: all 0.3s ease-in-out;
     }
+}
+.selectedSquare{
+    width: 50px;
+    height: 50px;
+    background-color: rgb(120, 255, 9);
+    cursor: pointer;
+
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    &:hover{
+        background-color: rgb(58, 129, 78);
+        transition: all 0.3s ease-in-out;
+    }
+
 }

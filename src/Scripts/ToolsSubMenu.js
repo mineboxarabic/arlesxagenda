@@ -23,15 +23,16 @@ export function ToolsSubMenu(){
                         <input type="text" placeholder='Search...' id="search" name="search" />
                     </form>
 
-                    <ComboBoxView Text="Where ?">
+                    <ComboBoxView Text="Where ?" id="WhereCombo">
                         
                     </ComboBoxView>
 
-                    <ComboBoxView Text="When ?">
-                        <h1> When ?</h1>
+                    <ComboBoxView Text="When ?" id="WhenCombo">
+                        <Calender />
                         
                     </ComboBoxView>
-                    <ComboBoxView Text="What ?">
+                    <ComboBoxView Text="What ?" id="WhatCombo">
+                    
                     </ComboBoxView>
                 </div>
                 

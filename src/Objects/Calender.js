@@ -2,39 +2,126 @@ import { useState } from "react";
 import { DateTime } from "luxon";
 
 import '../Styles/Calender.scss';
-function square(props) {
-  return <button className="square" key={props.cle}>{props.value}</button>;
+
+function Square(props) {
+  return <button className={(props.Selected) ? "selectedSquare" : "UnSelectedSquare"} key={props.cle} onClick={props.onSelect}>{props.value}</button>
+}
+function BodyDays(props){
+    const [days , setDays] = useState(new Array(props.numDays).fill(0));
+    const daysNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    let body = [];
+    const [selectedDays, setSelectedDays] = useState(new Array(props.numDays).fill(false));
+    const [selectedDay, setSelectedDay] = useState(DateTime.local().day);
+    function handleDayClick(index){
+        //change the calssname of the selected day to selected
+        let temp = selectedDays;
+        temp.map((day,i) => {
+            if(i === index){
+                temp[i] = true;
+            }
+            else{
+                temp[i] = false;
+            }
+        })
+        setSelectedDays(temp);
+        setSelectedDay(index + 1);
+        
+    }
+    for(let i = 0; i < 7; i++){
+        body.push(<div className="Calender_Body_Days_Day" key={i}>{daysNames[i]}</div>);
+    }
+    for(let i = 0; i < days.length; i++){
+        //fill the array with the days
+        days[i] = <Square cle={i} value={i + 1} Selected={selectedDays[i]} onSelect={()=>{handleDayClick(i)}}/>;
+    }
+
+    return (
+        <div className="Calender_Body">
+            <div className="Calender_Body_Days">
+                {body.map((day) => {
+                    return day;
+                })
+                }
+                
+            </div>
+            <div className="Calender_Body_Dates">
+                {days.map((day) => {
+                    return day;
+                })
+
+                }
+            </div>
+        </div>
+    )
+
+
 }
 export function Calender(){
-    const [Umonth, setUMonth] = useState(1);
-    const [Uyear, setUYear] = useState(DateTime.local().year - 1);
+    const [Umonth, setUMonth] = useState(DateTime.local().month);
+    const [Uyear, setUYear] = useState(DateTime.local().year);
+    const [MonthName , setMonthName] = useState(DateTime.local(Uyear,Umonth).monthLong);
+    const [YearName , setYearName] = useState(Uyear);
+    const [selectedDay, setSelectedDay] = useState(DateTime.local().day);
 
     function fillCalender(){
         let date = DateTime.local(Uyear,Umonth);
         let days = date.daysInMonth;
-        let calender = [];
-        for(let i = 1; i <= days; i++){
-            calender.push(square({cle: i, value: i}));
-        }
-
-        return calender;
         
+
+        return <BodyDays numDays={days} />;
+        
+    }
+    function changeMonth(isAdd){
+        if(isAdd){
+            if(Umonth === 12){
+                setUMonth(1);
+                setUYear(Uyear + 1);
+                setMonthName(DateTime.local(Uyear + 1,1).monthLong);
+            }
+            else{
+                setUMonth(Umonth + 1);
+                setMonthName(DateTime.local(Uyear,Umonth + 1).monthLong);
+            }
+        }
+        else{
+            if(Umonth === 1){
+                setUMonth(12);
+                setUYear(Uyear - 1);
+                setMonthName(DateTime.local(Uyear - 1,12).monthLong);
+            }
+            else{
+                setUMonth(Umonth - 1);
+                setMonthName(DateTime.local(Uyear,Umonth - 1).monthLong);
+            }
+        }
+       
+    }
+
+    function changeYear(isAdd){
+        if(isAdd){
+            setUYear(Uyear + 1);
+            setYearName(Uyear + 1);
+        }
+        else{
+            setUYear(Uyear - 1);
+            setYearName(Uyear - 1);
+        }
     }
     return (
             <div className="Calender">
                 <div className="Calender_Header">
                     <div className="Calender_Header_Month">
-                        <button className="Calender_Header_Month_Arrow">◀</button>
-                        <div className="Calender_Header_Month_Name">Mars</div>
-                        <button className="Calender_Header_Month_Arrow">▶</button>
+                        <button className="Calender_Header_Month_Arrow" onClick={()=>changeMonth(false)}>◀</button>
+                        <div className="Calender_Header_Month_Name">{MonthName}</div>
+                        <button className="Calender_Header_Month_Arrow" onClick={()=>changeMonth(true)}>▶</button>
                     </div>
                     <div className="Calender_Header_Year">
-                        <button className="Calender_Header_Year_Arrow">◀</button>
-                        <div className="Calender_Header_Year_Name">2021</div>
-                        <button className="Calender_Header_Year_Arrow">▶</button>
+                        <button className="Calender_Header_Year_Arrow" onClick={() => changeYear(false)}>◀</button>
+                        <div className="Calender_Header_Year_Name">{YearName}</div>
+                        <button className="Calender_Header_Year_Arrow" onClick={() => changeYear(true)}>▶</button>
                     </div>
                 </div>
-                <div className="Calender_Body">
+                {/*<div className="Calender_Body">
                     <div className="Calender_Body_Days">
                         <div className="Calender_Body_Days_Day">Lun</div>
                         <div className="Calender_Body_Days_Day">Mar</div>
@@ -53,11 +140,12 @@ export function Calender(){
                          }
 
 
-                    </div>
+                        </div>
 
 
 
-                </div>
+                </div>*/}
+                {fillCalender()}
             </div>
     )
 }

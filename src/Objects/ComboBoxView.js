@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import '../Styles/ComboBoxView.scss'
+import '../Styles/PopUpsStyles.scss'
+
+function PopUp(props){
+    return (props.trigger) ? (
+        <div className="PopUp" id={props.id + 'PopUp'}>
+            <button className="PopUp_CloseButton" onClick={() =>{props.setTriggered(false);}}>X</button>
+            {props.children}
+        </div>
+    ) : "";
+}
 export function ComboBoxView(props){
     const [display, setDisplay] = useState('none');
+    const [isTriggered, setIsTriggered] = useState(false);
+
     function showPopUp(){
         if(display === 'none'){
             setDisplay('block');
@@ -16,13 +28,12 @@ export function ComboBoxView(props){
 
     return (
         <>
-        <button className="ComboBoxView" id={props.id} onFocusCapture={showPopUp} onBlur={hidePopUp}>
+        <button className="ComboBoxView" id={props.id} onFocusCapture={()=> setIsTriggered(true)}>
                 <div className='nameOfType'>{props.Text}</div>
                 <div className='downArraw'>︾</div>
-                
-            <div style={{'--display-PopUp': display }} className="ComboBoxViewPopUp" id={props.id + 'PopUp'}>
-                {props.Children}
-            </div>
+            <PopUp trigger={isTriggered} setTriggered={setIsTriggered} id={props.id}>
+                {props.children}
+            </PopUp>
         </button>
         </>
     )
