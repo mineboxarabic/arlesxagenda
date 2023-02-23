@@ -57,9 +57,23 @@
         
         .Calender_Header_Month{
             display: flex;
+
+            .Calender_Header_Month_Name{
+                width: 130px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         }
         .Calender_Header_Year{
             display: flex;
+
+            .Calender_Header_Year_Name{
+                width: 130px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         }
         
     }

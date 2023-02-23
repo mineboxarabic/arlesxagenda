@@ -28,8 +28,7 @@ export function ToolsSubMenu(){
                     </ComboBoxView>
 
                     <ComboBoxView Text="When ?" id="WhenCombo">
-                        <Calender />
-                        
+                        <Calender  />
                     </ComboBoxView>
                     <ComboBoxView Text="What ?" id="WhatCombo">
                     

@@ -2,19 +2,35 @@ import { useState } from "react";
 import { DateTime } from "luxon";
 
 import '../Styles/Calender.scss';
-
 function Square(props) {
   return <button className={(props.Selected) ? "selectedSquare" : "UnSelectedSquare"} key={props.cle} onClick={props.onSelect}>{props.value}</button>
 }
 function BodyDays(props){
+    //console.log(props.numDays);
     const [days , setDays] = useState(new Array(props.numDays).fill(0));
     const daysNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     let body = [];
     const [selectedDays, setSelectedDays] = useState(new Array(props.numDays).fill(false));
     const [selectedDay, setSelectedDay] = useState(DateTime.local().day);
+    function refreshDays(){
+        if(days.length !== props.numDays){
+            setDays(new Array(props.numDays).fill(0));
+        }
+        for(let i = 0; i < props.numDays; i++){
+            //fill the array with the days
+            if(i === selectedDay - 1){
+                selectedDays[i] = true;
+            }
+            days[i] = <Square cle={i} value={i + 1} Selected={selectedDays[i]} onSelect={()=>{handleDayClick(i)}}/>;
+        }
+
+    }
+    
+    
     function handleDayClick(index){
         //change the calssname of the selected day to selected
         let temp = selectedDays;
+        props.onDayChange(index);
         temp.map((day,i) => {
             if(i === index){
                 temp[i] = true;
@@ -27,16 +43,11 @@ function BodyDays(props){
         setSelectedDay(index + 1);
         
     }
+    refreshDays();
     for(let i = 0; i < 7; i++){
         body.push(<div className="Calender_Body_Days_Day" key={i}>{daysNames[i]}</div>);
     }
-    for(let i = 0; i < days.length; i++){
-        //fill the array with the days
-        if(i === selectedDay - 1){
-            selectedDays[i] = true;
-        }
-        days[i] = <Square cle={i} value={i + 1} Selected={selectedDays[i]} onSelect={()=>{handleDayClick(i)}}/>;
-    }
+
 
     return (
         <div className="Calender_Body">
@@ -62,19 +73,19 @@ function BodyDays(props){
 export function Calender(){
     const [Umonth, setUMonth] = useState(DateTime.local().month);
     const [Uyear, setUYear] = useState(DateTime.local().year);
+    const [Uday, setUDay] = useState(DateTime.local().day);
+    //MonthName and Year Name
     const [MonthName , setMonthName] = useState(DateTime.local(Uyear,Umonth).monthLong);
     const [YearName , setYearName] = useState(Uyear);
-    const [selectedDay, setSelectedDay] = useState(DateTime.local().day);
+    //=====================================================================================
 
-    const [dayNumber , setDayNumber] = useState(DateTime.local(Uyear,Umonth).day);
+    const [numberOfdays , setNumberOfDays] = useState(DateTime.local(Uyear,Umonth).daysInMonth);
 
-    function fillCalender(){
-        let date = DateTime.local(Uyear,Umonth);
-        let days = date.daysInMonth;
-        
 
-        return <BodyDays numDays={days} />;
-        
+
+    function showDate(day){
+        setUDay(day + 1);
+        console.log(`Year : ${Uyear} Month : ${Umonth} Days : ${Uday}`);
     }
     function changeMonth(isAdd){
         if(isAdd){
@@ -82,10 +93,12 @@ export function Calender(){
                 setUMonth(1);
                 setUYear(Uyear + 1);
                 setMonthName(DateTime.local(Uyear + 1,1).monthLong);
+                setNumberOfDays(DateTime.local(Uyear + 1,1).daysInMonth);
             }
             else{
                 setUMonth(Umonth + 1);
                 setMonthName(DateTime.local(Uyear,Umonth + 1).monthLong);
+                setNumberOfDays(DateTime.local(Uyear,Umonth + 1).daysInMonth);
             }
         }
         else{
@@ -93,17 +106,17 @@ export function Calender(){
                 setUMonth(12);
                 setUYear(Uyear - 1);
                 setMonthName(DateTime.local(Uyear - 1,12).monthLong);
+                setNumberOfDays(DateTime.local(Uyear - 1,12).daysInMonth);
             }
             else{
                 setUMonth(Umonth - 1);
                 setMonthName(DateTime.local(Uyear,Umonth - 1).monthLong);
+                setNumberOfDays(DateTime.local(Uyear,Umonth - 1).daysInMonth);
             }
         }
 
-        fillCalender();
-       
+        console.log(`Year : ${Uyear - 1} Month : ${Umonth} Days : ${Uday}`);
     }
-
     function changeYear(isAdd){
         if(isAdd){
             setUYear(Uyear + 1);
@@ -113,7 +126,7 @@ export function Calender(){
             setUYear(Uyear - 1);
             setYearName(Uyear - 1);
         }
-         fillCalender();
+        console.log(`Year : ${Uyear - 1} Month : ${Umonth} Days : ${Uday}`);
     }
     return (
             <div className="Calender">
@@ -129,31 +142,11 @@ export function Calender(){
                         <button className="Calender_Header_Year_Arrow" onClick={() => changeYear(true)}>▶</button>
                     </div>
                 </div>
-                {/*<div className="Calender_Body">
-                    <div className="Calender_Body_Days">
-                        <div className="Calender_Body_Days_Day">Lun</div>
-                        <div className="Calender_Body_Days_Day">Mar</div>
-                        <div className="Calender_Body_Days_Day">Mer</div>
-                        <div className="Calender_Body_Days_Day">Jeu</div>
-                        <div className="Calender_Body_Days_Day">Ven</div>
-                        <div className="Calender_Body_Days_Day">Sam</div>
-                        <div className="Calender_Body_Days_Day">Dim</div>
-                    </div>
-                    <div className="Calender_Body_Dates">
-
-                        {fillCalender().map((date) => {
-                            return date;
-                        }
-                        )
-                         }
-
-
-                        </div>
-
-
-
-                </div>*/}
-                {fillCalender()}
-            </div>
+                {
+                   
+                    <BodyDays numDays={numberOfdays} onDayChange={showDate} />
+                }
+                    
+                </div>
     )
 }

@@ -10,14 +10,16 @@ import { EventObject } from '../Objects/EventObject';
 import { Calender } from '../Objects/Calender';
 function App() {
   //====================================================================================\\
-  let events = [];
+  //===============================  Event Object  =====================================\\
+
+  /*let events = [];
   Data.events.map((event) => {
     events.push(JSON.stringify(event));
   });
   for(let i = 0; i < events.length; i++){
     events[i] = JSON.parse(events[i]);
   }
-  const [eventsData, setEventsData] = useState(events);
+  */
   //====================================================================================\\
 
 
@@ -25,12 +27,9 @@ function App() {
     <>
       <Header />
       <ToolsSubMenu />
-      <EventGrid>
-        {eventsData.map((event) => {
-          return <EventObject EventData={event} language='fr'/>;
-        })}
+      <EventGrid Data={Data}>
       </EventGrid>
-      <Footer />
+  <Footer />
     </>
   );
 }
