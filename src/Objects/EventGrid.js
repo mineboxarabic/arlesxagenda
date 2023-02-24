@@ -21,11 +21,18 @@ export function EventGrid(props){
     const [rows , setRows] = useState(Trows);
     const [currentPage, setCurrentPage] = useState(1);
     function changePage(isAdd){
-        if(currentPage <= rows.length -1){
-            let ct = isAdd ? (currentPage + 1) : (currentPage - 1); //Fix here 
+        console.log('Current Page: ' + currentPage);
+        console.log('Rows Length: ' + rows.length);
+            let ct = 0;
+            if(isAdd){
+                if(currentPage < rows.length)
+                    ct = currentPage + 1;
+            }
+            else{
+                if(currentPage > 1)
+                    ct = currentPage - 1;
+            }
             setCurrentPage(ct);
-        }
-        
     }
     return (
         <>
