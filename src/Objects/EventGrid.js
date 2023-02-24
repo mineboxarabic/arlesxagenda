@@ -39,6 +39,14 @@ export function EventGrid(props){
         <div className="EventGridMain">
             <div className="EventGrid">
 
+                {
+                    rows[currentPage].map((event)=>{
+                        return <EventObject EventData={event} language={"fr"}></EventObject>
+                    })
+
+                }
+
+
 
             </div>
             <div className="EventGriControls">
