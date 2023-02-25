@@ -2,10 +2,12 @@ import Background2 from '../Images/Background2.png';
 import { ComboBoxView } from '../Objects/ComboBoxView';
 import '../Styles/ToolsSubMenu.scss';
 import { Calender } from '../Objects/Calender';
-export function ToolsSubMenu(){
+import  KeywordSearch  from './KeywordSearch'
+export function ToolsSubMenu(props){
     function showWhere(){
                         
     }
+    console.log('The language in Tools is:' + props.language)
     return (
         <div className="ToolsSubMenu">
 
@@ -31,9 +33,15 @@ export function ToolsSubMenu(){
                         <Calender  />
                     </ComboBoxView>
                     <ComboBoxView Text="What ?" id="WhatCombo">
-                    
+                        {
+                            props.language==="fr"?<h3>Checher Vos mots cle</h3>:<h3>What are you looking for ?</h3>
+                        }
+                        <KeywordSearch getKeywords={props.getKeywords}></KeywordSearch>
                     </ComboBoxView>
+                    {props.children}
                 </div>
+
+                
                 
 
             </div>

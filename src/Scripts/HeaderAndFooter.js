@@ -40,9 +40,9 @@ function Banner({leftPosition,sizeX,sizeY}){
             
         </div>
     )}
-function ComboBox({selected}){
+function ComboBox(props){
 
-    let [selectedLanguage, setSelectedLanguage] = useState(selected);
+    let [selectedLanguage, setSelectedLanguage] = useState(props.selected);
     let [style, setStyle] = useState();
 
 
@@ -59,17 +59,20 @@ function ComboBox({selected}){
                 <div onClick={
                     () =>{
                         setSelectedLanguage("fr");
+                        props.getLanguage("fr")
                     }
                 } value="fr">fr</div>
                 <div onClick={()=>{
                     setSelectedLanguage("en");
+                    props.getLanguage("en")
                 }} value="en">en</div>
             </div>
         </div>
         </>
     )
 }
-export function Header(){
+export function Header(props){
+    const [language, setLanguage] = useState("fr");
     return (
             <nav className="App-nav">
                 <img width={"80px"} height={"80px"} src={Logo} alt="Logo" className="App-logo" />
@@ -80,11 +83,7 @@ export function Header(){
                 </ul>
                 <Banner leftPosition={85} sizeX={80} sizeY={100} />
                 <Banner leftPosition={92} sizeX={70} sizeY={90} />
-                <ComboBox selected="fr" />
-                
-                
-
-
+                <ComboBox getLanguage={props.getLanguage} selected="fr" />
             </nav>
     )
 }

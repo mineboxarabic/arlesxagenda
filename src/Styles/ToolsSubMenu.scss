@@ -18,7 +18,7 @@
 .ToolsSubMenu{
     display: flex;
     flex-direction: row;
-    height: 400px;
+    height: 600px;
 
     .BackgroundImage{
         position: relative;
@@ -84,7 +84,26 @@
                     font-style: italic;
                 }
             }
+            .Submit-Search{
+                border-radius: 15px;
+                border-width: 4px;
+                border-style: solid;
+                height: 50px;
+                margin-left: 40%;
+                border-color: aliceblue;
+                background: radial-gradient(circle, #e6dbc1, #d5b8a8);
+                box-shadow: 0 5px 10px 3px rgba(0,0,0,0.5);
+                cursor: pointer;
+                &:hover{
+                    background: radial-gradient(circle, #dfc4b0, #e6dbc1);
+                }
+            
+            }
+
+            
         }
 
+
     }
+
 }

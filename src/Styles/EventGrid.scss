@@ -1,11 +1,17 @@
 
 .EventGridMain{
+    padding: 0;
+    margin: 0;
     .EventGriControls{
 
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 5%;
+        position: relative;
+        width: 100%;
+        height: 40px;
+        margin-top: 2%;
+        
         button{
             border-radius: 50%;
             border: none;
@@ -19,14 +25,12 @@
             &:active{
                 background-color: #bdbdbd;
             }
-
-
         }
     }
     .EventGrid{
         $HightOFCell : 450px;
         $WidthOFCell : 290px;
-        margin-top: 10%;
+        margin-top: 2%;
         position: relative;
         display: grid;
         grid-template-columns: $WidthOFCell $WidthOFCell $WidthOFCell $WidthOFCell;
