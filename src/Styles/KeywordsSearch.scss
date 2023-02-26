@@ -1,0 +1,31 @@
+.Keyword-search-body{
+
+    .keyword-Container{
+        display: flex;
+        
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        .Keyword{
+            margin: 1%;
+            box-shadow:  4px 4px 3px 3px rgba(0,0,0,0.2);
+            background-color:#ffe4c4 ;
+            padding: 1%;
+            border-radius: 5px;
+            display: flex;
+            
+            button{
+                background-color: rgb(248, 126, 126);
+                color: black;
+                border: none;
+                border-radius: 5px;
+                padding: 0%;
+                padding-left: 10%;
+                padding-right: 10%;
+                cursor: pointer;
+                
+                
+            }
+        }
+    }
+}

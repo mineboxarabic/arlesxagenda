@@ -17,11 +17,14 @@
     left: 0;
     width: 300px;
     height: 300px;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     animation: popup 0.3s ease-in-out;
+    border-radius: 20px;
+    box-shadow: 0 10px 5px 0 rgba(0,0,0,0.5);
     .PopUp_CloseButton{
         //put the close button in the top right corner
         position: absolute;
+        border-top-right-radius: 20px;
         top: 0;
         right: 0;
         width: 30px;

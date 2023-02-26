@@ -2,92 +2,29 @@ import { useState } from "react";
 import { DateTime } from "luxon";
 
 import '../Styles/Calender.scss';
-function Square(props) {
-  return <button className={(props.Selected) ? "selectedSquare" : "UnSelectedSquare"} key={props.cle} onClick={props.onSelect}>{props.value}</button>
-}
-function BodyDays(props){
-    //console.log(props.numDays);
-    const [days , setDays] = useState(new Array(props.numDays).fill(0));
-    const daysNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    let body = [];
-    const [selectedDays, setSelectedDays] = useState(new Array(props.numDays).fill(false));
-    const [selectedDay, setSelectedDay] = useState(DateTime.local().day);
-    function refreshDays(){
-        if(days.length !== props.numDays){
-            setDays(new Array(props.numDays).fill(0));
-        }
-        for(let i = 0; i < props.numDays; i++){
-            //fill the array with the days
-            if(i === selectedDay - 1){
-                selectedDays[i] = true;
-            }
-            days[i] = <Square cle={i} value={i + 1} Selected={selectedDays[i]} onSelect={()=>{handleDayClick(i)}}/>;
-        }
-
-    }
-    
-    
-    function handleDayClick(index){
-        //change the calssname of the selected day to selected
-        let temp = selectedDays;
-        props.onDayChange(index);
-        temp.map((day,i) => {
-            if(i === index){
-                temp[i] = true;
-            }
-            else{
-                temp[i] = false;
-            }
-        })
-        setSelectedDays(temp);
-        setSelectedDay(index + 1);
-        
-    }
-    refreshDays();
-    for(let i = 0; i < 7; i++){
-        body.push(<div className="Calender_Body_Days_Day" key={i}>{daysNames[i]}</div>);
-    }
-
-
-    return (
-        <div className="Calender_Body">
-            <div className="Calender_Body_Days">
-                {body.map((day) => {
-                    return day;
-                })
-                }
-                
-            </div>
-            <div className="Calender_Body_Dates">
-                {days.map((day) => {
-                    return day;
-                })
-
-                }
-            </div>
-        </div>
-    )
-
-
-}
 export function Calender(props){
-    const [Umonth, setUMonth] = useState(DateTime.local().month);
-    const [Uyear, setUYear] = useState(DateTime.local().year);
-    const [Uday, setUDay] = useState(DateTime.local().day);
+    const [Umonth, setUMonth] = useState(props.getDate.month);
+    const [Uyear, setUYear] = useState(props.getDate.year);
+    const [Uday, setUDay] = useState(props.getDate.day);
     //MonthName and Year Name
     const [MonthName , setMonthName] = useState(DateTime.local(Uyear,Umonth).monthLong);
     const [YearName , setYearName] = useState(Uyear);
     //=====================================================================================
 
     const [numberOfdays , setNumberOfDays] = useState(DateTime.local(Uyear,Umonth).daysInMonth);
+    const daysNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const [days , setDays] = useState(new Array(numberOfdays).fill(false));
+    days[Uday - 1] = true;
 
 
-
-    function showDate(day){
-        setUDay(day + 1);
-        console.log(`Year : ${Uyear} Month : ${Umonth} Days : ${Uday}`);
-        props.getDate({Year: Uyear, Month: Umonth, Day: Uday})
+    //console.log(`Year : ${Uyear} Month : ${Umonth} Days : ${Uday}`);
+    function sendData(m,d,y){
+        setUDay(d);
     }
+    props.getDate.day = Uday;
+    props.getDate.month = Umonth;
+    props.getDate.year = Uyear;
+    console.log(props.getDate);
     function changeMonth(isAdd){
         if(isAdd){
             if(Umonth === 12){
@@ -115,8 +52,9 @@ export function Calender(props){
                 setNumberOfDays(DateTime.local(Uyear,Umonth - 1).daysInMonth);
             }
         }
+        setDays(new Array(numberOfdays).fill(false));
 
-        console.log(`Year : ${Uyear - 1} Month : ${Umonth} Days : ${Uday}`);
+        //console.log(`Year : ${Uyear - 1} Month : ${Umonth} Days : ${Uday}`);
     }
     function changeYear(isAdd){
         if(isAdd){
@@ -127,8 +65,25 @@ export function Calender(props){
             setUYear(Uyear - 1);
             setYearName(Uyear - 1);
         }
-        console.log(`Year : ${Uyear - 1} Month : ${Umonth} Days : ${Uday}`);
+       // console.log(`Year : ${Uyear - 1} Month : ${Umonth} Days : ${Uday}`);
     }
+    function changeDay(dayIndex){
+        //console.log(('here'))
+        setDays(days.map((day,i) => {
+            if(i === dayIndex){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }))
+
+
+        //console.log(`Year : ${Uyear - 1} Month : ${Umonth} Days : ${dayIndex + 1}`);
+        setUDay(dayIndex + 1);
+        sendData(Umonth,dayIndex + 1,Uyear);
+    }
+    
     return (
             <div className="Calender">
                 <div className="Calender_Header">
@@ -143,10 +98,23 @@ export function Calender(props){
                         <button className="Calender_Header_Year_Arrow" onClick={() => changeYear(true)}>▶</button>
                     </div>
                 </div>
-                {
-                   
-                    <BodyDays numDays={numberOfdays} onDayChange={showDate} />
-                }
+                <div className="Calender_Body">
+                    <div className="Calender_Body_Days">
+                        {daysNames.map((day) => {
+                            return <div className="Calender_Body_Days_Day" key={day}>{day}</div>;
+                        })
+                        }
+                        
+                    </div>
+                    <div className="Calender_Body_Dates">
+                        {
+                            days.map((day,i) => {
+
+                                return <button className={ day === true ? "selectedSquare" : "UnSelectedSquare"} key={i + 1} onClick={()=>changeDay(i)}>{i + 1}</button>;
+                            })
+                        }
+                    </div>
+                </div>
                     
                 </div>
     )

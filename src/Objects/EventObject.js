@@ -1,7 +1,5 @@
 import '../Styles/EventObject.scss'
 import { useState } from 'react';
-import { DetailPopup } from './EventGrid.js';
-
 
 export function EventObject(props){
     let EventData = props.EventData;
@@ -23,6 +21,7 @@ export function EventObject(props){
         }
     }
 
+    console.log(showDetail)
     return (
         <>
             <div onClick={props.onClickEvent} className="Event">
