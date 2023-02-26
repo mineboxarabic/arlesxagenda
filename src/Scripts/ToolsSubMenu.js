@@ -30,7 +30,7 @@ export function ToolsSubMenu(props){
                     </ComboBoxView>
 
                     <ComboBoxView Text="When ?" id="WhenCombo">
-                        <Calender  />
+                        <Calender getDate={props.getDate} />
                     </ComboBoxView>
                     <ComboBoxView Text="What ?" id="WhatCombo">
                         {

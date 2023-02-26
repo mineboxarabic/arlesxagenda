@@ -70,7 +70,7 @@ function BodyDays(props){
 
 
 }
-export function Calender(){
+export function Calender(props){
     const [Umonth, setUMonth] = useState(DateTime.local().month);
     const [Uyear, setUYear] = useState(DateTime.local().year);
     const [Uday, setUDay] = useState(DateTime.local().day);
@@ -86,6 +86,7 @@ export function Calender(){
     function showDate(day){
         setUDay(day + 1);
         console.log(`Year : ${Uyear} Month : ${Umonth} Days : ${Uday}`);
+        props.getDate({Year: Uyear, Month: Umonth, Day: Uday})
     }
     function changeMonth(isAdd){
         if(isAdd){
