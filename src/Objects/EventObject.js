@@ -1,6 +1,6 @@
 import '../Styles/EventObject.scss'
 import { useState } from 'react';
-
+import { DateTime } from "luxon";
 export function EventObject(props){
     let EventData = props.EventData;
     let timings = props.EventData.timings;
@@ -21,7 +21,7 @@ export function EventObject(props){
         }
     }
 
-    console.log(showDetail)
+    //console.log(showDetail)
     return (
         <>
             <div onClick={props.onClickEvent} className="Event">
@@ -31,7 +31,12 @@ export function EventObject(props){
                         <img src={EventData.image} alt="EventImage"/>
                         <div className='Event_Image_Shadow'></div>
                     </div>
-                    <p className='Event_Description'>{DataWithLang["description"]}</p>
+                    <p className='Event_Description'>
+                        <p>{ "Date: " + 
+                             DateTime.fromISO(timings[0].start).toFormat('dd/MM/yyyy')
+                        }</p>
+                        {DataWithLang["description"]}
+                        </p>
                 </div>
             </div>
         </>

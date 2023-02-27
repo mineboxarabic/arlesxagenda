@@ -6,7 +6,7 @@ import { EventObject } from './EventObject'
 export function EventGrid(props){
     let SizeOfGrid = props.size;
     let currentPage = props.currentPage;
-    console.log('currentPage: ' + currentPage + ' SizeOfGrid: ' + SizeOfGrid);
+    //console.log('currentPage: ' + currentPage + ' SizeOfGrid: ' + SizeOfGrid);
     if(currentPage == 0 || SizeOfGrid == 0){
         return (
             <div className="EventGridMain">

@@ -30,13 +30,13 @@ export function ToolsSubMenu(props){
                     </ComboBoxView>
 
                     <ComboBoxView Text="When ?" id="WhenCombo">
-                        <Calender getDate={props.getDate} />
+                        <Calender update={props.update} setDate={props.setDate} getDate={props.getDate} />
                     </ComboBoxView>
                     <ComboBoxView Text="What ?" id="WhatCombo">
                         {
                             props.language==="fr"?<h3>Checher Vos mots cle</h3>:<h3>What are you looking for ?</h3>
                         }
-                        <KeywordSearch getKeywords={props.getKeywords}></KeywordSearch>
+                        <KeywordSearch update={props.update} getKeywords={props.getKeywords} setKeywords={props.setKeywords} ></KeywordSearch>
                     </ComboBoxView>
                     {props.children}
                 </div>

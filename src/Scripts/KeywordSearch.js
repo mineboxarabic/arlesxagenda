@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Styles/KeywordsSearch.scss";
 function KeywordSearch(props) {
   const [inputValue, setInputValue] = useState("");
-  const [keywords, setKeywords] = useState(props.getKeywords);
+  let keywords = props.getKeywords;
 
 
 
@@ -19,17 +19,13 @@ function KeywordSearch(props) {
 
   const addKeyword = (keyword) => {
     if (keyword.length > 0 && !keywords.includes(keyword)) {
-      setKeywords([...keywords, keyword]);
-      props.getKeywords.push(keyword);
-      
+      props.setKeywords([...keywords, keyword]);
       setInputValue("");
     }
   };
 
   const removeKeyword = (keywordToRemove) => {
-    setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
-    props.getKeywords.splice(props.getKeywords.indexOf(keywordToRemove),1);
-    
+    props.setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
   };
   return (
     <div className="Keyword-search-body">

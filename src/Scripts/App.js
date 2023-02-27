@@ -1,14 +1,12 @@
 import '../Styles/App.scss';
 import Data from '../Data/events-arles-small.json';
 import { useEffect, useState } from 'react';
-import {Event} from './Event';
 import { Header, Footer } from './HeaderAndFooter';
 import loadingImage from '../Images/kOnzy.gif';
 import { ToolsSubMenu } from './ToolsSubMenu';
 import { EventGrid } from '../Objects/EventGrid';
 import { EventObject } from '../Objects/EventObject';
 import { DetailPopup } from '../Objects/DetailPopup';
-import { Calender } from '../Objects/Calender';
 import { DateTime } from "luxon";
 function App() {
   const [currentEvent , setCurrentEvent] = useState({});
@@ -23,25 +21,21 @@ function App() {
     "year": DateTime.local().year
   }
   //================Temp Variables================
-  //const [Tkeywords , setTKeywords] = useState([]);
-  let Tkeywords = [];
+  const [Tkeywords , setTKeywords] = useState([]);
+  const [Tdate , setTDate] = useState({"day": DateTime.local().day , 
+  "month": DateTime.local().month ,
+   "year": DateTime.local().year});
   //================Filters================
 
-let Filters = {
+
+  const [Filters , setFilters] = useState({
     "date": [],
-    "keywords": []}
+    "keywords": []});
 
   let numberPerRow = 8;
   //====================Create Rows====================
-  let Temp = [];
-  let Trows = [];
-
   const [rows , setRows] = useState(new Array());
-  //====================Function to change the page====================
   function changePage(isAdd){
-    
-
-
     setIsLoading(true);
     setTimeout
     ( 
@@ -64,7 +58,17 @@ let Filters = {
 
 
 }
-  //====================End of Function to change the page====================
+
+  function sortEvents(events){
+    //sort by date
+    events.sort((a,b)=>{
+      let aDate = new Date(a.timings[0].start);
+      let bDate = new Date(b.timings[0].start);
+      return aDate.getTime() - bDate.getTime();
+    }
+    );
+
+  }
   function packEvents(events){
     let Temp = [];
     let Trows = [];
@@ -84,6 +88,7 @@ let Filters = {
     console.log(Trows);
   }
   useEffect(()=>{
+    sortEvents(Data.events);
     packEvents(Data.events);
   },[]);
   function checkEvent(event){
@@ -149,13 +154,8 @@ let Filters = {
     }
     return DateCheck(event) && KeywordCheck(event);
   }
-  function onClickSeachButton()
-  {
-    
-    Filters.date = date;
-    Filters.keywords = Tkeywords;
-    console.log('Filters are:' + date);
 
+  function updateEventsOnChangeFilters(){
     let Temp = [];
     Data.events.forEach((event,i)=>{
       if(checkEvent(event)){
@@ -163,16 +163,42 @@ let Filters = {
         Temp.push(event);
       }
     });
+    sortEvents(Temp);
+    packEvents(Temp);
+    setCurrentPage(1);
+  }
+  function onClickSeachButton()
+  {
+    
+   setFilters({
+      ...Filters,
+      date: date,
+      keywords: Tkeywords
+    });
+
+
+    console.log('Current Keyword: ' + Tkeywords);
+    let Temp = [];
+    Data.events.forEach((event,i)=>{
+      if(checkEvent(event)){
+        console.log(checkEvent(event));
+        Temp.push(event);
+      }
+    });
+    sortEvents(Temp);
     packEvents(Temp);
     setCurrentPage(1);
   }
   return (
     <>
       <Header getLanguage={(lang)=>{setCurrentLanguage(lang)}} />
-      <ToolsSubMenu getDate={date}
-      getKeywords={Tkeywords}
-      setDate = {date}
+      <ToolsSubMenu 
+      setDate={setTDate}
+      setKeywords={setTKeywords}
+      getDate = {Tdate}
+      getKeywords = {Tkeywords}
       language={currentLanguage}
+      update={updateEventsOnChangeFilters}
        ><button onClick={onClickSeachButton} className='Submit-Search'>Search</button></ToolsSubMenu>
       <DetailPopup language={currentLanguage} onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
       
