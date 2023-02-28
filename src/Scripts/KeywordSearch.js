@@ -22,12 +22,14 @@ function KeywordSearch(props) {
     if (keyword.length > 0 && !keywords.includes(keyword)) {
       props.setKeywords([...keywords, keyword]);
       setInputValue("");
+      props.setIsKeywordSelected(true);
       props.update();
     }
   };
 
   const removeKeyword = (keywordToRemove) => {
     props.setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
+    props.setIsKeywordSelected(true);
     props.update();
   };
   return (

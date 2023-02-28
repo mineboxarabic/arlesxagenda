@@ -7,7 +7,7 @@ export function ToolsSubMenu(props){
     function showWhere(){
                         
     }
-    console.log('The language in Tools is:' + props.language)
+    //console.log('The language in Tools is:' + props.language)
     return (
         <div className="ToolsSubMenu">
 
@@ -30,13 +30,13 @@ export function ToolsSubMenu(props){
                     </ComboBoxView>
 
                     <ComboBoxView Text="When ?" id="WhenCombo">
-                        <Calender update={props.update} setDate={props.setDate} getDate={props.getDate} />
+                        <Calender setIsDateSelected = {props.setIsDateSelected} isDateSelected={props.isDateSelected} update={props.update} setDate={props.setDate} getDate={props.getDate} />
                     </ComboBoxView>
                     <ComboBoxView Text="What ?" id="WhatCombo">
                         {
                             props.language==="fr"?<h3>Checher Vos mots cle</h3>:<h3>What are you looking for ?</h3>
                         }
-                        <KeywordSearch update={props.update} getKeywords={props.getKeywords} setKeywords={props.setKeywords} ></KeywordSearch>
+                        <KeywordSearch setIsKeywordSelected = {props.setIsKeywordSelected} isKeywordSelected={props.isKeywordSelected } update={props.update} getKeywords={props.getKeywords} setKeywords={props.setKeywords} ></KeywordSearch>
                     </ComboBoxView>
                     {props.children}
                 </div>

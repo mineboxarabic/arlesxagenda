@@ -14,6 +14,9 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [showDetail, setShowDetail] = useState(false);
   const [isLoading , setIsLoading] = useState(false);
+
+  const [isDateSelected , setIsDateSelected] = useState(false);
+  const [isKeywordSelected , setIsKeywordSelected] = useState(false);
   //================Date Variables================
   let date = {
     "day": DateTime.local().day,
@@ -41,7 +44,7 @@ function App() {
     setTimeout
     ( 
         () => {
-    console.log('Rows Length: ' + rows.length);
+    //console.log('Rows Length: ' + rows.length);
         let ct = 1;
         if(isAdd){
             if(currentPage < rows.length)
@@ -86,17 +89,16 @@ function App() {
         }
     }
     setRows(Trows);
-    console.log(Trows);
+    //console.log(Trows);
   }
   useEffect(()=>{
     sortEvents(Data.events);
     packEvents(Data.events);
   },[]);
   function checkEvent(event){
-    Filters.date = Tdate;
-    Filters.keywords = Tkeywords;
+    console.log('isDateSelected: ' + isDateSelected + ' isKeywordSelected: ' + isKeywordSelected);
     let DateCheck = (event)=>{
-      if(Filters.date.length === 0){
+      if(!isDateSelected){
         return true;
       }
       let starts = ()=>{
@@ -121,7 +123,7 @@ function App() {
       }
       let start = starts();
       let end = ends();
-      let date = new Date(Filters.date.year, Filters.date.month, Filters.date.day);
+      let date = new Date(Tdate.year, Tdate.month,Tdate.day);
       
       if(start.length === 0 || end.length === 0){
         return false;
@@ -134,10 +136,10 @@ function App() {
       return false;
     }
     let KeywordCheck = (event)=>{
-      if(Filters.keywords.length === 0){
+      if(!isKeywordSelected){
         return true;
       }
-      if(Filters.keywords !== null ){
+      if(Tkeywords !== null ){
         if(event.keywords === null){
           return false;
         }
@@ -145,7 +147,7 @@ function App() {
         if(EventKeywords.length > 0){
           for(let i = 0 ; i < EventKeywords.length ; i++){
 
-            if(Filters.keywords.includes(EventKeywords[i])){
+            if(Tkeywords.includes(EventKeywords[i])){
               return true;
             }
 
@@ -163,12 +165,18 @@ function App() {
       date: date,
       keywords: Tkeywords
     });
+
+
+    console.log('Updated and Show All: ' + ShowAll);
+    console.log('Current Keyword: ' + Tkeywords);
+    console.log('Current Date: ' + Tdate.day + '/' + Tdate.month + '/' + Tdate.year);
     let Temp = [];
     Data.events.forEach((event,i)=>{
-      if(!ShowAll){
+      if(!ShowAll)
+      {
         if(checkEvent(event)){
-          console.log(checkEvent(event));
-            Temp.push(event);
+          //console.log(checkEvent(event));
+          Temp.push(event);
         }
       }
       else{
@@ -190,11 +198,11 @@ function App() {
     });
 
 
-    console.log('Current Keyword: ' + Tkeywords);
+    //console.log('Current Keyword: ' + Tkeywords);
     let Temp = [];
     Data.events.forEach((event,i)=>{
       if(checkEvent(event)){
-        console.log(checkEvent(event));
+        //console.log(checkEvent(event));
         Temp.push(event);
       }
     });
@@ -202,11 +210,21 @@ function App() {
     packEvents(Temp);
     setCurrentPage(1);
   }
-  console.log(ShowAll)
   return (
     <>
       <Header getLanguage={(lang)=>{setCurrentLanguage(lang)}} />
-      <ToolsSubMenu setDate={setTDate} setKeywords={setTKeywords} getDate = {Tdate} getKeywords = {Tkeywords} language={currentLanguage} update={()=>updateEventsOnChangeFilters()}>
+      <ToolsSubMenu 
+      setDate={setTDate} 
+      setKeywords={setTKeywords} 
+      getDate = {Tdate} 
+      getKeywords = {Tkeywords} 
+      language={currentLanguage} 
+      update = {()=>updateEventsOnChangeFilters()}
+      setIsDateSelected = {(val)=>{setIsDateSelected(val)}}
+      isDateSelected = {isDateSelected}
+      setIsKeywordSelected = {(val)=>{setIsKeywordSelected(val)}}
+      isKeywordSelected = {isKeywordSelected}
+      >
 
         <form className='ShowAllForm'>
         <input type='checkbox' onChange={()=>{
