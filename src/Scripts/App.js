@@ -25,6 +25,7 @@ function App() {
   const [Tdate , setTDate] = useState({"day": DateTime.local().day , 
   "month": DateTime.local().month ,
    "year": DateTime.local().year});
+   const [ShowAll , setShowAll] = useState(false);
   //================Filters================
 
 
@@ -92,7 +93,8 @@ function App() {
     packEvents(Data.events);
   },[]);
   function checkEvent(event){
-
+    Filters.date = Tdate;
+    Filters.keywords = Tkeywords;
     let DateCheck = (event)=>{
       if(Filters.date.length === 0){
         return true;
@@ -156,12 +158,23 @@ function App() {
   }
 
   function updateEventsOnChangeFilters(){
+    setFilters({
+      ...Filters,
+      date: date,
+      keywords: Tkeywords
+    });
     let Temp = [];
     Data.events.forEach((event,i)=>{
-      if(checkEvent(event)){
-        console.log(checkEvent(event));
+      if(!ShowAll){
+        if(checkEvent(event)){
+          console.log(checkEvent(event));
+            Temp.push(event);
+        }
+      }
+      else{
         Temp.push(event);
       }
+
     });
     sortEvents(Temp);
     packEvents(Temp);
@@ -189,17 +202,22 @@ function App() {
     packEvents(Temp);
     setCurrentPage(1);
   }
+  console.log(ShowAll)
   return (
     <>
       <Header getLanguage={(lang)=>{setCurrentLanguage(lang)}} />
-      <ToolsSubMenu 
-      setDate={setTDate}
-      setKeywords={setTKeywords}
-      getDate = {Tdate}
-      getKeywords = {Tkeywords}
-      language={currentLanguage}
-      update={updateEventsOnChangeFilters}
-       ><button onClick={onClickSeachButton} className='Submit-Search'>Search</button></ToolsSubMenu>
+      <ToolsSubMenu setDate={setTDate} setKeywords={setTKeywords} getDate = {Tdate} getKeywords = {Tkeywords} language={currentLanguage} update={()=>updateEventsOnChangeFilters()}>
+
+        <form className='ShowAllForm'>
+        <input type='checkbox' onChange={()=>{
+          setShowAll(!ShowAll);
+          updateEventsOnChangeFilters();
+          }} className='Show-all'/>
+        <label className='Show-all-label' >Show All</label>
+        </form>
+        <button onClick={onClickSeachButton} className='Submit-Search'>Search</button>
+
+       </ToolsSubMenu>
       <DetailPopup language={currentLanguage} onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
       
       {isLoading && <img className='LoadingImage' src={loadingImage}/>}
