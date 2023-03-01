@@ -159,35 +159,6 @@ function App() {
     return DateCheck(event) && KeywordCheck(event);
   }
 
-  function updateEventsOnChangeFilters(){
-    setFilters({
-      ...Filters,
-      date: date,
-      keywords: Tkeywords
-    });
-
-
-    console.log('Updated and Show All: ' + ShowAll);
-    console.log('Current Keyword: ' + Tkeywords);
-    console.log('Current Date: ' + Tdate.day + '/' + Tdate.month + '/' + Tdate.year);
-    let Temp = [];
-    Data.events.forEach((event,i)=>{
-      if(!ShowAll)
-      {
-        if(checkEvent(event)){
-          //console.log(checkEvent(event));
-          Temp.push(event);
-        }
-      }
-      else{
-        Temp.push(event);
-      }
-
-    });
-    sortEvents(Temp);
-    packEvents(Temp);
-    setCurrentPage(1);
-  }
   function onClickSeachButton()
   {
     
@@ -201,10 +172,17 @@ function App() {
     //console.log('Current Keyword: ' + Tkeywords);
     let Temp = [];
     Data.events.forEach((event,i)=>{
-      if(checkEvent(event)){
-        //console.log(checkEvent(event));
+      if(!ShowAll){
+        if(checkEvent(event)){
+          //console.log(checkEvent(event));
+          Temp.push(event);
+        }
+      }
+      else{
         Temp.push(event);
       }
+
+
     });
     sortEvents(Temp);
     packEvents(Temp);
@@ -219,7 +197,6 @@ function App() {
       getDate = {Tdate} 
       getKeywords = {Tkeywords} 
       language={currentLanguage} 
-      update = {()=>updateEventsOnChangeFilters()}
       setIsDateSelected = {(val)=>{setIsDateSelected(val)}}
       isDateSelected = {isDateSelected}
       setIsKeywordSelected = {(val)=>{setIsKeywordSelected(val)}}
@@ -229,7 +206,6 @@ function App() {
         <form className='ShowAllForm'>
         <input type='checkbox' onChange={()=>{
           setShowAll(!ShowAll);
-          updateEventsOnChangeFilters();
           }} className='Show-all'/>
         <label className='Show-all-label' >Show All</label>
         </form>

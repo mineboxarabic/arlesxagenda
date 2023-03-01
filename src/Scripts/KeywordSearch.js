@@ -14,7 +14,6 @@ function KeywordSearch(props) {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
       addKeyword(inputValue.trim());
-      props.update();
     }
   };
 
@@ -23,14 +22,12 @@ function KeywordSearch(props) {
       props.setKeywords([...keywords, keyword]);
       setInputValue("");
       props.setIsKeywordSelected(true);
-      props.update();
     }
   };
 
   const removeKeyword = (keywordToRemove) => {
     props.setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
     props.setIsKeywordSelected(true);
-    props.update();
   };
   return (
     <div className="Keyword-search-body">

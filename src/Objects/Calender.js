@@ -62,7 +62,6 @@ export function Calender(props){
         }
         setDays(new Array(numberOfdays).fill(false));
         props.setIsDateSelected(true);
-        props.update();
 
         //console.log(`Year : ${props.getDate.year} Month : ${props.getDate.month} Days : ${props.getDate.day}`);
         //console.log(`Year : ${Uyear - 1} Month : ${Umonth} Days : ${Uday}`);
@@ -82,7 +81,6 @@ export function Calender(props){
             })
         }
         props.setIsDateSelected(true);
-        props.update();
        // console.log(`Year : ${Uyear - 1} Month : ${Umonth} Days : ${Uday}`);
        
     }
@@ -105,7 +103,6 @@ export function Calender(props){
             day: dayIndex + 1,
         })
         props.setIsDateSelected(true);
-        props.update();
     }
     
     return (
