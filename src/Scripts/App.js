@@ -9,12 +9,13 @@ import { EventObject } from '../Objects/EventObject';
 import { DetailPopup } from '../Objects/DetailPopup';
 import { DateTime } from "luxon";
 function App() {
+
   const [currentEvent , setCurrentEvent] = useState({});
   const [currentLanguage , setCurrentLanguage] = useState("fr");
   const [currentPage, setCurrentPage] = useState(1);
   const [showDetail, setShowDetail] = useState(false);
   const [isLoading , setIsLoading] = useState(false);
-
+  const [selectedLocation , setSelectedLocation] = useState("");
   const [isDateSelected , setIsDateSelected] = useState(false);
   const [isKeywordSelected , setIsKeywordSelected] = useState(false);
   //================Date Variables================
@@ -144,6 +145,9 @@ function App() {
           return false;
         }
         let EventKeywords = event.keywords[currentLanguage];
+        event.tags.forEach((tag,i)=>{
+          EventKeywords.push(tag[currentLanguage]);
+        });
         if(EventKeywords.length > 0){
           for(let i = 0 ; i < EventKeywords.length ; i++){
 
@@ -156,6 +160,7 @@ function App() {
       }
       return false;
     }
+
     return DateCheck(event) && KeywordCheck(event);
   }
 
@@ -167,7 +172,6 @@ function App() {
       date: date,
       keywords: Tkeywords
     });
-
 
     //console.log('Current Keyword: ' + Tkeywords);
     let Temp = [];

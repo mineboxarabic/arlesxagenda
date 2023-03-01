@@ -120,3 +120,16 @@
     }
 
 }
+#map{
+    position: absolute;
+    top:40px;
+    height: 80%;
+    width: 100%;
+}
+.propose_item{
+    cursor: pointer;
+    &:hover{
+        background-color: #fb3e3e;
+        transition: all 0.2s ease-in-out;
+    }
+}

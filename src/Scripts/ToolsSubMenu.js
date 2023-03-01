@@ -3,10 +3,15 @@ import { ComboBoxView } from '../Objects/ComboBoxView';
 import '../Styles/ToolsSubMenu.scss';
 import { Calender } from '../Objects/Calender';
 import  KeywordSearch  from './KeywordSearch'
+import Data from '../Data/events-arles-small.json';
+import { MapContainer, TileLayer, useMap , Marker , Popup} from 'react-leaflet'
+import { useState } from 'react';
+import 'leaflet/dist/leaflet.css';
 export function ToolsSubMenu(props){
-    function showWhere(){
-                        
-    }
+    const [showPropose, setShowPropose] = useState('none');
+
+    const [searchValue, setSearchValue] = useState('');
+    
     //console.log('The language in Tools is:' + props.language)
     return (
         <div className="ToolsSubMenu">
@@ -22,11 +27,50 @@ export function ToolsSubMenu(props){
                     <h2>Tools</h2>
                     <form>
                         <label htmlFor="search">Search</label>
-                        <input type="text" placeholder='Search...' id="search" name="search" />
+                        <input
+                        onChange={(e)=>{setSearchValue(e.target.value)}}
+                         onClick={()=>{
+                            setShowPropose('block');
+                        }} onBlur={()=>{
+                            setShowPropose('none');
+                        }} type="text" placeholder='Search...' id="search" name="search" />
+                        <div style={{
+                            padding: '10px',
+                            zIndex: '1000',
+                            display: showPropose,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'white',
+                            borderRadius: '20px',
+                            scrollBehavior: 'smooth',
+                            position: 'absolute',
+                            width: '100%',
+                            height: '250px',
+                            overflow: 'scroll',
+                            
+
+
+
+                        }}   className="propose">
+
+                            {
+                                Data.events.map((item)=>{
+                                    return(
+                                        item.address.includes(searchValue) &&
+                                        <div onClick={props.setSelectedLocation(item.address)} className="propose_item">
+                                            <h5>{item.address}</h5> 
+                                        </div>
+                                    )
+                                }
+                                )
+                            }
+
+                            
+                        </div>
                     </form>
 
                     <ComboBoxView Text="Where ?" id="WhereCombo">
-                        
+
                     </ComboBoxView>
 
                     <ComboBoxView Text="When ?" id="WhenCombo">
