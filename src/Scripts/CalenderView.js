@@ -61,6 +61,7 @@ export function CalenderView(props){
         }
 
         .Body{
+
             width: 100%;
             height: 600px;
             display: flex;
@@ -69,13 +70,11 @@ export function CalenderView(props){
             .CalenderBodyMonth{
                 position: relative;
                 width: 90%;
-                
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 align-content: center;
                 justify-content: center;
-
                 .CalenderBodyDays{
                     width: 95%;
                     height: 10%;
@@ -94,6 +93,7 @@ export function CalenderView(props){
                 .CalenderBodyDaySquare{
                     width: 100%;
                     height: 100%;
+
                     display: grid;
                     grid-template-columns: repeat(7, 1fr);
                     grid-template-rows: repeat(6, 1fr);
