@@ -9,7 +9,6 @@ import { EventObject } from '../Objects/EventObject';
 import { DetailPopup } from '../Objects/DetailPopup';
 import { DateTime } from "luxon";
 function App() {
-
   const [currentEvent , setCurrentEvent] = useState({});
   const [currentLanguage , setCurrentLanguage] = useState("fr");
   const [currentPage, setCurrentPage] = useState(1);
@@ -161,7 +160,7 @@ function App() {
       return false;
     }
 
-    return DateCheck(event) && KeywordCheck(event);
+    return DateCheck(event) && KeywordCheck(event) && event.address === selectedLocation;
   }
 
   function onClickSeachButton()
@@ -192,15 +191,17 @@ function App() {
     packEvents(Temp);
     setCurrentPage(1);
   }
+  console.log('current location' + selectedLocation);
   return (
     <>
       <Header getLanguage={(lang)=>{setCurrentLanguage(lang)}} />
-      <ToolsSubMenu 
-      setDate={setTDate} 
-      setKeywords={setTKeywords} 
-      getDate = {Tdate} 
-      getKeywords = {Tkeywords} 
-      language={currentLanguage} 
+      <ToolsSubMenu
+      setLocationSelected={(val)=>(setSelectedLocation(val))}
+      setDate={setTDate}
+      setKeywords={setTKeywords}
+      getDate = {Tdate}
+      getKeywords = {Tkeywords}
+      language={currentLanguage}
       setIsDateSelected = {(val)=>{setIsDateSelected(val)}}
       isDateSelected = {isDateSelected}
       setIsKeywordSelected = {(val)=>{setIsKeywordSelected(val)}}

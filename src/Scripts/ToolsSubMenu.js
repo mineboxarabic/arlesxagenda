@@ -28,11 +28,11 @@ export function ToolsSubMenu(props){
                     <form>
                         <label htmlFor="search">Search</label>
                         <input
+                        autocomplete="off"
                         onChange={(e)=>{setSearchValue(e.target.value)}}
+                        value={searchValue}
                          onClick={()=>{
                             setShowPropose('block');
-                        }} onBlur={()=>{
-                            setShowPropose('none');
                         }} type="text" placeholder='Search...' id="search" name="search" />
                         <div style={{
                             padding: '10px',
@@ -47,17 +47,18 @@ export function ToolsSubMenu(props){
                             width: '100%',
                             height: '250px',
                             overflow: 'scroll',
-                            
-
-
-
                         }}   className="propose">
 
                             {
                                 Data.events.map((item)=>{
                                     return(
                                         item.address.includes(searchValue) &&
-                                        <div onClick={props.setSelectedLocation(item.address)} className="propose_item">
+                                        <div onClick={()=>{
+                                            props.setLocationSelected(item.address);
+                                            setSearchValue(item.address);
+                                            setShowPropose('none');
+                                            }}
+                                            onBlur={()=>{setShowPropose('none')}} className="propose_item">
                                             <h5>{item.address}</h5> 
                                         </div>
                                     )
