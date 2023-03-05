@@ -2,9 +2,14 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { DateTime } from "luxon";
 import Arrow from "../Images/Arrow.png";
-//#FFE3C6
+import ArrowLeft from "../Images/ArrowLeft.png";
+import CulumnImage from "../Images/Column.png"
+import { render } from "@testing-library/react";
+import Background3 from "../Images/Background3.png";
+import Data from "../Data/events-arles-small.json"
 
 const DaySquares = styled.button`
+position: relative;
 width: 100%;
 height: 100%;
 background-color: #FFE3C6;
@@ -22,7 +27,18 @@ cursor: pointer;
     border: 3px solid rgb(243 168 113);
     transition: all 0.1s ease-in-out;
 }
-h1{
+.DayNum{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    color: rgb(104 68 41);
+
+}
+.EventNum{
     padding: 0;
     margin: 0;
     border-radius: 50%;
@@ -32,7 +48,7 @@ h1{
     align-items: center;
     align-content: center;
     justify-content: center;
-    background-color: transparent;
+    background-color: ${props=>props.numberOfEvents !== 0 ? "rgb(243 168 113)" : "transparent"};
     &:hover{
         background-color: rgb(243 168 113);
         transition: all 0.2s ease-in-out;
@@ -44,21 +60,97 @@ h1{
 const DaySquaresUnusable = styled.div`
 width: 100%;
 height: 100%;
-background-color: gray;
+//background-color: gray;
 display: flex;
 align-items: center;
 align-content: center;
+
+background: radial-gradient(circle, rgb(211 149 105), rgb(157 100 57));
+background-blend-mode: darken;
 justify-content: center;
-background: rgb(104 68 41);
+//background: rgb(104 68 41);
+
 
 `;
+const ColumnBack = styled.div`
+    position: absolute;
+    width: 10%;
+    height: 94%;
+    left: 88%;
+    z-index: 1;
+    background-image: url(${CulumnImage});
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    filter: drop-shadow( 10px 10px 10px rgba(0,0,0,0.5) );
+    
 
+`;
+const ColumnBack2 = styled.div`
+    position: absolute;
+    width: 10%;
+    height: 94%;
+    left: 2%;
+    z-index: 1;
+    background-image: url(${CulumnImage});
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    filter: drop-shadow( -10px 10px 10px rgba(0,0,0,0.5) );
+    
+    
+
+`;
+const ArrowSelector = styled.button`
+
+z-index: 1;
+font-size: ${props=>props.scale.x}px;
+transform: scale(1,4);
+border: 0px;
+outline: none;
+cursor: pointer;
+background-color: transparent;
+color: aliceblue;
+text-shadow: 0px 0px 2px black;
+
+
+&:hover{
+    transform: scale(1.1,4.4);
+    transition: all 0.2s ease-in-out;
+    text-shadow: 0px 0px 10px rgb(255 255 255);
+}
+`;
+function Arrows(props){
+    let scale = props.scale;
+    let direction = props.direction;
+
+
+    return (
+        <>
+            
+            <ArrowSelector scale={scale} onClick={props.onClicks} className={props.className} >
+                {
+                    direction === "right" ? "〉" : '〈' 
+                }
+            </ArrowSelector>
+        </>
+        )
+}
 function DaySquare(props){
 
     return (
         props.isActive ?
-        <DaySquares onClick={props.onClicks} >
-            <h1>{props.number}</h1>
+        <DaySquares numberOfEvents={props.numberOfEvents} onClick={props.onClicks} >
+            <h1 className="DayNum">{props.number}</h1>
+            <h1 className="EventNum">{props.numberOfEvents !== 0 ? props.numberOfEvents : "" }</h1>
         </DaySquares>
         :
         <DaySquaresUnusable>
@@ -71,6 +163,11 @@ let widthOfCalender = "90%";
 const CalenderBody = styled.div`
 width: 100%;
 height: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+align-content: center;
+justify-content: center;
 
 .CalenderHeader{
     width: ${widthOfCalender};
@@ -79,11 +176,15 @@ height: 100%;
     flex-direction: column;
     align-items: center;
     padding: 0 10px;
-    background-color: #f5f5f5;
+    background-color: rgb(243 168 113);
+    background-image: url(${Background3});
     border-bottom: 1px solid #e0e0e0;
     h1{
         padding: 0;
         margin: 0;
+        width: 230px;
+        text-align: center;
+        background-color: wheat;
     }
 }
 
@@ -110,7 +211,12 @@ height: 100%;
         height: 800px;
         display: flex;
         flex-direction: row;
-        background-color: rgb(222,222,220);
+        background-color: rgb(253 181 131);
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+
         .CalenderBodyMonth{
             position: relative;
             width: 90%;
@@ -154,10 +260,7 @@ height: 100%;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            button{
-                width: 50px;
-                height: 90%;
-            }
+            position: relative;
 
 
         }
@@ -170,10 +273,12 @@ export function CalenderView(props){
 
     const [days, setDays] = useState(Array(42).fill(true));
     let date = props.getDate;
-
+    let linkedDatesToEvents = {};
+    const [isLoading, setIsLoading] = useState(true);
     function handleDateChange(newDate)
     {
         props.setDate(newDate);
+        props.setSelectedEvents(linkedDatesToEvents[newDate.day]);
     }
 
     let daysInMonth = DateTime.local(date.year, date.month).daysInMonth;
@@ -187,14 +292,49 @@ export function CalenderView(props){
         setDays(days);
     }, [date]);
 
+    function hasEvents(day){
+        let numberOfEvents = 0;
+        let dayNumber = day;
+        let events = [];
+        Data.events.map((event,index) => {
+                    
+            let firstDate = DateTime.fromISO(event.firstDate);
+            let lastDate = DateTime.fromISO(event.lastDate);
+
+            let currentDate = DateTime.local(date.year, date.month, dayNumber);
+            if (currentDate >= firstDate && currentDate <= lastDate) {
+                if(event.timings.length !== 0){
+                    event.timings.map((timing) => {
+                        let start = DateTime.fromISO(timing.start);
+                        if(start.day === currentDate.day && start.month === currentDate.month && start.year === currentDate.year){
+                            numberOfEvents++;
+                        }
+                    })
+            }
+            else{
+                return 0;
+            }
+            }
+
+        })
+        
+       
+
+        return numberOfEvents;
+    }
    
     return (
         <>
             <CalenderBody>
+                <ColumnBack>
+                </ColumnBack>
+
+                <ColumnBack2>
+                </ColumnBack2>
                 <div className="CalenderHeader">
                    
-                    <h1>Year</h1>
-                    <h1>{date.month.toString()}</h1>
+                    <h1>{date.year.toString()}</h1>
+                    <h1>{DateTime.local(date.year,date.month).monthLong}</h1>
 
                 </div>
                 <div className="CalenderBody">
@@ -203,8 +343,17 @@ export function CalenderView(props){
                     </div>
                     <div className="Body">
                         <div className="leftArrows">
-                            <button className="CalenderBodyYearArrow">◀</button>
-                            <button onClick={
+                            <Arrows onClicks={
+                            ()=>{
+                                handleDateChange({
+                                    year: date.year - 1,
+                                    month: date.month,
+                                    day: date.day
+                                })
+                            }
+                            
+                        } direction="left" scale={{x:150,y:90}} className="CalenderBodyYearArrow"></Arrows>
+                            <Arrows onClicks={
                                 ()=>{
                                     if(date.month === 1){
                                         handleDateChange({
@@ -222,7 +371,7 @@ export function CalenderView(props){
                                     })}
                                 }
 
-                            } className="CalenderBodyMonthArrow">◀</button>
+                            } className="CalenderBodyMonthArrow" scale={{x:80,y:70}} direction="left"></Arrows>
                         </div>
                        
                         <div className="CalenderBodyMonth">
@@ -239,23 +388,30 @@ export function CalenderView(props){
                             <div className="CalenderBodyDaySquare">
                                 {
                                     days.map((day, index) => {
-                                        return <DaySquare onClicks={
+                                        let dayNumber = index - (firstDayOfMonth - 1);
+                                        let numberOfEvents = hasEvents(dayNumber);
+                                        
+                                        return (<DaySquare onClicks={
                                             ()=>{
                                                 handleDateChange({
                                                     year: date.year,
                                                     month: date.month,
-                                                    day: index - (firstDayOfMonth - 1)
+                                                    day: dayNumber
                                                 })
                                             }
-                                        } isActive={day} number={day ? index - (firstDayOfMonth - 1 ) : "NO"} key={index} />
+                                        } isActive={day} numberOfEvents={numberOfEvents} number={day ? index - (firstDayOfMonth - 1 ) : "NO"} key={index} />)
+
+                                        
                                     })
+                                    
                                 }
                             
                             
                             </div>
                         </div>
                         <div className="RightArrows">
-                            <button className="CalenderBodyMonthArrow" onClick={()=>{
+                        <Arrows onClicks={()=>{
+                                setIsLoading(true);
                                 if(date.month === 12){
                                     handleDateChange({
                                         year: date.year + 1,
@@ -270,11 +426,19 @@ export function CalenderView(props){
                                         day: date.day
                                     })
                                 }
+                            
+                            }} className="CalenderBodyMonthArrow" scale={{x:80,y:70}} direction="right"></Arrows>
 
+                        <Arrows onClicks={
+                            ()=>{
+                                handleDateChange({
+                                    year: date.year + 1,
+                                    month: date.month,
+                                    day: date.day
+                                })
+                            }
 
-
-                            }}>▶</button>
-                            <button className="CalenderBodyYearArrow">▶</button>
+                        } direction="right" scale={{x:150,y:90}} className="CalenderBodyYearArrow"></Arrows>
                         </div>
 
                     </div>
