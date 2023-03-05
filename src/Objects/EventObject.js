@@ -21,7 +21,7 @@ export function EventObject(props){
         }
     }
 
-    //console.log(showDetail)
+
     return (
         <>
             <div onClick={props.onClickEvent} className="Event">
@@ -32,11 +32,9 @@ export function EventObject(props){
                         <div className='Event_Image_Shadow'></div>
                     </div>
                     <p className='Event_Description'>
-                        <p>{ "Date: " + 
-                             DateTime.fromISO(timings[0].start).toFormat('dd/MM/yyyy')
-                        }</p>
+                    { "Date: " + DateTime.fromISO(timings[0].start).toFormat('dd/MM/yyyy') + '\n'}
                         {DataWithLang["description"]}
-                        </p>
+                    </p>
                 </div>
             </div>
         </>
