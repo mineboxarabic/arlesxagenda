@@ -1,10 +1,10 @@
-import '../Styles/HeaderFooter.scss'
+//import '../Styles/HeaderFooter.scss'
 import { useState } from 'react'
 import Banner1 from '../Images/Banner1.png'
 import Logo from '../Images/Logo.png'
-import { useEffect } from 'react'
-import CSSHeaderFooter from '../Styles/HeaderFooter.scss'
-function Banner({leftPosition,sizeX,sizeY}){
+import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+/*function Banner({leftPosition,sizeX,sizeY}){
     let sizeXString = sizeX + "px";
     let sizeYString = sizeY + "px";
     let sizeXShadow = sizeX - 20 + "px";
@@ -70,21 +70,67 @@ function ComboBox(props){
         </div>
         </>
     )
-}
+}*/
+
+const Banner = styled.div`
+ 
+`;
+
+const HeaderNav = styled.nav`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    background: radial-gradient(circle, rgb(163 117 64) 0%, rgb(170 110 80) 30%, rgb(149 70 8) 100%);
+
+    .App-header-Left{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        width: 30%;
+        height: 100%;
+        padding-left: 20px;
+        .App-logo{
+            width: 50px;
+            height: 50px;
+        }
+        .App-title{
+            margin-left: 10px;
+            font-size: 30px;
+            color: white;
+        }
+    }
+
+    .App-header-Center{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 40%;
+        height: 100%;
+    }
+
+
+`;
+
 export function Header(props){
     const [language, setLanguage] = useState("fr");
     return (
-            <nav className="App-nav">
-                <img width={"80px"} height={"80px"} src={Logo} alt="Logo" className="App-logo" />
-                <ul className="App-nav-list">
-                    <li><a href="index.html">Dayly</a></li>
-                    <li><a href="events.html">Weekly</a></li>
-                    <li><a href="about.html">Monthly</a></li>
-                </ul>
-                <Banner leftPosition={85} sizeX={80} sizeY={100} />
-                <Banner leftPosition={92} sizeX={70} sizeY={90} />
-                <ComboBox getLanguage={props.getLanguage} selected="fr" />
-            </nav>
+        <HeaderNav className="App-header">
+            <div className="App-header-Left">
+                <img src={Logo} alt="Logo" className="App-logo" />
+                <h1 className="App-title">ArlesXAgenda</h1>
+            </div>
+            <div className="App-header-Center">
+                
+            </div>
+            <div className="App-header-Right">
+            </div>
+
+        </HeaderNav>
     )
 }
 export function Footer(){

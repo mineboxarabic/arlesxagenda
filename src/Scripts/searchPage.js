@@ -11,12 +11,11 @@ import { DateTime } from "luxon";
 function SearchPage() {
   const [currentEvent , setCurrentEvent] = useState({});
   const [currentLanguage , setCurrentLanguage] = useState("fr");
-  const [currentPage, setCurrentPage] = useState(1);
   const [showDetail, setShowDetail] = useState(false);
-  const [isLoading , setIsLoading] = useState(false);
   const [selectedLocation , setSelectedLocation] = useState("");
   const [isDateSelected , setIsDateSelected] = useState(false);
   const [isKeywordSelected , setIsKeywordSelected] = useState(false);
+  const [currentEvents , setCurrentEvents] = useState(Data.events);
   //================Date Variables================
   let date = {
     "day": DateTime.local().day,
@@ -36,33 +35,6 @@ function SearchPage() {
     "date": [],
     "keywords": []});
 
-  let numberPerRow = 8;
-  //====================Create Rows====================
-  const [rows , setRows] = useState(new Array());
-  function changePage(isAdd){
-    setIsLoading(true);
-    setTimeout
-    ( 
-        () => {
-    //console.log('Rows Length: ' + rows.length);
-        let ct = 1;
-        if(isAdd){
-            if(currentPage < rows.length)
-                ct = currentPage + 1;
-        }
-        else{
-            if(currentPage > 1)
-                ct = currentPage - 1;
-        }
-        setCurrentPage(ct); 
-      
-        setIsLoading(false);
-} , 500 );
-
-
-
-}
-
   function sortEvents(events){
     //sort by date
     events.sort((a,b)=>{
@@ -73,30 +45,9 @@ function SearchPage() {
     );
 
   }
-  function packEvents(events){
-    let Temp = [];
-    let Trows = [];
-    if(events.length < numberPerRow && events.length > 0){
-        Trows.push(events);
-        setRows(Trows);
-        return;
-    }
-    for(let i = 1 ; i <= events.length  ; i++){
-        Temp.push(events[i]);
-        if(Temp.length === numberPerRow){
-            Trows.push(Temp);
-            Temp = [];
-        }
-    }
-    setRows(Trows);
-    //console.log(Trows);
-  }
-  useEffect(()=>{
-    sortEvents(Data.events);
-    packEvents(Data.events);
-  },[]);
+  sortEvents(currentEvents);
   function checkEvent(event){
-    console.log('isDateSelected: ' + isDateSelected + ' isKeywordSelected: ' + isKeywordSelected);
+    //console.log('isDateSelected: ' + isDateSelected + ' isKeywordSelected: ' + isKeywordSelected);
     let DateCheck = (event)=>{
       if(!isDateSelected){
         return true;
@@ -105,7 +56,7 @@ function SearchPage() {
         let starts = [];
         event.timings.forEach((timing,i)=>{
           if( timing.start !== null){
-            starts.push(new Date(timing.start));
+            starts.push(DateTime.fromISO(timing.start));
           }
           
         });
@@ -115,7 +66,7 @@ function SearchPage() {
         let ends = [];
         event.timings.forEach((timing,i)=>{
           if( timing.end !== null){
-            ends.push(new Date(timing.end));
+            ends.push(DateTime.fromISO(timing.end));
           }
 
         });
@@ -123,13 +74,14 @@ function SearchPage() {
       }
       let start = starts();
       let end = ends();
-      let date = new Date(Tdate.year, Tdate.month,Tdate.day);
+      let date = DateTime.local(Tdate.year , Tdate.month , Tdate.day);
       
       if(start.length === 0 || end.length === 0){
         return false;
       }
       for(let i = 0 ; i < start.length ; i++){
         if(date <= end[i]){
+          //console.log(date.day + '/' + date.month + '/' + date.year + ' is smaller than ' + end[i].day + '/' + end[i].month + '/' + end[i].year)
           return true;
         }
       }
@@ -159,8 +111,7 @@ function SearchPage() {
       }
       return false;
     }
-
-    return DateCheck(event) && KeywordCheck(event) && event.address === selectedLocation;
+    return DateCheck(event) && KeywordCheck(event) && (event.address === selectedLocation || selectedLocation === "");
   }
 
   function onClickSeachButton()
@@ -171,27 +122,21 @@ function SearchPage() {
       date: date,
       keywords: Tkeywords
     });
-
-    //console.log('Current Keyword: ' + Tkeywords);
     let Temp = [];
     Data.events.forEach((event,i)=>{
       if(!ShowAll){
         if(checkEvent(event)){
-          //console.log(checkEvent(event));
           Temp.push(event);
         }
       }
       else{
         Temp.push(event);
       }
-
-
     });
     sortEvents(Temp);
-    packEvents(Temp);
-    setCurrentPage(1);
+    setCurrentEvents(Temp);
   }
-  console.log('current location' + selectedLocation);
+  console.log('the date is: ' + Tdate.day + '/' + Tdate.month + '/' + Tdate.year);
   return (
     <>
       <Header getLanguage={(lang)=>{setCurrentLanguage(lang)}} />
@@ -218,20 +163,14 @@ function SearchPage() {
 
        </ToolsSubMenu>
       <DetailPopup language={currentLanguage} onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
-      
-      {isLoading && <img className='LoadingImage' src={loadingImage}/>}
-      
-      { !isLoading && <EventGrid currentPage={currentPage} onChangePage={(val)=>{changePage(val)}} size={rows.length} Data={Data} language={currentLanguage}>
-      {/*checkEvent(rows[currentPage - 1][0])*/}
+      { <EventGrid language={currentLanguage}>
+        {
+          currentEvents.length > 0 ? currentEvents.map((event,i)=>
           {
-            rows.length > 0 && currentPage > 0 && 
-            rows[currentPage - 1].map((event,i)=>{
-              return <EventObject onClickEvent={()=>{
-              setShowDetail(true);
-              setCurrentEvent(event);
-            }} EventData={event} language={currentLanguage}></EventObject>
-            })
-          }
+            return <EventObject key={i} EventData={event} language={currentLanguage} onClickEvent={()=>{setCurrentEvent(event); setShowDetail(true)}}  />
+          })
+          : <div>Non</div>
+        }
       </EventGrid>}
 
       

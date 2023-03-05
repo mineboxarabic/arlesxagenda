@@ -4,7 +4,6 @@ import '../Styles/ToolsSubMenu.scss';
 import { Calender } from '../Objects/Calender';
 import  KeywordSearch  from './KeywordSearch'
 import Data from '../Data/events-arles-small.json';
-import { MapContainer, TileLayer, useMap , Marker , Popup} from 'react-leaflet'
 import { useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 export function ToolsSubMenu(props){
@@ -16,8 +15,8 @@ export function ToolsSubMenu(props){
     return (
         <div className="ToolsSubMenu">
 
-            <div className="Tools">
-                <div className="Tools_Text">
+            <div  className="Tools">
+                <div  className="Tools_Text">
                     <h6 className='TourismA'>Tourism a</h6>
                     <h1 className='Arles'>Arles</h1>
                     
@@ -28,7 +27,7 @@ export function ToolsSubMenu(props){
                     <form>
                         <label htmlFor="search">Search</label>
                         <input
-                        autocomplete="off"
+                        autoComplete="off"
                         onChange={(e)=>{setSearchValue(e.target.value)}}
                         value={searchValue}
                          onClick={()=>{
@@ -50,10 +49,10 @@ export function ToolsSubMenu(props){
                         }}   className="propose">
 
                             {
-                                Data.events.map((item)=>{
+                                Data.events.map((item,i)=>{
                                     return(
                                         item.address.includes(searchValue) &&
-                                        <div onClick={()=>{
+                                        <div key={i}  onClick={()=>{
                                             props.setLocationSelected(item.address);
                                             setSearchValue(item.address);
                                             setShowPropose('none');

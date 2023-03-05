@@ -10,7 +10,6 @@ export function EventGrid(props){
     let Temp = [];
     let rows = [];
     let numberPerRow = 8;
-console.log('the children are:' , props.children)
 
     if(props.children.length < numberPerRow && props.children.length > 0){
         rows.push(props.children);
@@ -43,8 +42,10 @@ console.log('the children are:' , props.children)
     function isEvent(children){
         if(children.length == 0 || children == null)
             return false;
-       children.forEach((child)=>{
-              if(child.type !== EventObject){
+        if(children.length == 1 && children.type !== "EventObject")
+            return false;
+       children.map((child)=>{
+              if(child.type !== "EventObject"){
                 return false;
               }
          }
@@ -80,13 +81,13 @@ console.log('the children are:' , props.children)
         <div className="EventGridMain">
             <div className="EventGrid">
                {
-                    isEvent(props.children) ?
+                    props.children.length > 0 ?
                     rows[currentPage - 1].map((child)=>{
                         return child;
                     }
-                    )
-                    :
+                    ) :
                     <h1>There are no events</h1>
+                    
                }
             </div>
             <div className="EventGriControls">

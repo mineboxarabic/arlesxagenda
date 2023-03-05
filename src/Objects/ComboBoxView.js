@@ -4,6 +4,7 @@ import '../Styles/PopUpsStyles.scss'
 
 function PopUp(props){
     return (props.trigger) ? (
+
         <div className="PopUp" id={props.id + 'PopUp'}>
             <button className="PopUp_CloseButton" onClick={() =>{props.setTriggered(false);}}>X</button>
             {props.children}
