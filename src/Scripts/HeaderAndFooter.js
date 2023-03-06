@@ -76,15 +76,19 @@ const Banner = styled.div`
  
 `;
 
+
 const HeaderNav = styled.nav`
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 100px;
-    background: radial-gradient(circle, rgb(163 117 64) 0%, rgb(170 110 80) 30%, rgb(149 70 8) 100%);
-
+    background: radial-gradient(circle, rgb(76 42 2) 0%, rgb(64 21 0) 30%, rgb(77 34 0) 100%);
+    //box-shadow:  0px 0px 10px 10px rgba(0,0,0,0.5) inset;
+    
+    
     .App-header-Left{
         display: flex;
         flex-direction: row;
@@ -111,6 +115,28 @@ const HeaderNav = styled.nav`
         align-items: center;
         width: 40%;
         height: 100%;
+        a{
+            margin-left: 20px;
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            background-color:rgb(54 25 2);
+            &:hover{
+                color: rgb(255 255 255 / 50%);
+            }
+
+        }
+    }
+
+    .App-header-Right{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        width: 30%;
+        height: 100%;
+        padding-right: 20px;
+       
     }
 
 
@@ -125,9 +151,12 @@ export function Header(props){
                 <h1 className="App-title">ArlesXAgenda</h1>
             </div>
             <div className="App-header-Center">
-                
+                <a href="/">Home</a>
+                <a href="/about">About</a>
             </div>
             <div className="App-header-Right">
+                <Banner leftPosition={0} sizeX={200} sizeY={100} />
+                <Banner leftPosition={20} sizeX={200} sizeY={100} />
             </div>
 
         </HeaderNav>
