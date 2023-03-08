@@ -139,7 +139,7 @@ function SearchPage() {
   console.log('the date is: ' + Tdate.day + '/' + Tdate.month + '/' + Tdate.year);
   return (
     <>
-      <Header getLanguage={(lang)=>{setCurrentLanguage(lang)}} />
+      <Header isActive={true} getLanguage={(lang)=>{setCurrentLanguage(lang)}} />
       <ToolsSubMenu
       setLocationSelected={(val)=>(setSelectedLocation(val))}
       setDate={setTDate}

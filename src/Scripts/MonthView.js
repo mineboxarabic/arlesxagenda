@@ -7,6 +7,7 @@ import { Header } from "./HeaderAndFooter.js";
 import Data from "../Data/events-arles-small.json"
 import { EventObject } from "../Objects/EventObject.js";
 import { EventGrid } from "../Objects/EventGrid.js";
+import { DetailPopup } from "../Objects/DetailPopup.js";
 const AppContainer = styled.div`
     width: 100%;
     height: 100%;
@@ -38,12 +39,18 @@ function MonthView(){
     });
     const [isSelectedDate, setIsSelectedDate] = useState(false);
     const [selectedEvents, setSelectedEvents] = useState([]);
+
+
+    const [currentEvent, setCurrentEvent] = useState({});
+    const [showDetail, setShowDetail] = useState(false);
+
     console.log(selectedEvents);
     console.log("current selected date: " + selectedDate.year + " " + selectedDate.month + " " + selectedDate.day + "")
     return (
         <>
             <AppContainer>
-                <Header language={language} setLanguage={setLanguage} />
+            <DetailPopup language={language} onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
+                <Header isActive={false} language={language} setLanguage={setLanguage} />
                 
                 <CalenderView setDate={setSelectedDate} getDate={selectedDate} 
                 isSelectedDate={isSelectedDate} setIsSelectedDate={setIsSelectedDate} 
@@ -57,12 +64,14 @@ function MonthView(){
                     { selectedEvents.length > 0 ? <EventGrid selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} language={language} >
                         {selectedEvents.map((eventUid, i) => {
                             let event = Data.events.find((event) => event.uid === eventUid);
-                            return <EventObject key={i} EventData={event} language={language} onClickEvent={()=>console.log(event.uid)} />
+                            return <EventObject key={i} EventData={event} language={language} onClickEvent={()=>
+                                {
+                                setCurrentEvent(event);
+                                 setShowDetail(true);
+                                }} />
                         })}
                     </EventGrid> : <h2>No Events</h2>
                     }
-
-
                 </DetailsContainer>
             </AppContainer>
         </>

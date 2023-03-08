@@ -69,9 +69,7 @@ export function ToolsSubMenu(props){
                         </div>
                     </form>
 
-                    <ComboBoxView Text="Where ?" id="WhereCombo">
-
-                    </ComboBoxView>
+                  
 
                     <ComboBoxView Text="When ?" id="WhenCombo">
                         <Calender setIsDateSelected = {props.setIsDateSelected} isDateSelected={props.isDateSelected} setDate={props.setDate} getDate={props.getDate} />
