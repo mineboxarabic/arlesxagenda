@@ -1,5 +1,5 @@
 import '../Styles/App.scss';
-import Data from '../Data/events-arles-small.json';
+import Data from '../Data/events-arles.json';
 import { useEffect, useState } from 'react';
 import { Header, Footer } from './HeaderAndFooter';
 import loadingImage from '../Images/kOnzy.gif';

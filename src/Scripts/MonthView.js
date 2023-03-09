@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { DateTime } from "luxon";
 import styled from "styled-components";
 import { Header } from "./HeaderAndFooter.js";
-import Data from "../Data/events-arles-small.json"
+import Data from "../Data/events-arles.json"
 import { EventObject } from "../Objects/EventObject.js";
 import { EventGrid } from "../Objects/EventGrid.js";
 import { DetailPopup } from "../Objects/DetailPopup.js";

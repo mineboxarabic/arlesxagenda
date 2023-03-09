@@ -3,7 +3,7 @@ import { ComboBoxView } from '../Objects/ComboBoxView';
 import '../Styles/ToolsSubMenu.scss';
 import { Calender } from '../Objects/Calender';
 import  KeywordSearch  from './KeywordSearch'
-import Data from '../Data/events-arles-small.json';
+import Data from '../Data/events-arles.json';
 import { useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 export function ToolsSubMenu(props){
