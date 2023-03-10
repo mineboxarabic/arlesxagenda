@@ -151,6 +151,7 @@ function SearchPage() {
       isDateSelected = {isDateSelected}
       setIsKeywordSelected = {(val)=>{setIsKeywordSelected(val)}}
       isKeywordSelected = {isKeywordSelected}
+      Data={Data}
       >
 
         <form className='ShowAllForm'>

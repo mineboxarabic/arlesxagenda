@@ -26,7 +26,7 @@ export function EventGrid(props){
         }
     }
 
-    console.log(rows)
+
         //serows(rows);
 
     if(currentPage == 0 || SizeOfGrid == 0){

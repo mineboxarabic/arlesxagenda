@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { DateTime } from "luxon";
 import styled from "styled-components";
 import { Header } from "./HeaderAndFooter.js";
-import Data from "../Data/events-arles.json"
 import { EventObject } from "../Objects/EventObject.js";
 import { EventGrid } from "../Objects/EventGrid.js";
 import { DetailPopup } from "../Objects/DetailPopup.js";
@@ -30,7 +29,7 @@ const DetailsContainer = styled.div`
     justify-content: center;
 `;
 
-function MonthView(){
+function MonthView({Data}){
     const [language, setLanguage] = useState("en");
     const [selectedDate, setSelectedDate] = useState({
         year: DateTime.local().year,
@@ -43,7 +42,14 @@ function MonthView(){
 
     const [currentEvent, setCurrentEvent] = useState({});
     const [showDetail, setShowDetail] = useState(false);
+    const [DataToShow , setDataToShow] = useState(Data.getEventsByDate(selectedDate.day, selectedDate.month, selectedDate.year));
 
+    
+    function onChangeDate(){
+
+
+    }
+    console.log(DataToShow);
     console.log(selectedEvents);
     console.log("current selected date: " + selectedDate.year + " " + selectedDate.month + " " + selectedDate.day + "")
     return (
@@ -56,6 +62,8 @@ function MonthView(){
                 isSelectedDate={isSelectedDate} setIsSelectedDate={setIsSelectedDate} 
                 language={language}
                 selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents}
+                onChangeDate={onChangeDate}
+                Data={DataToShow}
                 />
                 <DetailsContainer>
                     <h1>Selected Date</h1>

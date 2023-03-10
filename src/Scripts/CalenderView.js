@@ -6,7 +6,6 @@ import ArrowLeft from "../Images/ArrowLeft.png";
 import CulumnImage from "../Images/Column.png"
 import { render } from "@testing-library/react";
 import Background3 from "../Images/Background3.png";
-import Data from "../Data/events-arles.json"
 const DaySquares = styled.button`
 position: relative;
 width: 100%;
@@ -274,12 +273,11 @@ export function CalenderView(props){
     let date = props.getDate;
     let linkedDatesToEvents = {};
     const [isLoading, setIsLoading] = useState(true);
-    const allTimings = Data.events.map((event)=>event.timings.map((timing)=>{
-        return {date:DateTime.fromISO(timing.start), uid:event.uid}
-    })).flat();
+
     function handleDateChange(newDate)
     {
         props.setDate(newDate);
+        props.onChangeDate();
         if(linkedDatesToEvents[newDate.day] !== undefined){
             props.setSelectedEvents(linkedDatesToEvents[newDate.day]);
         }
@@ -302,12 +300,8 @@ export function CalenderView(props){
         }
         );*/
         //sort allTimings
-        allTimings.sort((a,b)=>{
-            let dateA = a.date;
-            let dateB = b.date;
-            return dateA - dateB;
-        }
-        );
+
+        
 
     }, [date]);
 
@@ -316,7 +310,7 @@ export function CalenderView(props){
         let numberOfEvents = 0;
         let dayNumber = day;
         let currentDate = DateTime.local(date.year,date.month,dayNumber);
-        allTimings.map((existingObj)=>{
+        props.Data.map((existingObj)=>{
             if(existingObj.date.day === currentDate.day && existingObj.date.month === currentDate.month && existingObj.date.year === currentDate.year)
             {
                 if(linkedDatesToEvents[dayNumber] === undefined)
@@ -458,6 +452,7 @@ export function CalenderView(props){
                 </div>
             </CalenderBody>
         </>
+
     )
 }
 
