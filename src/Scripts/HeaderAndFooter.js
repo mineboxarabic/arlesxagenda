@@ -4,6 +4,7 @@ import Banner1 from '../Images/Banner1.png'
 import Logo from '../Images/Logo.png'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { CurrentLanguage, ColorPalette } from '../Data/Context.js'
 /*function Banner({leftPosition,sizeX,sizeY}){
     let sizeXString = sizeX + "px";
     let sizeYString = sizeY + "px";
@@ -94,7 +95,7 @@ const HeaderNav = styled.nav`
     align-items: center;
     width: 100%;
     height: 100px;
-    background: radial-gradient(circle, rgb(76 42 2) 0%, rgb(64 21 0) 30%, rgb(77 34 0) 100%);
+    background: radial-gradient(circle, ${ColorPalette.inBetweenDarkAndDark} 10%, ${ColorPalette.darkest} 100%, ${ColorPalette.dark} 100%);
     box-shadow:  0px 0px 10px 10px rgba(0,0,0,0.5) ;
     filter: drop-shadow( 0px 0px 10px 10px rgba(0,0,0,0.5));
     
@@ -129,7 +130,7 @@ const HeaderNav = styled.nav`
             font-size: 20px;
             color: white;
             text-decoration: none;
-            background-color:  rgb(147 86 36);
+            background-color:  ${ColorPalette.eyeCatch};
             height: 100%;
             display: flex;
             justify-content: center;
@@ -149,7 +150,7 @@ const HeaderNav = styled.nav`
             font-size: 20px;
             color: white;
             text-decoration: none;
-            background-color: rgb(34 16 1);
+            background-color: ${ColorPalette.dark};
             height: 100%;
             display: flex;
             justify-content: center;

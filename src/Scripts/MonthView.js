@@ -7,6 +7,9 @@ import { Header } from "./HeaderAndFooter.js";
 import { EventObject } from "../Objects/EventObject.js";
 import { EventGrid } from "../Objects/EventGrid.js";
 import { DetailPopup } from "../Objects/DetailPopup.js";
+
+import { DataContext } from '../Data/Context';
+import { useContext } from 'react';
 const AppContainer = styled.div`
     width: 100%;
     height: 100%;
@@ -29,7 +32,8 @@ const DetailsContainer = styled.div`
     justify-content: center;
 `;
 
-function MonthView({Data}){
+function MonthView(){
+    let Data = useContext(DataContext);
     const [language, setLanguage] = useState("en");
     const [selectedDate, setSelectedDate] = useState({
         year: DateTime.local().year,
@@ -42,14 +46,17 @@ function MonthView({Data}){
 
     const [currentEvent, setCurrentEvent] = useState({});
     const [showDetail, setShowDetail] = useState(false);
-    const [DataToShow , setDataToShow] = useState(Data.getEventsByDate(selectedDate.day, selectedDate.month, selectedDate.year));
-
     
     function onChangeDate(){
-
-
+        let EventsIndexes = [];
+        EventsIndexes = Data.getEventsByDate(selectedDate.day, selectedDate.month, selectedDate.year);
+        let Events = [];
+        EventsIndexes.forEach((event, i) => {
+            Events.push(Data.getEventsByIndex(event));
+        }
+        );
+        setSelectedEvents(Events);
     }
-    console.log(DataToShow);
     console.log(selectedEvents);
     console.log("current selected date: " + selectedDate.year + " " + selectedDate.month + " " + selectedDate.day + "")
     return (
@@ -59,19 +66,17 @@ function MonthView({Data}){
                 <Header isActive={false} language={language} setLanguage={setLanguage} />
                 
                 <CalenderView setDate={setSelectedDate} getDate={selectedDate} 
-                isSelectedDate={isSelectedDate} setIsSelectedDate={setIsSelectedDate} 
+                isSelectedDate={isSelectedDate} setIsSelectedDate={setIsSelectedDate}
                 language={language}
-                selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents}
                 onChangeDate={onChangeDate}
-                Data={DataToShow}
                 />
                 <DetailsContainer>
                     <h1>Selected Date</h1>
                     <h2>{selectedDate.year} {selectedDate.month} {selectedDate.day}</h2>
                     <h1>Selected Events</h1>
-                    { selectedEvents.length > 0 ? <EventGrid selectedEvents={selectedEvents} setSelectedEvents={setSelectedEvents} language={language} >
+                    { selectedEvents.length > 0 ? <EventGrid language={language} >
                         {selectedEvents.map((eventUid, i) => {
-                            let event = Data.events.find((event) => event.uid === eventUid);
+                            let event = eventUid;
                             return <EventObject key={i} EventData={event} language={language} onClickEvent={()=>
                                 {
                                 setCurrentEvent(event);

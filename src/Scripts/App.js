@@ -1,23 +1,32 @@
 import MonthView from './MonthView';
 import SearchPage from './searchPage';
 import {DateTime} from 'luxon';
-import {useState} from 'react';
+import {useContext, useState, useRef} from 'react';
 import {BrowserRouter as Router, Route , Routes} from 'react-router-dom';
-import Events from '../Objects/Events.js';
-function App({Data}) {
-    const [isLoading , setIsLoading] = useState(true);
-    let events = new Events(Data.events);
-    //let eventstemp = events.getEventsByDate(28, 10, 2022);
-    console.log('Event by keyword' , events.getEventsByKeyword('saint'));
+
+
+import DataContext from '../Data/Context.js';
+import { CurrentLanguage } from '../Data/Context.js';
+function App() {
+    const isLoading = useRef(true);
+    const renderCount = useRef(0);
+
+    const [language, setLanguage] = useContext(CurrentLanguage);
+
+    let events = useContext(DataContext);
+    
+   
+   
     return (
         <>
-            <Router>
+        <DataContext.Provider value={events}>
+        <Router>
             <Routes>
-                <Route path="/" element={<SearchPage Data={events}/>}/>
-                <Route path="/month" element={<MonthView Data={events}/>}/>
+                <Route path="/" element={<SearchPage/>}/>
+                <Route path="/month" element={<MonthView/>}/>
             </Routes>
         </Router>
-       
+        </DataContext.Provider>
         </>
        
     );

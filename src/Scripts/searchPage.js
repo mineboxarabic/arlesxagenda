@@ -1,5 +1,4 @@
 import '../Styles/App.scss';
-import Data from '../Data/events-arles.json';
 import { useEffect, useState } from 'react';
 import { Header, Footer } from './HeaderAndFooter';
 import loadingImage from '../Images/kOnzy.gif';
@@ -8,7 +7,10 @@ import { EventGrid } from '../Objects/EventGrid';
 import { EventObject } from '../Objects/EventObject';
 import { DetailPopup } from '../Objects/DetailPopup';
 import { DateTime } from "luxon";
+import { DataContext } from '../Data/Context';
+import { useContext } from 'react';
 function SearchPage() {
+  let Data = useContext(DataContext);
   const [currentEvent , setCurrentEvent] = useState({});
   const [currentLanguage , setCurrentLanguage] = useState("fr");
   const [showDetail, setShowDetail] = useState(false);
@@ -35,7 +37,7 @@ function SearchPage() {
     "date": [],
     "keywords": []});
 
-  function sortEvents(events){
+  /*function sortEvents(events){
     //sort by date
     events.sort((a,b)=>{
       let aDate = new Date(a.timings[0].start);
@@ -112,12 +114,12 @@ function SearchPage() {
       return false;
     }
     return DateCheck(event) && KeywordCheck(event) && (event.address === selectedLocation || selectedLocation === "");
-  }
+  }*/
 
   function onClickSeachButton()
   {
     
-   setFilters({
+   /*setFilters({
       ...Filters,
       date: date,
       keywords: Tkeywords
@@ -134,7 +136,71 @@ function SearchPage() {
       }
     });
     sortEvents(Temp);
-    setCurrentEvents(Temp);
+    setCurrentEvents(Temp);*/
+    let Temp = [];
+
+
+    let dateEvents = Data.getEventsByDate(Tdate.day , Tdate.month , Tdate.year);
+    let keywordsEvents = Data.getEventsByKeywords(Tkeywords);
+
+    console.log('All Events' ,Data.getAllEventsIndexes());
+    console.log('events by location' ,Data.getEventsByLocation('RD 33 st gabriel 770 Route de Fontvieille13280 Moulés'))
+    let locationEvents = Data.getEventsByLocation(selectedLocation);
+
+    if(!ShowAll){
+      if(isDateSelected && isKeywordSelected && selectedLocation !== "")
+      {
+        dateEvents.forEach((event,i)=>{
+          keywordsEvents.forEach((event2,i2)=>{
+            locationEvents.forEach((event3,i3)=>{
+              if(event === event2 && event2 === event3){
+                if(!Temp.includes(event)) 
+                  Temp.push(event);
+              }
+            });
+            
+          });
+        });
+        console.log('Events By Date' ,Data.getEventsByDate(Tdate.day , Tdate.month , Tdate.year ));
+        console.log('Events By Keywords' ,Data.getEventsByKeywords(Tkeywords));
+        console.log('Events By Location' ,Data.getEventsByLocation(selectedLocation));
+      }
+      else if(isDateSelected){
+        Temp = dateEvents;
+        console.log('Events By Date' ,Data.getEventsByDate(Tdate.day , Tdate.month , Tdate.year ));
+      }
+      else if(isKeywordSelected){
+        Temp = keywordsEvents;
+
+        console.log('Events By Keywords' ,Data.getEventsByKeywords(Tkeywords));
+      }
+      else if(selectedLocation !== ""){
+        Temp = locationEvents;
+        console.log('Events By Location' ,Data.getEventsByLocation(selectedLocation));
+      }
+      else{
+        Temp = Data.getAllEventsIndexes();
+      }
+    }
+    else{
+      Temp = Data.getAllEventsIndexes();
+    }
+
+
+    let events = [];
+
+
+      Temp.forEach((event,i)=>{
+        events.push(Data.getEventsByIndex(event));
+      });
+    console.log('events' , events);
+    
+
+
+    setCurrentEvents(events);
+
+
+
   }
   console.log('the date is: ' + Tdate.day + '/' + Tdate.month + '/' + Tdate.year);
   return (

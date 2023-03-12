@@ -1,8 +1,53 @@
 
-import { useEffect, useState } from 'react';
-import '../Styles/EventGrid.scss';
-import { EventObject } from './EventObject'
+import { useState } from 'react';
+import { ColorPalette } from '../Data/Context';
+import styled from 'styled-components';
+const EventGridStyle = styled.div`
+    .EventGridMain{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
 
+        .EventGriControls{
+            width: 100%;
+            height: 10%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            button{
+                width: 10%;
+                height: 100%;
+                background-color: ${ColorPalette.dark};
+                color: ${ColorPalette.light};
+                font-size: 20px;
+                border: none;
+                border-radius: 5px;
+                margin: 5px;
+                cursor: pointer;
+                transition: 0.2s;
+                &:hover{
+                    background-color: ${ColorPalette.inBetweenDarkAndMedium};
+
+                }
+            }
+            p{
+                font-size: 20px;
+                color: ${ColorPalette.light};
+                margin: 0;
+                text-align: center;
+                width: 100px;
+            }
+
+        }
+    }
+
+`;
 export function EventGrid(props){
     let SizeOfGrid = props.children.length;
     const [currentPage , setCurrentPage] = useState(1);
@@ -78,6 +123,7 @@ export function EventGrid(props){
 
     return (
         <>
+        <EventGridStyle>
         <div className="EventGridMain">
             <div className="EventGrid">
                {
@@ -96,6 +142,7 @@ export function EventGrid(props){
                 <button onClick={()=>{changePage(true)}}>▶</button>
             </div>
         </div>
+        </EventGridStyle>
         </>
     )
 
