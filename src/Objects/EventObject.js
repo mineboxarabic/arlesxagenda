@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { DateTime } from "luxon";
 import noFoundImage from '../Images/Event_no_Image.png';
 import styled from 'styled-components';
-import { ColorPalette } from '../Data/Context';
+import { useContext  } from 'react';
+import { ColorPalette , CurrentLanguage , TranslatedTextList} from '../Data/Context';
 import font from '../Fonts/Roboto-Bold.ttf';
 const Event = styled.div`
         @font-face {
@@ -65,10 +66,13 @@ const Event = styled.div`
 
                 }
                 p{
+                    
                     font-size: 20px;
                     color: ${ColorPalette.light};
                     margin: 0;
                     text-align: right;
+                    
+                    color: ${props => props.Ended ? 'red' : 'green'};
 
                 }
             }
@@ -114,27 +118,34 @@ const Event = styled.div`
 `;
 export function EventObject(props){
     let EventData = props.EventData;
-    let timings = props.EventData.timings;
     
-    let language = props.language;
+    let {language , setLanguage} = useContext(CurrentLanguage);
+    console.log('the language is : ' + language);
 
-    let DataWithLang = {};
     
 
-    function getAttributeValues(attribute){ //here
+
+    function getAttributeValues(attribute)
+    {
         for(let key in EventData){
-            if(key == attribute){
-                if(typeof(EventData[key]) == "object"){
-                if(EventData[key] != undefined && EventData[key] != null){
-                    if(EventData[key][language] != undefined && EventData[key][language] != null){
+            if(key === attribute){
+                if(key === 'title' || key === 'description' || key === 'longDescription'){
+                    if(EventData[key][language] == undefined && EventData[key][language] == null)
+                    {
+                        if(language === 'fr'){
+                           return EventData[key]['en'];
+                        }
+                        else{
+                            return EventData[key]['fr'];
+                        }
+                    }
+                    else
+                    {
                         return EventData[key][language];
                     }
-                }}
-                else if (typeof(EventData[key]) == "array"){
-  
                 }
                 if(key === "timings"){
-                    if(EventData[key][0] != undefined && EventData[key][0] != null){
+                    if(EventData[key] != undefined && EventData[key] != null){
                         let timings = EventData[key];
                         timings.sort((a,b)=>{
                             let aStart = DateTime.fromISO(a.start);
@@ -147,8 +158,26 @@ export function EventObject(props){
                             }
                             return 0;
                         })
-                        let start = DateTime.fromISO(timings[0].start);
-                        return start.toFormat('dd/MM/yyyy');
+                        timings.map((timing,index)=>{
+                            
+                        })
+
+                        for(let i = 0; i < timings.length; i++){
+                            let start = DateTime.fromISO(timings[i].start);
+                            let end = DateTime.fromISO(timings[i].end);
+                            let today = DateTime.local();
+                            if(start >= today){
+                                return start.toFormat('dd LLL yyyy');
+                            }
+                            else if (start <= today && end >= today && i === timings.length - 1){
+                                return "On going";
+                            }
+                            else if (end < today && i === timings.length - 1){
+                                return "Ended";
+                            }
+                        }
+                    
+                        
                     }
                 }
                 if(key === "tags"){
@@ -165,24 +194,22 @@ export function EventObject(props){
                         return tagsString;
                     }
                 }
-                //check if EventData[key] is an object or a list
-                
 
             }
         }
     }
 
-
+    let timming = getAttributeValues("timings");
     return (
         <>
 
-                <Event onClick={props.onClickEvent}>
+                <Event onClick={props.onClickEvent} Ended={timming === "Ended"}>
                     
                     <img src={EventData.thumbnail == false ? noFoundImage: EventData.thumbnail } alt="EventImage"/>
                     <div className='Event_Body'>
                         <div className='Event_Title_Container'>
                             <h3 className="Event_Title" >{getAttributeValues("title")}</h3>
-                            <p>{"Date: " + getAttributeValues("timings")}</p>
+                            <p>{TranslatedTextList[language]["Next Date is :"] + timming}</p>
                         </div>
                         <div className='Event_Description_Container'>
                             <p className="Event_Description">{getAttributeValues("description")}</p>

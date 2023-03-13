@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 import { marked } from 'marked';
 export function DetailPopup(props){
 
-    let Event = props.event;
+    let EventData = props.event;
     function getValue(name){
         for(const key in Event){
             if(key === name){
@@ -21,6 +21,64 @@ export function DetailPopup(props){
                 }
         }
     }
+
+    
+    function getAttributeValues(attribute)
+    {
+        for(let key in EventData){
+            if(key === attribute){
+                if(key === 'title' || key === 'description' || key === 'longDescription'){
+                    if(EventData[key][language] == undefined && EventData[key][language] == null)
+                    {
+                        if(language === 'fr'){
+                           return EventData[key]['en'];
+                        }
+                        else{
+                            return EventData[key]['fr'];
+                        }
+                    }
+                    else
+                    {
+                        return EventData[key][language];
+                    }
+                }
+                if(key === "timings"){
+                    if(EventData[key][0] != undefined && EventData[key][0] != null){
+                        let timings = EventData[key];
+                        timings.sort((a,b)=>{
+                            let aStart = DateTime.fromISO(a.start);
+                            let bStart = DateTime.fromISO(b.start);
+                            if(aStart < bStart){
+                                return -1;
+                            }
+                            if(aStart > bStart){
+                                return 1;
+                            }
+                            return 0;
+                        })
+                        let start = DateTime.fromISO(timings[0].start);
+                        return start.toFormat('dd/MM/yyyy');
+                    }
+                }
+                if(key === "tags"){
+                    if(EventData[key] != undefined && EventData[key] != null){
+                        let tagsString = [];
+                        EventData[key].forEach((tag,index)=>{
+                            for(let name in tag){
+                                if(name === "slug"){
+                                    tagsString.push(tag[name]);
+                                }
+                            }
+                        })
+
+                        return tagsString;
+                    }
+                }
+
+            }
+        }
+    }
+
     let date = new Date(Event.createdAt);
     let timings = Event.timings;
     let language = props.language;

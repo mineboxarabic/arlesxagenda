@@ -1,12 +1,12 @@
 import Background2 from '../Images/Background2.png';
 import { CalenderView } from './CalenderView';
 import  KeywordSearch  from './KeywordSearch'
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import arenaImage from '../Images/Background2.png';
-import BrownFont from '../Fonts/NexaText-Trial-Black.ttf';
-import { ColorPalette } from '../Data/Context.js';
+import BrownFont from '../Fonts/AlegreyaSansSC-Bold.otf';
+import { ColorPalette, DataContext , CurrentLanguage , TranslatedTextList } from '../Data/Context.js';
 import { CalenderObject } from '../Objects/Calender.js';
 const CalenderContainer = styled.div`
     width: 100%;
@@ -27,13 +27,13 @@ const ToolsSubMenuContainer = styled.div`
     font-family: 'OldFont';
     src: url(${BrownFont});
 }
+*{
+    font-family: 'Milk';
+}
 
 @font-face {
     font-family: 'MainFont';
     src: url(${BrownFont});
-}
-*{
-    font-family: 'MainFont' ;
 }
 
 .ToolsSubMenu{
@@ -352,6 +352,77 @@ const PopUpS = styled.div`
     }
 
 `;
+const SearchProposed = styled.div`
+    position: absolute;
+    display: ${props => props.showMode};
+    flex-direction: column;
+    color: ${ColorPalette.medium};
+    background-color: ${ColorPalette.light};
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 200px;
+    border-radius: 20px;
+    box-shadow: 0 10px 5px 0 rgba(0,0,0,0.5);
+    top: 100px;
+    left: 100px;
+    z-index: 1;
+
+    
+
+    .CloseButton{
+        //put the close button in the top right corner
+        position: absolute;
+
+        top: 0;
+        right: 15px;
+        width: 30px;
+        height: 40px;
+        background-color: red;
+        //remove the border
+        border: none;
+
+        cursor: pointer;
+        &:hover{
+            background-color: #fb3e3e;
+            transition: all 0.2s ease-in-out;
+        }
+    }
+    ul{
+        overflow-y: scroll;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        //style the scrollbar
+        &::-webkit-scrollbar{
+            width: 15px;
+        }
+        &::-webkit-scrollbar-track{
+            border-radius: 0px 10px 10px 0px;
+            background: ${ColorPalette.lightest};
+        }
+        &::-webkit-scrollbar-thumb{
+            background: #888;
+        }
+        &::-webkit-scrollbar-thumb:hover{
+            background: #555;
+        }
+
+        li{
+            padding: 10px;
+            cursor: pointer;
+            &:hover{
+                background-color: ${ColorPalette.inBetweenDarkAndDark};
+                transition: all 0.2s ease-in-out;
+            }
+        }
+    }
+
+
+
+`;
 function PopUp(props){
     return (props.trigger) ? (
         <PopUpS>
@@ -382,19 +453,28 @@ function ComboBoxView(props){
 
 }
 export function ToolsSubMenu(props){
-    const Data = props.Data;
+    const Data = useContext(DataContext);
+    let locations = [];
+   
+    Data.getAllLocaitons().forEach((location)=>{
+        locations.push(location);
+    })
+
+    let {language, setLanguage} = useContext(CurrentLanguage);
+    let text = TranslatedTextList[language];
+
     const [showPropose, setShowPropose] = useState('none');
 
     const [searchValue, setSearchValue] = useState('');
     
     //console.log('The language in Tools is:' + props.language)
+    
     return (
         <ToolsSubMenuContainer>
         <div className="ToolsSubMenu">
-
             <div  className="Tools">
                 <div  className="Tools_Text">
-                    <h6 className='TourismA'>Tourism a</h6>
+                    <h6 className='TourismA'>{text["Tourism in"]}</h6>
                     <h1 className='Arles'>Arles</h1>
                     
                 </div>
@@ -402,61 +482,52 @@ export function ToolsSubMenu(props){
 
                     <h2>Tools</h2>
                     <form>
-                        <label htmlFor="search">Search</label>
+                        <label htmlFor="search">{text["Search"]}</label>
                         <input
                         autoComplete="off"
                         onChange={(e)=>{setSearchValue(e.target.value)}}
                         value={searchValue}
                          onClick={()=>{
-                            setShowPropose('block');
+                            setShowPropose('flex');
                         }} type="text" placeholder='Search...' id="search" name="search" />
-                        <div style={{
-                            padding: '10px',
-                            zIndex: '1000',
-                            display: showPropose,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: 'white',
-                            borderRadius: '20px',
-                            scrollBehavior: 'smooth',
-                            position: 'absolute',
-                            width: '100%',
-                            height: '250px',
-                            overflow: 'scroll',
-                        }}   className="propose">
 
-                            {
-                                Data.events.map((item,i)=>{
-                                    return(
-                                        item.address.includes(searchValue) &&
-                                        <div key={i}  onClick={()=>{
-                                            props.setLocationSelected(item.address);
-                                            setSearchValue(item.address);
-                                            setShowPropose('none');
-                                            }}
-                                            onBlur={()=>{setShowPropose('none')}} className="propose_item">
-                                            <h5>{item.address}</h5> 
-                                        </div>
-                                    )
-                                }
-                                )
-                            }
-
-                            
-                        </div>
                     </form>
+                    <SearchProposed showMode={showPropose}>
+                        <button onClick={()=>{
+                            setShowPropose('none');
+                        }} className="CloseButton">X</button>
 
+                        <ul>
+                            {
+                                locations.map((location)=>{
+                                    if(location.toLowerCase().includes(searchValue.toLowerCase())){
+                                        return <li key={location}
+                                         onClick={()=>{
+                                            setShowPropose('none');
+                                            setSearchValue(location);
+                                            
+                                        }}>{location}</li>
+                                    }
+
+                                   
+                                })
+                            }
+                        </ul>
+
+                    </SearchProposed>
+
+                    {text["Search"]}
                   
 
-                    <ComboBoxView Text="When ?" id="WhenCombo">
+                    <ComboBoxView Text={text["When?"]} id="WhenCombo">
                         <CalenderObject setDate={props.setDate} getDate={props.getDate} setIsDateSelected = {props.setIsDateSelected} isDateSelected={props.isDateSelected} >
 
                         </CalenderObject>
                        {/* <Calender setIsDateSelected = {props.setIsDateSelected} isDateSelected={props.isDateSelected} setDate={props.setDate} getDate={props.getDate} />*/}
                     </ComboBoxView>
-                    <ComboBoxView Text="What ?" id="WhatCombo">
+                    <ComboBoxView Text={text["What?"]} id="WhatCombo">
                         {
-                            props.language==="fr"?<h3>Checher Vos mots cle</h3>:<h3>What are you looking for ?</h3>
+                            text["Search for a keyword"]
                         }
                         <KeywordSearch setIsKeywordSelected = {props.setIsKeywordSelected} isKeywordSelected={props.isKeywordSelected } getKeywords={props.getKeywords} setKeywords={props.setKeywords} ></KeywordSearch>
                     </ComboBoxView>

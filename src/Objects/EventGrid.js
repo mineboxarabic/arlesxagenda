@@ -3,6 +3,15 @@ import { useState } from 'react';
 import { ColorPalette } from '../Data/Context';
 import styled from 'styled-components';
 const EventGridStyle = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+
+
     .EventGridMain{
         width: 100%;
         height: 100%;
@@ -11,6 +20,16 @@ const EventGridStyle = styled.div`
         align-items: center;
         align-content: center;
         justify-content: center;
+        .EventGrid{
+            width: 100%;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            
+        }
 
         .EventGriControls{
             width: 100%;

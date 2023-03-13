@@ -7,12 +7,13 @@ import { EventGrid } from '../Objects/EventGrid';
 import { EventObject } from '../Objects/EventObject';
 import { DetailPopup } from '../Objects/DetailPopup';
 import { DateTime } from "luxon";
-import { DataContext } from '../Data/Context';
+import { DataContext , CurrentLanguage } from '../Data/Context';
 import { useContext } from 'react';
 function SearchPage() {
   let Data = useContext(DataContext);
   const [currentEvent , setCurrentEvent] = useState({});
-  const [currentLanguage , setCurrentLanguage] = useState("fr");
+  const [currentLanguage , setCurrentLanguage] = useState("en");
+  console.log(currentLanguage);
   const [showDetail, setShowDetail] = useState(false);
   const [selectedLocation , setSelectedLocation] = useState("");
   const [isDateSelected , setIsDateSelected] = useState(false);
@@ -37,120 +38,26 @@ function SearchPage() {
     "date": [],
     "keywords": []});
 
-  /*function sortEvents(events){
-    //sort by date
-    events.sort((a,b)=>{
-      let aDate = new Date(a.timings[0].start);
-      let bDate = new Date(b.timings[0].start);
-      return aDate.getTime() - bDate.getTime();
-    }
-    );
-
-  }
-  sortEvents(currentEvents);
-  function checkEvent(event){
-    //console.log('isDateSelected: ' + isDateSelected + ' isKeywordSelected: ' + isKeywordSelected);
-    let DateCheck = (event)=>{
-      if(!isDateSelected){
-        return true;
-      }
-      let starts = ()=>{
-        let starts = [];
-        event.timings.forEach((timing,i)=>{
-          if( timing.start !== null){
-            starts.push(DateTime.fromISO(timing.start));
-          }
-          
-        });
-        return starts;
-      }
-      let ends = ()=>{
-        let ends = [];
-        event.timings.forEach((timing,i)=>{
-          if( timing.end !== null){
-            ends.push(DateTime.fromISO(timing.end));
-          }
-
-        });
-        return ends;
-      }
-      let start = starts();
-      let end = ends();
-      let date = DateTime.local(Tdate.year , Tdate.month , Tdate.day);
-      
-      if(start.length === 0 || end.length === 0){
-        return false;
-      }
-      for(let i = 0 ; i < start.length ; i++){
-        if(date <= end[i]){
-          //console.log(date.day + '/' + date.month + '/' + date.year + ' is smaller than ' + end[i].day + '/' + end[i].month + '/' + end[i].year)
-          return true;
-        }
-      }
-      return false;
-    }
-    let KeywordCheck = (event)=>{
-      if(!isKeywordSelected){
-        return true;
-      }
-      if(Tkeywords !== null ){
-        if(event.keywords === null){
-          return false;
-        }
-        let EventKeywords = event.keywords[currentLanguage];
-        event.tags.forEach((tag,i)=>{
-          EventKeywords.push(tag[currentLanguage]);
-        });
-        if(EventKeywords.length > 0){
-          for(let i = 0 ; i < EventKeywords.length ; i++){
-
-            if(Tkeywords.includes(EventKeywords[i])){
-              return true;
-            }
-
-          };
-        }
-      }
-      return false;
-    }
-    return DateCheck(event) && KeywordCheck(event) && (event.address === selectedLocation || selectedLocation === "");
-  }*/
 
   function onClickSeachButton()
   {
-    
-   /*setFilters({
-      ...Filters,
-      date: date,
-      keywords: Tkeywords
-    });
-    let Temp = [];
-    Data.events.forEach((event,i)=>{
-      if(!ShowAll){
-        if(checkEvent(event)){
-          Temp.push(event);
-        }
-      }
-      else{
-        Temp.push(event);
-      }
-    });
-    sortEvents(Temp);
-    setCurrentEvents(Temp);*/
     let Temp = [];
 
 
-    let dateEvents = Data.getEventsByDate(Tdate.day , Tdate.month , Tdate.year);
+    let dateEvents = Data.getEventsAfterDate(Tdate.day , Tdate.month , Tdate.year);
+    console.log('dateEvents' , Data.getEventsAfterDate(Tdate.day , Tdate.month , Tdate.year));
     let keywordsEvents = Data.getEventsByKeywords(Tkeywords);
-
-    console.log('All Events' ,Data.getAllEventsIndexes());
-    console.log('events by location' ,Data.getEventsByLocation('RD 33 st gabriel 770 Route de Fontvieille13280 Moulés'))
     let locationEvents = Data.getEventsByLocation(selectedLocation);
+
+    //get all events from a certain date
+    
+    
 
     if(!ShowAll){
       if(isDateSelected && isKeywordSelected && selectedLocation !== "")
       {
         dateEvents.forEach((event,i)=>{
+          
           keywordsEvents.forEach((event2,i2)=>{
             locationEvents.forEach((event3,i3)=>{
               if(event === event2 && event2 === event3){
@@ -161,22 +68,19 @@ function SearchPage() {
             
           });
         });
-        console.log('Events By Date' ,Data.getEventsByDate(Tdate.day , Tdate.month , Tdate.year ));
-        console.log('Events By Keywords' ,Data.getEventsByKeywords(Tkeywords));
-        console.log('Events By Location' ,Data.getEventsByLocation(selectedLocation));
       }
       else if(isDateSelected){
         Temp = dateEvents;
-        console.log('Events By Date' ,Data.getEventsByDate(Tdate.day , Tdate.month , Tdate.year ));
+       
       }
       else if(isKeywordSelected){
         Temp = keywordsEvents;
 
-        console.log('Events By Keywords' ,Data.getEventsByKeywords(Tkeywords));
+       
       }
       else if(selectedLocation !== ""){
         Temp = locationEvents;
-        console.log('Events By Location' ,Data.getEventsByLocation(selectedLocation));
+    
       }
       else{
         Temp = Data.getAllEventsIndexes();

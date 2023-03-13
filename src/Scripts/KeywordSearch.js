@@ -1,5 +1,51 @@
 import React, { useEffect, useState } from "react";
-import "../Styles/KeywordsSearch.scss";
+
+import styled from "styled-components";
+import { CurrentLanguage, ColorPalette } from "../Data/Context.js";
+
+const KeywordSearchContainer = styled.div`
+.Keyword-search-body{
+.keyword-input{
+    
+
+    border-bottom: 1px solid black;
+    background-color: ${ColorPalette.light};
+    padding: 1%;
+    border-radius: 5px;
+    color: black;
+    font-size: 20px;
+
+}
+.keyword-Container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    .Keyword{
+        margin: 1%;
+        box-shadow:  4px 4px 3px 3px rgba(0,0,0,0.2);
+        background-color: ${ColorPalette.medium} ;
+        padding: 1%;
+        border-radius: 5px;
+        display: flex;
+        
+        button{
+            background-color: red;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            padding: 0%;
+            padding-left: 10%;
+            padding-right: 10%;
+            cursor: pointer;
+            
+            
+        }
+    }
+}
+}
+
+`;
 function KeywordSearch(props) {
   const [inputValue, setInputValue] = useState("");
   let keywords = props.getKeywords;
@@ -30,6 +76,7 @@ function KeywordSearch(props) {
     props.setIsKeywordSelected(true);
   };
   return (
+    <KeywordSearchContainer>
     <div className="Keyword-search-body">
       <div>
         <input
@@ -37,6 +84,8 @@ function KeywordSearch(props) {
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleInputKeyDown}
+          placeholder="Add a keyword"
+          className="keyword-input"
         />
       </div>
       <div className="keyword-Container">
@@ -48,6 +97,7 @@ function KeywordSearch(props) {
         ))}
       </div>
     </div>
+    </KeywordSearchContainer>
   );
 }
 

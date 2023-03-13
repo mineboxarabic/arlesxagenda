@@ -133,6 +133,36 @@ import { DateTime } from 'luxon';
     getEventsByLocation(location){
         return new Set(this.locations.get(location));
     }
+    getAllLocaitons(){
+        return new Set(this.locations.keys());
+    }
+    
+    getEventsAfterDate(day, month, year){
+        console.log(day, month, year);
+        let years = new Map([...this.year.entries()].sort());
+        let events = new Set([]);
+        let lastYear = [...years.keys()].pop();
+        
+        for(let i = year; i <= lastYear; i++){
+            let months = new Map([...years.get(i).entries()].sort());
+            let lastMonth = [...months.keys()].pop();
+            for(let j = month; j <= lastMonth; j++){
+                let days = new Map([...months.get(j).entries()].sort());    
+                const maxKey = Math.max(...days.keys());
+                for(let k = day; k <= maxKey; k++){
+                    if(days.has(k)){
+                        days.get(k).map((event)=>{
+                            events.add(event);
+                        });
+                    }
+
+
+                }
+            }
+        }
+        
+        return events;
+    }
 }
 
 export default Events;

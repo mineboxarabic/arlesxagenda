@@ -241,7 +241,6 @@ export function CalenderObject(props) {
   function handleDateChange(newDate) {
     props.setDate(newDate);
     props.setIsDateSelected(true);
-    props.onChangeDate();
   }
 
   let daysInMonth = DateTime.local(date.year, date.month).daysInMonth;

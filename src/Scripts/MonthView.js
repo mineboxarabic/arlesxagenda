@@ -23,13 +23,25 @@ const AppContainer = styled.div`
 
 
 const DetailsContainer = styled.div`
-    width: 100%;
+    width: 90%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
     justify-content: center;
+
+    .EventGrid{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        
+
+    }
 `;
 
 function MonthView(){
@@ -71,8 +83,6 @@ function MonthView(){
                 onChangeDate={onChangeDate}
                 />
                 <DetailsContainer>
-                    <h1>Selected Date</h1>
-                    <h2>{selectedDate.year} {selectedDate.month} {selectedDate.day}</h2>
                     <h1>Selected Events</h1>
                     { selectedEvents.length > 0 ? <EventGrid language={language} >
                         {selectedEvents.map((eventUid, i) => {

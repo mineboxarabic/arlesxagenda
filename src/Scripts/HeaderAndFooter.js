@@ -4,7 +4,8 @@ import Banner1 from '../Images/Banner1.png'
 import Logo from '../Images/Logo.png'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { CurrentLanguage, ColorPalette } from '../Data/Context.js'
+import { useContext } from 'react'
+import { ColorPalette, CurrentLanguage , TranslatedTextList } from '../Data/Context.js'
 /*function Banner({leftPosition,sizeX,sizeY}){
     let sizeXString = sizeX + "px";
     let sizeYString = sizeY + "px";
@@ -178,7 +179,7 @@ const HeaderNav = styled.nav`
         select{
             width: 100px;
             height: 30px;
-            background-color: rgb(34 16 1);
+            background-color: ${ColorPalette.medium};
             color: white;
             border: 1px solid white;
             border-radius: 5px;
@@ -189,7 +190,7 @@ const HeaderNav = styled.nav`
             cursor: pointer;
             &:hover{
                 color: rgb(255 255 255);
-                background-color:rgb(147, 86, 36);
+                background-color:${ColorPalette.dark};
             }
         }
 
@@ -202,24 +203,30 @@ const HeaderNav = styled.nav`
 `;
 
 export function Header(props){
-    
+    let {language, setLanguage} = useContext(CurrentLanguage);
+
     let selectedA = props.isActive ? "selected" : "notSelected";
     let selectedB = props.isActive ? "notSelected" : "selected";
+    let text = TranslatedTextList[language];
+    
+    
     return (
         <HeaderNav isActive={props.isActive} className="App-header">
             <div className="App-header-Left">
                 <img src={Logo} alt="Logo" className="App-logo" />
-                <h1 className="App-title">ArlesXAgenda</h1>
+                <h1 className="App-title">Arles X Agenda </h1>
             </div>
             <div className="App-header-Center">
-                <a className={selectedA} href="/">Search Page</a>
-                <a className={selectedB} href="/month">Month View</a>
+                <a className={selectedA} href="/">{text["Search Page"]}</a>
+                <a className={selectedB} href="/month">{text["Month View"]}</a>
             </div>
             <div className="App-header-Right">
                 <Banner src={Banner1} topPosition={20} leftPosition={93} sizeX={100} sizeY={130} />
                 <Banner src={Banner1} topPosition={28} leftPosition={88} sizeX={90} sizeY={115} />
 
-                <select onChange={(e) => props.setLanguage(e.target.value)} value={props.language}>
+                <select onChange={(e) =>{
+                    setLanguage(e.target.value);
+                    }} >
                     <option value="fr">fr</option>
                     <option value="en">en</option>
                 </select>

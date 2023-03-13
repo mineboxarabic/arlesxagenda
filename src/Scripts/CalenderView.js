@@ -6,7 +6,7 @@ import ArrowLeft from "../Images/ArrowLeft.png";
 import CulumnImage from "../Images/Column.png"
 import { render } from "@testing-library/react";
 import Background3 from "../Images/Background3.png";
-import { DataContext, ColorPalette } from '../Data/Context';
+import { DataContext, ColorPalette , TranslatedTextList, CurrentLanguage} from '../Data/Context';
 import { useContext } from 'react';
 const DaySquares = styled.button`
 position: relative;
@@ -298,6 +298,8 @@ justify-content: center;
 export function CalenderView(props){
 
     let Data = useContext(DataContext);
+    let {language , setLanguage} = useContext(CurrentLanguage);
+    let text = TranslatedTextList[language];
     const [days, setDays] = useState(Array(42).fill(true));
     let date = props.getDate;
     let linkedDatesToEvents = {};
@@ -363,7 +365,7 @@ export function CalenderView(props){
                         </div>
                         <div className="MonthYearNameContainer">
                             <h1>{date.year.toString()}</h1>
-                            <h1>{DateTime.local(date.year,date.month).monthLong}</h1>
+                            <h1>{text[DateTime.local(date.year,date.month).monthLong]}</h1>
                         </div>
                         <div className="RightArrows">
                         <Arrows onClicks={()=>{
@@ -408,13 +410,14 @@ export function CalenderView(props){
                        
                         <div className="CalenderBodyMonth">
                             <div className="CalenderBodyDays">
-                                <div className="CalenderBodyDaysName">Sun</div>
-                                <div className="CalenderBodyDaysName">Mon</div>
-                                <div className="CalenderBodyDaysName">Tue</div>
-                                <div className="CalenderBodyDaysName">Wed</div>
-                                <div className="CalenderBodyDaysName">Thu</div>
-                                <div className="CalenderBodyDaysName">Fri</div>
-                                <div className="CalenderBodyDaysName">Sat</div>
+                                <div className="CalenderBodyDaysName">{text["Sun"]}</div>
+                                <div className="CalenderBodyDaysName">{text["Mon"]}</div>
+                                <div className="CalenderBodyDaysName">{text["Tue"]}</div>
+                                <div className="CalenderBodyDaysName">{text["Wed"]}</div>
+                                <div className="CalenderBodyDaysName">{text["Thu"]}</div>
+                                <div className="CalenderBodyDaysName">{text["Fri"]}</div>
+                                <div className="CalenderBodyDaysName">{text["Sat"]}</div>
+
                             </div>
 
                             <div className="CalenderBodyDaySquare">
