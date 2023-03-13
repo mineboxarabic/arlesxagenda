@@ -302,7 +302,6 @@ export function CalenderView(props){
     let text = TranslatedTextList[language];
     const [days, setDays] = useState(Array(42).fill(true));
     let date = props.getDate;
-    let linkedDatesToEvents = {};
     const [isLoading, setIsLoading] = useState(true);
 
     function handleDateChange(newDate)

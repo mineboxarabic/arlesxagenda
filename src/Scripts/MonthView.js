@@ -39,7 +39,7 @@ const DetailsContainer = styled.div`
         align-items: center;
         align-content: center;
         justify-content: center;
-        
+
 
     }
 `;
@@ -74,7 +74,7 @@ function MonthView(){
     return (
         <>
             <AppContainer>
-            <DetailPopup language={language} onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
+            <DetailPopup onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
                 <Header isActive={false} language={language} setLanguage={setLanguage} />
                 
                 <CalenderView setDate={setSelectedDate} getDate={selectedDate} 
