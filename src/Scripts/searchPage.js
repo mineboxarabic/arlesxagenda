@@ -133,7 +133,7 @@ function SearchPage() {
         <button onClick={onClickSeachButton} className='Submit-Search'>Search</button>
 
        </ToolsSubMenu>
-      <DetailPopup language={currentLanguage} onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
+      <DetailPopup onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
       { <EventGrid language={currentLanguage}>
         {
           currentEvents.length > 0 ? currentEvents.map((event,i)=>
