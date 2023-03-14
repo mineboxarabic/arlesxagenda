@@ -68,6 +68,7 @@ const ToolsSubMenuContainer = styled.div`
         height: 600px;
         object-fit: cover;
         object-position: 25% 25%; 
+        padding: 15px;
         position: relative;
         .TourismA{
             position: absolute;
@@ -465,9 +466,8 @@ function ComboBoxView(props){
  */
 export function ToolsSubMenu(props){
     const Data = useContext(DataContext); //getting the data from the data context
-    const {language, setLanguage} = useContext(CurrentLanguage); //getting the current language from the context
-    console.log(setLanguage)
-    const text = TranslatedTextList[language]; //getting the translated text from the translated text list
+    const language = useContext(CurrentLanguage); //getting the current language from the context
+    const text = TranslatedTextList[language.language]; //getting the translated text from the translated text list
     const [showPropose, setShowPropose] = useState('none'); //showing the search propose
     const [searchValue, setSearchValue] = useState(''); //the value of the search
 

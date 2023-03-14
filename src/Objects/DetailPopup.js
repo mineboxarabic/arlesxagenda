@@ -154,9 +154,8 @@ const ButtonGoToWebSite = styled.button`
 export function DetailPopup(props){
 
     let EventData = props.event; // The data of the event that is being displayed
-    let {language, setLanguage} = useContext(CurrentLanguage); // The current language of the app
+    let language = useContext(CurrentLanguage); // The current language of the app
     
-    console.log(setLanguage)
     /**
      * 
      * @param {string} attribute The attribute that is being searched for (ex: "location name") 
@@ -209,9 +208,9 @@ export function DetailPopup(props){
             }
             if(key === attribute){
                 if(key === 'title' || key === 'description' || key === 'longDescription'){
-                    if(EventData[key][language] === undefined || EventData[key][language] === null)
+                    if(EventData[key][language.language] === undefined || EventData[key][language.language] === null)
                     {
-                        if(language === 'fr')
+                        if(language.language === 'fr')
                         {
                            return EventData[key]['en'];
                         }
@@ -222,7 +221,7 @@ export function DetailPopup(props){
                     }
                     else
                     {
-                        return EventData[key][language];
+                        return EventData[key][language.language];
                     }
                 }
                 if(key === "timings"){
@@ -263,8 +262,8 @@ export function DetailPopup(props){
 
                 }
                 if(key === "conditions"){
-                    if(EventData[key][language] !== undefined && EventData[key][language] !== null){
-                        return EventData[key][language];
+                    if(EventData[key][language.language] !== undefined && EventData[key][language.language] !== null){
+                        return EventData[key][language.language];
                     }
                 }
 
@@ -292,7 +291,7 @@ export function DetailPopup(props){
                             if(EventData.registrationUrl !== undefined && EventData.registrationUrl !== null){
                                 window.open(EventData.registrationUrl);
                             }
-                            }}>{language === "fr" ? "Aller au site web" : "Go to website"}</ButtonGoToWebSite>
+                            }}>{language.language === "fr" ? "Aller au site web" : "Go to website"}</ButtonGoToWebSite>
                     </div>
                 </div>
 
@@ -305,16 +304,16 @@ export function DetailPopup(props){
                     <div className="DetailPopup_Dates_Details">
 
                         <div className="DetailPopup_Conditions">
-                            <h1>{language === "fr" ? "Conditions ou tarifs" :"Conditions or tarifs" }</h1>
+                            <h1>{language.language === "fr" ? "Conditions ou tarifs" :"Conditions or tarifs" }</h1>
                             <p>{getAttributeValues('conditions')}</p>
                         </div>
-                        <h1 className="DetailPopup_Dates_Details_right">{language === "fr" ? "Dates" : "Dates"}</h1>
+                        <h1 className="DetailPopup_Dates_Details_right">{language.language === "fr" ? "Dates" : "Dates"}</h1>
                         <div className="DetailPopup_Dates_Details_right">
                             <table className='Timings' border={'1px'}>
                             <thead>
                                 <tr>
-                                    <th>{language === "fr" ? "Debut" : "Start"}</th>
-                                    <th>{language === "fr" ? "Fin" : "End"}</th>
+                                    <th>{language.language === "fr" ? "Debut" : "Start"}</th>
+                                    <th>{language.language === "fr" ? "Fin" : "End"}</th>
                                 </tr>
                             </thead>
                             <tbody>

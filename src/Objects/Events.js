@@ -41,18 +41,49 @@ import { DateTime } from 'luxon';
                 }
 
             }
+
             if(event.tags !== undefined && event.tags != null){
-                if(!this.keyWordsAndTags.has(event.tags)){
-                    this.keyWordsAndTags.set(event.tags, []); // Create a new array if the Tag doesn't exist
-                } 
-                this.keyWordsAndTags.get(event.tags).push(i); // Add the index of the event to the array
+
+                event.tags.map((tag)=>{
+                    if(tag !== undefined && tag != null){
+                        if(!this.keyWordsAndTags.has(tag["slug"])){
+                            this.keyWordsAndTags.set(tag["slug"], []); // Create a new array if the Tag doesn't exist
+                        }
+                        if(!this.keyWordsAndTags.has(tag["label"])){
+                            this.keyWordsAndTags.set(tag["label"], []); // Create a new array if the Tag doesn't exist
+                        }
+                        this.keyWordsAndTags.get(tag["slug"]).push(i); // Add the index of the event to the array
+                        this.keyWordsAndTags.get(tag["label"]).push(i); // Add the index of the event to the array
+                    }
+                    return null;
+                });
             }
+            if(event.tagGroups !== undefined && event.tagGroups != null){
+                event.tagGroups.map((tagGroup)=>{
+                    if(!this.keyWordsAndTags.has(tagGroup["name"])){
+                        this.keyWordsAndTags.set(tagGroup["name"], []); // Create a new array if the Tag doesn't exist
+                    }
+                    if(!this.keyWordsAndTags.has(tagGroup["slug"])){
+                        this.keyWordsAndTags.set(tagGroup["slug"], []); // Create a new array if the Tag doesn't exist
+                    }
+                    if(!this.keyWordsAndTags.has(tagGroup["access"])){
+                        this.keyWordsAndTags.set(tagGroup["access"], []); // Create a new array if the Tag doesn't exist
+                    }
+                    this.keyWordsAndTags.get(tagGroup["name"]).push(i); // Add the index of the event to the array
+                    this.keyWordsAndTags.get(tagGroup["slug"]).push(i); // Add the index of the event to the array
+                    this.keyWordsAndTags.get(tagGroup["access"]).push(i); // Add the index of the event to the array
+                    return null;
+                });
+
+            }
+
 
             if(event.address !== undefined && event.address != null){
                 if(!this.locations.has(event.address)){
                     this.locations.set(event.address, []); // Create a new array if the Tag doesn't exist
                 }
                 this.locations.get(event.address).push(i); // Add the index of the event to the array
+                
             }
 
 

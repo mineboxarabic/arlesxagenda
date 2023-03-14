@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
-import { ColorPalette } from '../Data/Context';
+import { ColorPalette , CurrentLanguage} from '../Data/Context';
+import { useContext } from 'react';
 import styled from 'styled-components';
 
 //############################################## STYLED COMPONENTS ##############################################
@@ -150,7 +151,7 @@ const EventGridStyle = styled.div`
 export function EventGrid(props){
     let SizeOfGrid = props.children.length; // number of events
     const [currentPage , setCurrentPage] = useState(1); //number of the current page
-
+    const language =  useContext(CurrentLanguage); // current language
     let Temp = []; // temp array to hold the events
     let rows = []; // rows of events
     let numberPerRow = 8; // number of events per row
@@ -233,6 +234,7 @@ export function EventGrid(props){
                     </div>}
                 </div>
             </div>}
+
             <div className="EventGrid">
                {
                     props.children.length > 0 ?
@@ -240,7 +242,7 @@ export function EventGrid(props){
                         return child;
                     }
                     ) :
-                    <h1>There are no events</h1>
+                    <h1>{language.language === "fr"  ? "Il n'y a pas d'évènement" : "There are no events"}</h1>
                     
                }
             </div>

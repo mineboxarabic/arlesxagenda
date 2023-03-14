@@ -334,13 +334,12 @@ function DaySquare(props){
 export function CalenderView(props){
 //#################################### The states and the context ############################################
     let Data = useContext(DataContext);
-    let {language , setLanguage} = useContext(CurrentLanguage); //The language that is currently selected (Taken from the context and set in the context)
-    console.log(setLanguage)
+    let language= useContext(CurrentLanguage); //The language that is currently selected (Taken from the context and set in the context)
     let {currentDate , setCurrentDate} = useContext(CurrentDate);//The date that is currently selected (Taken from the context and set in the context)
     const [days, setDays] = useState(Array(42).fill(true)); //The 42 here is the number of days in a month (6 weeks) 6*7 = 42.
 
 
-    let text = TranslatedTextList[language]; //The text that is currently selected (Taken from global object TranslatedTextList)
+    let text = TranslatedTextList[language.language]; //The text that is currently selected (Taken from global object TranslatedTextList)
     let date = currentDate;
 
     /**

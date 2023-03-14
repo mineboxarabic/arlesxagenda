@@ -20,7 +20,7 @@ function SearchPage() {
 
   const [currentEvent , setCurrentEvent] = useState({}); // The current event that is selected
 
-  const {currentLanguage , setCurrentLanguage} = useContext(CurrentLanguage); // The current language that is takend from the context and set to the context
+  const {language , setLanguage} = useContext(CurrentLanguage); // The current language that is takend from the context and set to the context
 
   const [showDetail, setShowDetail] = useState(false); // The state that shows the detail popup witch contains the details of the event
   
@@ -30,8 +30,7 @@ function SearchPage() {
   
   const [Tkeywords , setTKeywords] = useState([]); // The keywords that are selected from the keywords picker (The T stands for temp)
   
-  const {currentDate , setCurrentDate} = useContext(CurrentDate); // The current date that is selected from the date picker and set to the context
-  console.log(setCurrentDate);
+  const currentDate = useContext(CurrentDate); // The current date that is selected from the date picker and set to the context
   const [ShowAll , setShowAll] = useState(false); // The state that shows all the events in the event grid
   
   const [filtersAndResults , setFiltersAndResults] = useState({
@@ -53,13 +52,13 @@ function SearchPage() {
     let Temp = [];
 
     // Get the events by the date and the keywords and the location 
-    let dateEvents = Data.getEventsAfterDate(currentDate.day , currentDate.month , currentDate.year);
+    let dateEvents = Data.getEventsAfterDate(currentDate.currentDate.day , currentDate.currentDate.month , currentDate.currentDate.year);
     let keywordsEvents = Data.getEventsByKeywords(Tkeywords);
     let locationEvents = Data.getEventsByLocation(selectedLocation);
 
 
     // Check if the date, the keywords and the location are selected
-    let isDateChecked = currentDate.day !== undefined && currentDate.month !== undefined && currentDate.year !== undefined;
+    let isDateChecked = currentDate.currentDate.day !== undefined && currentDate.currentDate.month !== undefined && currentDate.currentDate.year !== undefined;
     let isKeywordChecked = Tkeywords.length > 0;
     let isLocationChecked = selectedLocation !== "";
 
@@ -127,7 +126,7 @@ function SearchPage() {
 
 
     setFiltersAndResults({
-      "date": currentDate,
+      "date": currentDate.currentDate,
       "keywords": Tkeywords,
       "location": selectedLocation,
       "results": events.length
@@ -138,23 +137,22 @@ function SearchPage() {
 
 
   }
-
   return (
     <>
-      <Header isActive={true} getLanguage={(lang)=>{setCurrentLanguage(lang)}} />
+      <Header isActive={true} />
       <ToolsSubMenu setLocationSelected={(val)=>(setSelectedLocation(val))} setKeywords={setTKeywords} getKeywords = {Tkeywords}>
         <form className='ShowAllForm'>
           <input type='checkbox' onChange={()=>{setShowAll(!ShowAll);}} className='Show-all'/>
-          <label className='Show-all-label' >Show All</label>
+          <label className='Show-all-label' >{language === "fr" ? "Afficher tout" : "Show All"}</label>
         </form>
         <button onClick={onClickSeachButton} className='Submit-Search'>Search</button>
        </ToolsSubMenu>
       <DetailPopup onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
-      { <EventGrid isMonthView={false} setFiltersAndResults={setFiltersAndResults} filtersAndResults={filtersAndResults} language={currentLanguage}>
+      { <EventGrid isMonthView={false} setFiltersAndResults={setFiltersAndResults} filtersAndResults={filtersAndResults}>
         {
           currentEvents.length > 0 ? currentEvents.map((event,i)=>
           {
-            return <EventObject key={i} EventData={event} language={currentLanguage} onClickEvent={()=>{setCurrentEvent(event); setShowDetail(true)}}  />
+            return <EventObject key={i} EventData={event} onClickEvent={()=>{setCurrentEvent(event); setShowDetail(true)}}  />
           })
           : <div>Non</div>
         }

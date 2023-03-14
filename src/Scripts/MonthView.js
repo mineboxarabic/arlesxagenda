@@ -37,8 +37,6 @@ const DetailsContainer = styled.div`
         align-items: center;
         align-content: center;
         justify-content: center;
-
-
     }
 `;
 //=============================== End of styles ========================================================================
@@ -46,8 +44,8 @@ function MonthView(){
     //#################################### The states and the context ############################################
     const Data = useContext(DataContext);
     const {language, setLanguage} = useContext(CurrentLanguage);
-    const {currentDate , setCurrentDate} = useContext(CurrentDate);
-    console.log(setCurrentDate);
+    const currentDate = useContext(CurrentDate);
+
     const [selectedEvents, setSelectedEvents] = useState([]);
     const [currentEvent, setCurrentEvent] = useState({});
     const [showDetail, setShowDetail] = useState(false);
@@ -57,7 +55,7 @@ function MonthView(){
      */
     function onChangeDate(){
         let EventsIndexes = [];
-        EventsIndexes = Data.getEventsByDate(currentDate.day, currentDate.month, currentDate.year); // Get the events by the date
+        EventsIndexes = Data.getEventsByDate(currentDate.currentDate.day, currentDate.currentDate.month, currentDate.currentDate.year); // Get the events by the date
         let Events = [];
         EventsIndexes.forEach((event, i) => {
             Events.push(Data.getEventsByIndex(event)); // Get the events by the index and push them to the events array
@@ -72,12 +70,12 @@ function MonthView(){
             <DetailPopup onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
                 <Header isActive={false} language={language} setLanguage={setLanguage} />
                 
-                <CalenderView setDate={currentDate} getDate={currentDate} 
+                <CalenderView setDate={currentDate.currentDate} getDate={currentDate.currentDate} 
                 language={language}
                 onChangeDate={onChangeDate}
                 />
                 <DetailsContainer>
-                    <h1>Selected Events</h1>
+                    <h1>{ language === "fr" ? "évènement selectioner" : "Selected Events"}</h1>
                     { selectedEvents.length > 0 ? <EventGrid isMonthView={true} language={language} >
                         {selectedEvents.map((eventUid, i) => {
                             let event = eventUid;
@@ -87,7 +85,7 @@ function MonthView(){
                                  setShowDetail(true);
                                 }} />
                         })}
-                    </EventGrid> : <h2>No Events</h2>
+                    </EventGrid> : <h2>{ language === "fr" ? "Il n'y a pas d'évènement" : "No Events"}</h2>
                     }
                 </DetailsContainer>
             </AppContainer>

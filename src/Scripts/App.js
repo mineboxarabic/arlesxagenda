@@ -9,7 +9,7 @@ import DataContext from '../Data/Context.js';
 import { CurrentLanguage , CurrentDate } from '../Data/Context.js';
 function App() {
     let [language, setLanguage] = useState("fr");
-    console.log(language);
+
     let events = useContext(DataContext);
     let [currentDate, setCurrentDate] = useState(
         {

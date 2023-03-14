@@ -14,7 +14,7 @@ const DaySquares = styled.button`
   width: 100%;
   height: 100%;
   background-color: white;
-  background: radial-gradient(circle,${ props => !props.isSelected ? (ColorPalette.light + ',' + ColorPalette.medium) : ('green' + ',' + 'green')});
+  background: radial-gradient(circle,${ props => !props.isSelected ? (ColorPalette.light + ',' + ColorPalette.medium) : ('green' , ',' , 'green')});
   display: flex;
   align-items: center;
   align-content: center;
@@ -25,7 +25,7 @@ const DaySquares = styled.button`
   cursor: pointer;
 
   &:hover {
-    background: radial-gradient(circle,${ props => !props.isSelected ? (ColorPalette.medium + ',' + ColorPalette.light) : ('green' + ',' + 'green')});;
+    background: radial-gradient(circle,${ props => !props.isSelected ? (ColorPalette.medium + ',' + ColorPalette.light) : ('green' , ',' , 'green')});;
     border: 1px solid rgb(243 168 113);
     transition: all 0.1s ease-in-out;
   }
@@ -367,11 +367,7 @@ export function CalenderObject(props) {
                         });
                         
                       }}
-                      isSelected={
-                        currentDate.day === dayNumber &&
-                        currentDate.month === currentDate.month &&
-                        currentDate.year === currentDate.year
-                      }
+                      isSelected={currentDate.day === dayNumber}
                       isActive={day}
                       numberOfEvents={numberOfEvents}
                       number={day ? index - (firstDayOfMonth - 1) : "NO"}

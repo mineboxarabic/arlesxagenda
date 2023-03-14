@@ -75,8 +75,8 @@ const HeaderNav = styled.nav`
             transition: all 0.3s ease-in-out;
             width: 20%;
             &:hover{
-                color: rgb(255 255 255 / 50%);
-                background-color:rgb(34 16 1);
+                color: rgb(255 255 255);
+                background-color:${ColorPalette.inBetweenDarkAndMedium};
             }
 
         }
@@ -85,7 +85,7 @@ const HeaderNav = styled.nav`
             font-size: 20px;
             color: white;
             text-decoration: none;
-            background-color: ${ColorPalette.dark};
+            background-color: ${ColorPalette.darkest};
             height: 100%;
             display: flex;
             justify-content: center;
@@ -95,8 +95,8 @@ const HeaderNav = styled.nav`
             transition: all 0.3s ease-in-out;
             width: 20%;
             &:hover{
-                color: rgb(255 255 255 / 50%);
-                background-color:rgb(34 16 1);
+                color: rgb(255 255 255);
+                background-color:${ColorPalette.inBetweenDarkAndMedium};
             }
         }
     }

@@ -121,16 +121,15 @@ const Event = styled.div`
 export function EventObject(props){
     let EventData = props.EventData; // the data of the event to be displayed
     
-    let {language , setLanguage} = useContext(CurrentLanguage); // the current language of the website
-    console.log(setLanguage);
+    let language = useContext(CurrentLanguage); // the current language of the website
     function getAttributeValues(attribute)
     {
         for(let key in EventData){
             if(key === attribute){
                 if(key === 'title' || key === 'description' || key === 'longDescription'){
-                    if(EventData[key][language] === undefined || EventData[key][language] === null)
+                    if(EventData[key][language.language] === undefined || EventData[key][language.language] === null)
                     {
-                        if(language === 'fr'){
+                        if(language.language === 'fr'){
                            return EventData[key]['en'];
                         }
                         else{
@@ -139,7 +138,7 @@ export function EventObject(props){
                     }
                     else
                     {
-                        return EventData[key][language];
+                        return EventData[key][language.language];
                     }
                 }
                 if(key === "timings"){
@@ -205,7 +204,7 @@ export function EventObject(props){
                     <div className='Event_Body'>
                         <div className='Event_Title_Container'>
                             <h3 className="Event_Title" >{getAttributeValues("title")}</h3>
-                            <p>{TranslatedTextList[language]["Next Date is :"] + timming}</p>
+                            <p>{TranslatedTextList[language.language]["Next Date is :"] + timming}</p>
                         </div>
                         <div className='Event_Description_Container'>
                             <p className="Event_Description">{getAttributeValues("description")}</p>
