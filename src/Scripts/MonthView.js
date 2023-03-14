@@ -52,8 +52,7 @@ function MonthView(){
         month: DateTime.local().month,
         day: DateTime.local().day
     });*/
-    let {selectedDate , setSelectedDate} = useContext(CurrentDate);
-    const [isSelectedDate, setIsSelectedDate] = useState(false);
+    let {currentDate , setCurrentDate} = useContext(CurrentDate);
     const [selectedEvents, setSelectedEvents] = useState([]);
 
 
@@ -67,7 +66,7 @@ function MonthView(){
        });
     function onChangeDate(){
         let EventsIndexes = [];
-        EventsIndexes = Data.getEventsByDate(selectedDate.day, selectedDate.month, selectedDate.year);
+        EventsIndexes = Data.getEventsByDate(currentDate.day, currentDate.month, currentDate.year);
         let Events = [];
         EventsIndexes.forEach((event, i) => {
             Events.push(Data.getEventsByIndex(event));
@@ -76,15 +75,14 @@ function MonthView(){
         setSelectedEvents(Events);
     }
     console.log(selectedEvents);
-    console.log("current selected date: " + selectedDate.year + " " + selectedDate.month + " " + selectedDate.day + "")
+    console.log("current selected date: " + currentDate.year + " " + currentDate.month + " " + currentDate.day + "")
     return (
         <>
             <AppContainer>
             <DetailPopup onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
                 <Header isActive={false} language={language} setLanguage={setLanguage} />
                 
-                <CalenderView setDate={setSelectedDate} getDate={selectedDate} 
-                isSelectedDate={isSelectedDate} setIsSelectedDate={setIsSelectedDate}
+                <CalenderView setDate={currentDate} getDate={currentDate} 
                 language={language}
                 onChangeDate={onChangeDate}
                 />

@@ -6,7 +6,6 @@ import { ToolsSubMenu } from './ToolsSubMenu';
 import { EventGrid } from '../Objects/EventGrid';
 import { EventObject } from '../Objects/EventObject';
 import { DetailPopup } from '../Objects/DetailPopup';
-import { DateTime } from "luxon";
 import { DataContext , CurrentLanguage ,CurrentDate} from '../Data/Context';
 import { useContext } from 'react';
 function SearchPage() {
@@ -22,9 +21,8 @@ function SearchPage() {
 
   //================Temp Variables================
   const [Tkeywords , setTKeywords] = useState([]);
-  /*const [currentDate , setCurrentDate] = useState({"day": DateTime.local().day , 
-  "month": DateTime.local().month ,
-   "year": DateTime.local().year});*/
+
+  
    let {currentDate , setCurrentDate} = useContext(CurrentDate);
 
    const [ShowAll , setShowAll] = useState(false);

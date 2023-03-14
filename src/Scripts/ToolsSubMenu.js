@@ -531,7 +531,7 @@ export function ToolsSubMenu(props){
                   
 
                     <ComboBoxView Text={text["When?"]} id="WhenCombo">
-                        <CalenderObject setDate={props.setDate} getDate={props.getDate} setIsDateSelected = {props.setIsDateSelected} isDateSelected={props.isDateSelected} >
+                        <CalenderObject setDate={props.setDate} getDate={props.getDate} >
 
                         </CalenderObject>
                        {/* <Calender setIsDateSelected = {props.setIsDateSelected} isDateSelected={props.isDateSelected} setDate={props.setDate} getDate={props.getDate} />*/}

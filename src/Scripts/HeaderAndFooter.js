@@ -6,74 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useContext } from 'react'
 import { ColorPalette, CurrentLanguage , TranslatedTextList } from '../Data/Context.js'
-/*function Banner({leftPosition,sizeX,sizeY}){
-    let sizeXString = sizeX + "px";
-    let sizeYString = sizeY + "px";
-    let sizeXShadow = sizeX - 20 + "px";
-    let sizeYShadow = sizeY - 20 + "px";
-    let leftPositionString = leftPosition + "%";
-    let leftPositionShadow = leftPosition - 80 + "%";
 
-
-    return (
-        <div style={{
-            position: "relative",
-            display: "inline-block",
-            top: '10%',
-            left: leftPositionString
-        }} className="Banner">
-            
-            <div style={{
-                position: "absolute",
-                top: 10,
-                left: 6,
-                width: sizeXShadow,
-                height: sizeYShadow,
-                boxShadow: "0px 0px 10px 10px rgba(0,0,0,0.5)"
-            }} className="ShadowForBanner">
-
-            </div>
-            <img style={{
-                position: "absolute",
-                top: 0,
-                zIndex: 1,
-                left: 0,
-            }} width={sizeXString} height={sizeYString} src={Banner1} alt="Banner1" className="App-banner" />
-            
-        </div>
-    )}
-function ComboBox(props){
-
-    let [selectedLanguage, setSelectedLanguage] = useState(props.selected);
-    let [style, setStyle] = useState();
-
-
-
-    function setDisplay(display){
-        document.querySelector('.Language-Selection-ComboBox').style.setProperty('--state_of_popup', display);
-    }
-
-    return (
-        <>
-        <div className='Language-Selection'>
-            {selectedLanguage}
-            <div style={style} className='Language-Selection-ComboBox'>
-                <div onClick={
-                    () =>{
-                        setSelectedLanguage("fr");
-                        props.getLanguage("fr")
-                    }
-                } value="fr">fr</div>
-                <div onClick={()=>{
-                    setSelectedLanguage("en");
-                    props.getLanguage("en")
-                }} value="en">en</div>
-            </div>
-        </div>
-        </>
-    )
-}*/
-
+//###############################The styles for the Calender view or Month view of the app##############################
 const Banner = styled.img`
     position: absolute;
     display: inline-block;
@@ -202,6 +136,39 @@ const HeaderNav = styled.nav`
 
 `;
 
+const FooterNav = styled.nav`
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+
+    background: radial-gradient(circle, rgb(76 42 2) 0%, rgb(64 21 0) 30%, rgb(77 34 0) 100%);
+    box-shadow:  0px 12px 10px 10px rgba(0,0,0,0.5);
+
+    p{
+        margin-left: 20px;
+        font-size: 20px;
+        color: white;
+
+    }
+    div{
+        display: flex;
+        flex-direction: row;
+        margin-right: 20px;
+        p{
+            font-size: 20px;
+            color: white;
+        }
+    }
+
+    //filter: drop-shadow( 0px 12px 10px 10px rgba(0,0,0,0.5));
+    `;
+//========================================The end of the styles ========================================================
+
+//##############################################The Header of the app###################################################
 export function Header(props){
     let {language, setLanguage} = useContext(CurrentLanguage);
 
@@ -236,36 +203,10 @@ export function Header(props){
     )
 }
 
-const FooterNav = styled.nav`
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 100px;
+//=================================================The end of the Header==================================================
 
-    background: radial-gradient(circle, rgb(76 42 2) 0%, rgb(64 21 0) 30%, rgb(77 34 0) 100%);
-    box-shadow:  0px 12px 10px 10px rgba(0,0,0,0.5);
+//##############################################The Footer of the app###################################################
 
-    p{
-        margin-left: 20px;
-        font-size: 20px;
-        color: white;
-
-    }
-    div{
-        display: flex;
-        flex-direction: row;
-        margin-right: 20px;
-        p{
-            font-size: 20px;
-            color: white;
-        }
-    }
-
-    //filter: drop-shadow( 0px 12px 10px 10px rgba(0,0,0,0.5));
-    `;
 export function Footer(){
     return (
         <FooterNav className="App-footer">
@@ -285,3 +226,4 @@ export function Footer(){
         </FooterNav>
     )
 }
+//=================================================The end of the Footer==================================================

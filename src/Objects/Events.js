@@ -148,25 +148,31 @@ import { DateTime } from 'luxon';
 
         if(year >= firstYear && year <= lastYear ){
             for(let i = year; i <= lastYear; i++){
-
                 let months = new Map([...years.get(i).entries()].sort());
                 let lastMonth = [...months.keys()].pop();
+                let firstMonth = [...months.keys()].shift();
 
-                for(let j = month; j <= lastMonth; j++){
+                let startingMonth = firstMonth;
+                if(i === year)
+                    startingMonth = month;
+                for(let j = startingMonth ; j <= lastMonth; j++){
                     let days = new Map([...months.get(j).entries()].sort());    
                     const maxKey = Math.max(...days.keys());
-
-                    for(let k = day; k <= maxKey; k++){
-                        if(days.has(k)){
+                    let startingDay = 1;
+                    if(i === year && j === month)
+                        startingDay = day;
+                    for(let k = startingDay; k <= maxKey; k++){
+                        if(days.get(k) !== undefined && days.get(k) !== null && days.get(k) !== [] && days.get(k) !== {} ){
                             days.get(k).map((event)=>{
                                 events.add(event);
                             });
                         }
-    
-    
+                            
                     }
                 }
-        }}
+        }
+        console.log(events);
+    }
         else if(year > lastYear){
             return events;
         }

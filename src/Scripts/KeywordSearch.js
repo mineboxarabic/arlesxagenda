@@ -67,13 +67,13 @@ function KeywordSearch(props) {
     if (keyword.length > 0 && !keywords.includes(keyword)) {
       props.setKeywords([...keywords, keyword]);
       setInputValue("");
-      props.setIsKeywordSelected(true);
+
     }
   };
 
   const removeKeyword = (keywordToRemove) => {
     props.setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
-    props.setIsKeywordSelected(true);
+
   };
   return (
     <KeywordSearchContainer>
