@@ -1,5 +1,3 @@
-import Background2 from '../Images/Background2.png';
-import { CalenderView } from './CalenderView';
 import  KeywordSearch  from './KeywordSearch'
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
@@ -8,15 +6,8 @@ import arenaImage from '../Images/Background2.png';
 import BrownFont from '../Fonts/AlegreyaSansSC-Bold.otf';
 import { ColorPalette, DataContext , CurrentLanguage , TranslatedTextList } from '../Data/Context.js';
 import { CalenderObject } from '../Objects/Calender.js';
-const CalenderContainer = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-`;
+
+//############################### The styles for the Calender view or Month view of the app ##############################
 const ToolsSubMenuContainer = styled.div`
 
 @font-face {
@@ -423,6 +414,16 @@ const SearchProposed = styled.div`
 
 
 `;
+
+//============================== End of Styled Components ==============================
+
+/**
+ * 
+ * @param {boolean} props.trigger - if the popup should be displayed or not
+ * @param {function} props.setTriggered - function to set the trigger to false
+ * @param {string} props.id - id of the popup
+ * @returns 
+ */
 function PopUp(props){
     return (props.trigger) ? (
         <PopUpS>
@@ -433,8 +434,15 @@ function PopUp(props){
         </PopUpS>
     ) : "";
 }
+/**
+ * 
+ * @param {string} props.id - id of the combo box
+ * @param {string} props.Text - text to be displayed in the combo box
+ * @param {string} props.type - type of the combo box
+ * @param {object} props.children - children of the combo box
+ * @returns 
+ */
 function ComboBoxView(props){
-    const [display, setDisplay] = useState('none');
     const [isTriggered, setIsTriggered] = useState(false);
 
 
@@ -452,23 +460,28 @@ function ComboBoxView(props){
     )
 
 }
+/**
+ * this component is the search bar and the when and what combo boxes
+ */
 export function ToolsSubMenu(props){
-    const Data = useContext(DataContext);
+    const Data = useContext(DataContext); //getting the data from the data context
+    const {language, setLanguage} = useContext(CurrentLanguage); //getting the current language from the context
+    console.log(setLanguage)
+    const text = TranslatedTextList[language]; //getting the translated text from the translated text list
+    const [showPropose, setShowPropose] = useState('none'); //showing the search propose
+    const [searchValue, setSearchValue] = useState(''); //the value of the search
+
+
+    
     let locations = [];
-   
     Data.getAllLocaitons().forEach((location)=>{
-        locations.push(location);
+        locations.push(location); //pushing the location name to the array beacuse of an error that i dont know how to fix
     })
-
-    let {language, setLanguage} = useContext(CurrentLanguage);
-    let text = TranslatedTextList[language];
-
-    const [showPropose, setShowPropose] = useState('none');
-
-    const [searchValue, setSearchValue] = useState('');
     
-    //console.log('The language in Tools is:' + props.language)
+
     
+    
+
     return (
         <ToolsSubMenuContainer>
         <div className="ToolsSubMenu">
@@ -519,6 +532,7 @@ export function ToolsSubMenu(props){
                                             
                                         }}>{location}</li>
                                     }
+                                    return null;
 
                                    
                                 })

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import styled from "styled-components";
-import { CurrentLanguage, ColorPalette } from "../Data/Context.js";
+import {  ColorPalette } from "../Data/Context.js";
 
+//############################################## STYLED COMPONENTS ##############################################
 const KeywordSearchContainer = styled.div`
 .Keyword-search-body{
 .keyword-input{
@@ -46,23 +47,40 @@ const KeywordSearchContainer = styled.div`
 }
 
 `;
+//==============================================End of Styled Components==============================================
+
+//############################################## Keyword search COMPONENT ##############################################
+
 function KeywordSearch(props) {
   const [inputValue, setInputValue] = useState("");
   let keywords = props.getKeywords;
 
 
 
+  /**
+   * 
+   * @param {event} event the event that triggered the function
+   * this function is called when the user types in the input field
+   */
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
-
+  /**
+   * 
+   * @param {event} event the event that triggered the function 
+   * this function is called when the user presses the enter key or the comma key
+   */
   const handleInputKeyDown = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
       addKeyword(inputValue.trim());
     }
   };
-
+  /**
+   * 
+   * @param {string} keyword the keyword to add to the list of keywords
+   * this function adds a keyword to the list of keywords 
+   */
   const addKeyword = (keyword) => {
     if (keyword.length > 0 && !keywords.includes(keyword)) {
       props.setKeywords([...keywords, keyword]);
@@ -71,6 +89,11 @@ function KeywordSearch(props) {
     }
   };
 
+  /**
+   * 
+   * @param {string} keywordToRemove  the keyword to remove from the list of keywords
+   * this function removes a keyword from the list of keywords
+   */
   const removeKeyword = (keywordToRemove) => {
     props.setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
 
@@ -100,5 +123,5 @@ function KeywordSearch(props) {
     </KeywordSearchContainer>
   );
 }
-
+//==============================================End of Keyword search COMPONENT==============================================
 export default KeywordSearch;

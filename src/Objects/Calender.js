@@ -4,6 +4,11 @@ import { DateTime } from "luxon";
 import CulumnImage from "../Images/Column.png";
 import { DataContext, ColorPalette , CurrentDate} from "../Data/Context";
 import { useContext } from "react";
+
+
+/**
+ * this file is the same as the CalenderView.js file but with the addition of better style for the picker
+ */
 const DaySquares = styled.button`
   position: relative;
   width: 100%;
@@ -258,11 +263,6 @@ export function CalenderObject(props) {
   return (
     <>
       <CalenderBody>
-        {/*<ColumnBack>
-                </ColumnBack>
-
-                <ColumnBack2>
-    </ColumnBack2>*/}
         <div className="CalenderHeader">
           <div className="leftArrows">
             <Arrows

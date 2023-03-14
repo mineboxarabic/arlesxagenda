@@ -1,11 +1,11 @@
 
-import { useState } from 'react';
 import { DateTime } from "luxon";
 import noFoundImage from '../Images/Event_no_Image.png';
 import styled from 'styled-components';
 import { useContext  } from 'react';
 import { ColorPalette , CurrentLanguage , TranslatedTextList} from '../Data/Context';
 import font from '../Fonts/Roboto-Bold.ttf';
+//############################################## STYLED COMPONENTS ##############################################
 const Event = styled.div`
         @font-face {
             font-family: 'Roboto-Bold';
@@ -116,21 +116,19 @@ const Event = styled.div`
             }
         }
 `;
+//============================================== End of STYLED COMPONENTS ==============================================
+
 export function EventObject(props){
-    let EventData = props.EventData;
+    let EventData = props.EventData; // the data of the event to be displayed
     
-    let {language , setLanguage} = useContext(CurrentLanguage);
-    console.log('the language is : ' + language);
-
-    
-
-
+    let {language , setLanguage} = useContext(CurrentLanguage); // the current language of the website
+    console.log(setLanguage);
     function getAttributeValues(attribute)
     {
         for(let key in EventData){
             if(key === attribute){
                 if(key === 'title' || key === 'description' || key === 'longDescription'){
-                    if(EventData[key][language] == undefined && EventData[key][language] == null)
+                    if(EventData[key][language] === undefined || EventData[key][language] === null)
                     {
                         if(language === 'fr'){
                            return EventData[key]['en'];
@@ -145,7 +143,7 @@ export function EventObject(props){
                     }
                 }
                 if(key === "timings"){
-                    if(EventData[key] != undefined && EventData[key] != null){
+                    if(EventData[key] !== undefined && EventData[key] !== null){
                         let timings = EventData[key];
                         timings.sort((a,b)=>{
                             let aStart = DateTime.fromISO(a.start);
@@ -157,9 +155,7 @@ export function EventObject(props){
                                 return 1;
                             }
                             return 0;
-                        })
-                        timings.map((timing,index)=>{
-                            
+
                         })
 
                         for(let i = 0; i < timings.length; i++){
@@ -181,7 +177,7 @@ export function EventObject(props){
                     }
                 }
                 if(key === "tags"){
-                    if(EventData[key] != undefined && EventData[key] != null){
+                    if(EventData[key] !== undefined && EventData[key] !== null){
                         let tagsString = [];
                         EventData[key].forEach((tag,index)=>{
                             for(let name in tag){
@@ -205,7 +201,7 @@ export function EventObject(props){
 
                 <Event onClick={props.onClickEvent} Ended={timming === "Ended"}>
                     
-                    <img src={EventData.thumbnail == false ? noFoundImage: EventData.thumbnail } alt="EventImage"/>
+                    <img src={EventData.thumbnail === false ? noFoundImage: EventData.thumbnail } alt="EventImage"/>
                     <div className='Event_Body'>
                         <div className='Event_Title_Container'>
                             <h3 className="Event_Title" >{getAttributeValues("title")}</h3>

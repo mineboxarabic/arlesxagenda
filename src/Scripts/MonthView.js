@@ -1,15 +1,15 @@
 
+
 import CalenderView from "./CalenderView";
-import { useState, useEffect } from "react";
-import { DateTime } from "luxon";
+import { useState} from "react";
 import styled from "styled-components";
 import { Header } from "./HeaderAndFooter.js";
 import { EventObject } from "../Objects/EventObject.js";
 import { EventGrid } from "../Objects/EventGrid.js";
 import { DetailPopup } from "../Objects/DetailPopup.js";
-
-import { DataContext , CurrentDate} from '../Data/Context';
+import { DataContext , CurrentDate , CurrentLanguage} from '../Data/Context';
 import { useContext } from 'react';
+//############################### The styles for the Calender view or Month view of the app ##############################
 const AppContainer = styled.div`
     width: 100%;
     height: 100%;
@@ -20,8 +20,6 @@ const AppContainer = styled.div`
     align-content: center;
     justify-content: center;
 `;
-
-
 const DetailsContainer = styled.div`
     width: 90%;
     height: 100%;
@@ -43,39 +41,31 @@ const DetailsContainer = styled.div`
 
     }
 `;
-
+//=============================== End of styles ========================================================================
 function MonthView(){
-    let Data = useContext(DataContext);
-    const [language, setLanguage] = useState("en");
-    /*const [selectedDate, setSelectedDate] = useState({
-        year: DateTime.local().year,
-        month: DateTime.local().month,
-        day: DateTime.local().day
-    });*/
-    let {currentDate , setCurrentDate} = useContext(CurrentDate);
+    //#################################### The states and the context ############################################
+    const Data = useContext(DataContext);
+    const {language, setLanguage} = useContext(CurrentLanguage);
+    const {currentDate , setCurrentDate} = useContext(CurrentDate);
+    console.log(setCurrentDate);
     const [selectedEvents, setSelectedEvents] = useState([]);
-
-
     const [currentEvent, setCurrentEvent] = useState({});
     const [showDetail, setShowDetail] = useState(false);
-    const [filtersAndResults , setFiltersAndResults] = useState({
-        "date": {},
-        "keywords": [],
-        "location": "",
-        "results": 0
-       });
+    //=================================== End of states and context ==================================================
+    /**
+     * This function is called when the date is changed in the calender view
+     */
     function onChangeDate(){
         let EventsIndexes = [];
-        EventsIndexes = Data.getEventsByDate(currentDate.day, currentDate.month, currentDate.year);
+        EventsIndexes = Data.getEventsByDate(currentDate.day, currentDate.month, currentDate.year); // Get the events by the date
         let Events = [];
         EventsIndexes.forEach((event, i) => {
-            Events.push(Data.getEventsByIndex(event));
+            Events.push(Data.getEventsByIndex(event)); // Get the events by the index and push them to the events array
         }
         );
-        setSelectedEvents(Events);
+        setSelectedEvents(Events); // Set the selected events to the events that are in the selected date
     }
-    console.log(selectedEvents);
-    console.log("current selected date: " + currentDate.year + " " + currentDate.month + " " + currentDate.day + "")
+
     return (
         <>
             <AppContainer>

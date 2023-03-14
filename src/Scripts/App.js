@@ -1,7 +1,7 @@
 import MonthView from './MonthView';
 import SearchPage from './searchPage';
 import {DateTime} from 'luxon';
-import {useContext, useState, useRef} from 'react';
+import {useContext, useState} from 'react';
 import {BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 
 

@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { ColorPalette } from '../Data/Context';
 import styled from 'styled-components';
+
+//############################################## STYLED COMPONENTS ##############################################
 const EventGridStyle = styled.div`
     width: 100%;
     height: 100%;
@@ -144,16 +146,17 @@ const EventGridStyle = styled.div`
     }
 
 `;
+//============================================== End of STYLED COMPONENTS ==============================================
 export function EventGrid(props){
-    let SizeOfGrid = props.children.length;
-    const [currentPage , setCurrentPage] = useState(1);
-    //const [rows , serows] = useState([]);
-    let Temp = [];
-    let rows = [];
-    let numberPerRow = 8;
+    let SizeOfGrid = props.children.length; // number of events
+    const [currentPage , setCurrentPage] = useState(1); //number of the current page
+
+    let Temp = []; // temp array to hold the events
+    let rows = []; // rows of events
+    let numberPerRow = 8; // number of events per row
 
     if(props.children.length < numberPerRow && props.children.length > 0){
-        rows.push(props.children);
+        rows.push(props.children); // if there are less than 8 events then just add them to the rows
     }else{
         for(let i = 0 ; i < props.children.length  ; i++){
             Temp.push(props.children[i]);
@@ -166,11 +169,7 @@ export function EventGrid(props){
     
         }
     }
-
-
-        //serows(rows);
-
-    if(currentPage == 0 || SizeOfGrid == 0){
+    if(currentPage === 0 || SizeOfGrid === 0){
         return (
             <div className="EventGridMain">
                 <div className="EventGrid">
@@ -180,27 +179,13 @@ export function EventGrid(props){
         )
     }
 
-    function isEvent(children){
-        if(children.length == 0 || children == null)
-            return false;
-        if(children.length == 1 && children.type !== "EventObject")
-            return false;
-       children.map((child)=>{
-              if(child.type !== "EventObject"){
-                return false;
-              }
-         }
-         );
-            return true;
-    }
-
 
     function changePage(isAdd){
         let ct = 1;
-        if(currentPage == rows.length && isAdd){
+        if(currentPage === rows.length && isAdd){
             ct = 1;
         }
-        else if(currentPage == 1 && !isAdd){
+        else if(currentPage === 1 && !isAdd){
             ct = rows.length;
         }
 
@@ -216,12 +201,7 @@ export function EventGrid(props){
         setCurrentPage(ct);
     }
 
-    /*  setFiltersAndResults({
-      "date": Tdate,
-      "keywords": Tkeywords,
-      "location": selectedLocation,
-      "results": events.length
-      }); */
+
     return (
         <>
         <EventGridStyle>

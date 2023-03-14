@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { DateTime } from "luxon";
-import Arrow from "../Images/Arrow.png";
-import ArrowLeft from "../Images/ArrowLeft.png";
+
 import CulumnImage from "../Images/Column.png"
-import { render } from "@testing-library/react";
-import Background3 from "../Images/Background3.png";
 import { DataContext, ColorPalette , TranslatedTextList, CurrentLanguage , CurrentDate} from '../Data/Context';
 import { useContext } from 'react';
 
@@ -16,7 +13,7 @@ position: relative;
 width: 100%;
 height: 100%;
 background-color: white;
-background: radial-gradient(circle,${ props => !props.isSelected ? (ColorPalette.light + ',' + ColorPalette.medium) : ('lightgreen' + ',' +'green' )});
+background: radial-gradient(circle,${ props => !props.isSelected ? (ColorPalette.light + ',' + ColorPalette.medium) : ('lightgreen' , ',' ,'green' )});
 display: flex;
 align-items: center;
 align-content: center;
@@ -27,7 +24,7 @@ outline: none;
 cursor: pointer;
 
 &:hover{
-    background: radial-gradient(circle,${ props => !props.isSelected ? (ColorPalette.medium + ',' + ColorPalette.light) : ('green' + ',' +'lightgreen' )});
+    background: radial-gradient(circle,${ props => !props.isSelected ? (ColorPalette.medium , ',' , ColorPalette.light) : ('green' , ',' ,'lightgreen' )});
     border: 3px solid rgb(243 168 113);
     transition: all 0.1s ease-in-out;
 }
@@ -318,7 +315,7 @@ function DaySquare(props){
         </DaySquares>
         :
         <DaySquaresUnusable>
-            <h1></h1>
+            
         </DaySquaresUnusable>
     )
 }
@@ -338,6 +335,7 @@ export function CalenderView(props){
 //#################################### The states and the context ############################################
     let Data = useContext(DataContext);
     let {language , setLanguage} = useContext(CurrentLanguage); //The language that is currently selected (Taken from the context and set in the context)
+    console.log(setLanguage)
     let {currentDate , setCurrentDate} = useContext(CurrentDate);//The date that is currently selected (Taken from the context and set in the context)
     const [days, setDays] = useState(Array(42).fill(true)); //The 42 here is the number of days in a month (6 weeks) 6*7 = 42.
 
@@ -367,7 +365,7 @@ export function CalenderView(props){
             days[firstDayOfMonth + i] = true;
         }
         setDays(days);
-    }, [date]);
+    }, [daysInMonth,firstDayOfMonth]);
 
 //============================The end of the states and the context=========================================
 
@@ -483,9 +481,7 @@ export function CalenderView(props){
                                                     })
                                             }
                                         } isSelected={
-                                            date.day === dayNumber &&
-                                            date.month === date.month &&
-                                            date.year === date.year
+                                            date.day === dayNumber
                                         } isActive={day} numberOfEvents={numberOfEvents} number={day ? index - (firstDayOfMonth - 1 ) : "NO"} key={index} />)
 
                                         

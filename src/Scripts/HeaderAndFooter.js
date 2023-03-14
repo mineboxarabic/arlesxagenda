@@ -1,8 +1,8 @@
 //import '../Styles/HeaderFooter.scss'
-import { useState } from 'react'
+
 import Banner1 from '../Images/Banner1.png'
 import Logo from '../Images/Logo.png'
-import { useNavigate } from 'react-router-dom'
+
 import styled from 'styled-components'
 import { useContext } from 'react'
 import { ColorPalette, CurrentLanguage , TranslatedTextList } from '../Data/Context.js'
