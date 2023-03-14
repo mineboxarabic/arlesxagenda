@@ -2,10 +2,13 @@
 import React, { createContext, useContext, useState } from 'react';
 
 import Events from '../Objects/Events.js';
+import { DateTime } from 'luxon';
+
 let events = new Events();
 export const DataContext = createContext(events);
-
+export const CurrentDate = createContext(DateTime.local());
 export const CurrentLanguage = createContext("fr");
+
 
 export const ColorPalette = {
     darkest : "#1B1A17",
