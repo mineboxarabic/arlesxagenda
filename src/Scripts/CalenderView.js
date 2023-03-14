@@ -8,6 +8,9 @@ import { render } from "@testing-library/react";
 import Background3 from "../Images/Background3.png";
 import { DataContext, ColorPalette , TranslatedTextList, CurrentLanguage , CurrentDate} from '../Data/Context';
 import { useContext } from 'react';
+
+//###############################The styles for the Calender view or Month view of the app##############################
+
 const DaySquares = styled.button`
 position: relative;
 width: 100%;
@@ -134,37 +137,6 @@ text-shadow: 0px 0px 2px black;
     text-shadow: 0px 0px 10px rgb(255 255 255);
 }
 `;
-function Arrows(props){
-    let scale = props.scale;
-    let direction = props.direction;
-
-
-    return (
-        <>
-            
-            <ArrowSelector scale={scale} onClick={props.onClicks} className={props.className} >
-                {
-                    direction === "right" ? "〉" : '〈' 
-                }
-            </ArrowSelector>
-        </>
-        )
-}
-function DaySquare(props){
-
-    return (
-        props.isActive ?
-        <DaySquares numberOfEvents={props.numberOfEvents} isSelected={props.isSelected} onClick={props.onClicks} >
-            <h1 className="DayNum">{props.number}</h1>
-            <h1 className="EventNum">{props.numberOfEvents !== 0 ? props.numberOfEvents : "" }</h1>
-        </DaySquares>
-        :
-        <DaySquaresUnusable>
-            <h1></h1>
-        </DaySquaresUnusable>
-    )
-}
-//===================================================================================================
 let widthOfCalender = "90%";
 const CalenderBody = styled.div`
 width: 100%;
@@ -295,32 +267,111 @@ justify-content: center;
 }
 `;
 
-export function CalenderView(props){
 
+//============================The end of the styles==================================================
+
+
+//#################################### The helper functions ############################################
+
+/**
+ * 
+ * @param {int} props.scale The scale of the calender
+ * @param {function} props.onClicks The function that is called when the arrow is clicked
+ * @param {string} props.direction The direction of the arrow
+ * @param {string} props.className The class name of the arrow
+ * @returns An arrow that can be used to navigate the calender
+ */
+function Arrows(props){
+    let scale = props.scale;
+    let direction = props.direction;
+
+
+    return (
+        <>
+            
+            <ArrowSelector scale={scale} onClick={props.onClicks} className={props.className} >
+                {
+                    direction === "right" ? "〉" : '〈' 
+                }
+            </ArrowSelector>
+        </>
+        )
+}
+
+/**
+ * 
+ * @param {int} props.number The number of the day
+ * @param {int} props.numberOfEvents The number of events on the day
+ * @param {boolean} props.isActive If the day is active or not
+ * @param {boolean} props.isSelected If the day is selected or not
+ * @param {function} props.onClicks The function that is called when the day is clicked
+ * @param {int} props.scale The scale of the calender
+ * @returns A day square that can be used to add and to navigate the calender
+ */
+function DaySquare(props){
+
+    return (
+        props.isActive ?
+        <DaySquares numberOfEvents={props.numberOfEvents} isSelected={props.isSelected} onClick={props.onClicks} >
+            <h1 className="DayNum">{props.number}</h1>
+            <h1 className="EventNum">{props.numberOfEvents !== 0 ? props.numberOfEvents : "" }</h1>
+        </DaySquares>
+        :
+        <DaySquaresUnusable>
+            <h1></h1>
+        </DaySquaresUnusable>
+    )
+}
+
+//============================The end of the helper functions=========================================
+
+
+
+//#################################### The main component ############################################
+
+/**
+ * 
+ * @param {*} props 
+ * @returns The calender view
+ */
+export function CalenderView(props){
+//#################################### The states and the context ############################################
     let Data = useContext(DataContext);
-    let {language , setLanguage} = useContext(CurrentLanguage);
-    let {currentDate , setCurrentDate} = useContext(CurrentDate);
-    let text = TranslatedTextList[language];
-    const [days, setDays] = useState(Array(42).fill(true));
+    let {language , setLanguage} = useContext(CurrentLanguage); //The language that is currently selected (Taken from the context and set in the context)
+    let {currentDate , setCurrentDate} = useContext(CurrentDate);//The date that is currently selected (Taken from the context and set in the context)
+    const [days, setDays] = useState(Array(42).fill(true)); //The 42 here is the number of days in a month (6 weeks) 6*7 = 42.
+
+
+    let text = TranslatedTextList[language]; //The text that is currently selected (Taken from global object TranslatedTextList)
     let date = currentDate;
 
+    /**
+     * 
+     * @param {DateTime} newDate The new date that is to be set in the context
+     */
     function handleDateChange(newDate)
     {
-        props.setDate(newDate);
+        setCurrentDate(newDate);
         props.onChangeDate();
-
     }
 
-    let daysInMonth = DateTime.local(date.year, date.month).daysInMonth;
-    let firstDayOfMonth = DateTime.local(date.year, date.month, 1).weekday;
+    let daysInMonth = DateTime.local(date.year, date.month).daysInMonth; //The number of days in the current month
+    let firstDayOfMonth = DateTime.local(date.year, date.month, 1).weekday; //The number of the day of the week that the first day of the month is (1 = Monday, 7 = Sunday)
 
     useEffect(() => {
+        //this useEffect is used to set or fill the days in the calender
+        //Each true value in the array represents a day in the calender
+        //Each false value in the array represents an empty day or a day that does not exist in the array in the calender
         let days = Array(42).fill(false);
         for (let i = 0; i < daysInMonth; i++) {
             days[firstDayOfMonth + i] = true;
         }
         setDays(days);
     }, [date]);
+
+//============================The end of the states and the context=========================================
+
+//#################################### The JSX ###########################################################
    
     return (
         <>
@@ -329,7 +380,7 @@ export function CalenderView(props){
                 </ColumnBack>
 
                 <ColumnBack2>
-    </ColumnBack2>
+            </ColumnBack2>
                 <div className="CalenderHeader">
                 <div className="leftArrows">
                             <Arrows onClicks={
@@ -454,6 +505,7 @@ export function CalenderView(props){
         </>
 
     )
+//============================The end of the JSX=========================================
 }
 
 export default CalenderView;
