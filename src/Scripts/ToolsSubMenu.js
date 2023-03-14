@@ -485,7 +485,17 @@ export function ToolsSubMenu(props){
                         <label htmlFor="search">{text["Search"]}</label>
                         <input
                         autoComplete="off"
-                        onChange={(e)=>{setSearchValue(e.target.value)}}
+                        onChange={(e)=>{
+                            setSearchValue(e.target.value);
+                            props.setLocationSelected(e.target.value);
+                            if(e.target.value === ''){
+                                setShowPropose('none');
+                            }else{
+                                setShowPropose('flex');
+                            }
+                        }
+
+                        }
                         value={searchValue}
                          onClick={()=>{
                             setShowPropose('flex');

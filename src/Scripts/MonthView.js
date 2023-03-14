@@ -58,7 +58,12 @@ function MonthView(){
 
     const [currentEvent, setCurrentEvent] = useState({});
     const [showDetail, setShowDetail] = useState(false);
-    
+    const [filtersAndResults , setFiltersAndResults] = useState({
+        "date": {},
+        "keywords": [],
+        "location": "",
+        "results": 0
+       });
     function onChangeDate(){
         let EventsIndexes = [];
         EventsIndexes = Data.getEventsByDate(selectedDate.day, selectedDate.month, selectedDate.year);
@@ -84,7 +89,7 @@ function MonthView(){
                 />
                 <DetailsContainer>
                     <h1>Selected Events</h1>
-                    { selectedEvents.length > 0 ? <EventGrid language={language} >
+                    { selectedEvents.length > 0 ? <EventGrid isMonthView={true} language={language} >
                         {selectedEvents.map((eventUid, i) => {
                             let event = eventUid;
                             return <EventObject key={i} EventData={event} language={language} onClickEvent={()=>

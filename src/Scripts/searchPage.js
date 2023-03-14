@@ -60,69 +60,46 @@ function SearchPage() {
     
     console.log('keywordsEvents' , keywordsEvents.size);
 
+    let isDateChecked = Tdate.day !== undefined && Tdate.month !== undefined && Tdate.year !== undefined;
+    let isKeywordChecked = Tkeywords.length > 0;
+    let isLocationChecked = selectedLocation !== "";
     if(!ShowAll){
-      if(isDateSelected){
-        Temp = dateEvents;
-      }
-      else if(keywordsEvents.size > 0){
-        Temp = keywordsEvents;
-      }
-      else if(selectedLocation !== ""){
-        Temp = locationEvents;
-      }
-
-
-
-      else if(isDateSelected && keywordsEvents.size > 0){
-        if(dateEvents.size > keywordsEvents.size){
-        dateEvents.map((event)=>{
-          keywordsEvents.map((keywordEvent)=>{
-            if(event === keywordEvent){
-              Temp.push(event);
-            }
-          });
-        });}
-      }
-      else if(isDateSelected && selectedLocation !== ""){
-
-        if(dateEvents.size > locationEvents.size){
-        dateEvents.map((event)=>{
-          locationEvents.forEach((locationEvent)=>{
-            if(event === locationEvent){
-              Temp.push(event);
-            }
+      if(isDateChecked && isKeywordChecked && isLocationChecked){
+        dateEvents.forEach((event,i)=>{
+          if(keywordsEvents.has(event) && locationEvents.has(event)){
+            Temp.push(event);
           }
-          );
-        });}
-      }
-      else if(keywordsEvents.size > 0 && selectedLocation !== ""){
-
-        if(keywordsEvents.size > locationEvents.size){
-        keywordsEvents.map((event)=>{
-          locationEvents.map((locationEvent)=>{
-            if(event === locationEvent){
-              Temp.push(event);
-            }
-          }
-          );
-        }
-        );}
-      }
-      else if(isDateSelected && keywordsEvents.size > 0 && selectedLocation !== ""){
-
-        if(dateEvents.size > keywordsEvents.size){
-        dateEvents.map((event)=>{
-          keywordsEvents.forEach((keywordEvent)=>{
-            if(event === keywordEvent){
-              locationEvents.forEach((locationEvent)=>{
-                if(event === locationEvent){
-                  Temp.push(event);
-                }
-              });
-            }
-          });
         });
       }
+      else if(isDateChecked && isKeywordChecked){
+        dateEvents.forEach((event,i)=>{
+          if(keywordsEvents.has(event)){
+            Temp.push(event);
+          }
+        });
+      }
+      else if(isDateChecked && isLocationChecked){
+        dateEvents.forEach((event,i)=>{
+          if(locationEvents.has(event)){
+            Temp.push(event);
+          }
+        });
+      }
+      else if(isKeywordChecked && isLocationChecked){
+        keywordsEvents.forEach((event,i)=>{
+          if(locationEvents.has(event)){
+            Temp.push(event);
+          }
+        });
+      }
+      else if(isDateChecked){
+        Temp = dateEvents;
+      }
+      else if(isKeywordChecked){
+        Temp = keywordsEvents;
+      }
+      else if(isLocationChecked){
+        Temp = locationEvents;
       }
       else{
         Temp = Data.getAllEventsIndexes();
@@ -182,7 +159,7 @@ function SearchPage() {
 
        </ToolsSubMenu>
       <DetailPopup onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
-      { <EventGrid setFiltersAndResults={setFiltersAndResults} filtersAndResults={filtersAndResults} language={currentLanguage}>
+      { <EventGrid isMonthView={false} setFiltersAndResults={setFiltersAndResults} filtersAndResults={filtersAndResults} language={currentLanguage}>
         {
           currentEvents.length > 0 ? currentEvents.map((event,i)=>
           {

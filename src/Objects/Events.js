@@ -139,16 +139,23 @@ import { DateTime } from 'luxon';
     
     getEventsAfterDate(day, month, year){
         console.log(day, month, year);
+
         let years = new Map([...this.year.entries()].sort());
         let events = new Set([]);
         let lastYear = [...years.keys()].pop();
-        if(year > lastYear){
+        let firstYear = [...years.keys()].shift();
+
+
+        if(year >= firstYear && year <= lastYear ){
             for(let i = year; i <= lastYear; i++){
+
                 let months = new Map([...years.get(i).entries()].sort());
                 let lastMonth = [...months.keys()].pop();
+
                 for(let j = month; j <= lastMonth; j++){
                     let days = new Map([...months.get(j).entries()].sort());    
                     const maxKey = Math.max(...days.keys());
+
                     for(let k = day; k <= maxKey; k++){
                         if(days.has(k)){
                             days.get(k).map((event)=>{
@@ -159,50 +166,13 @@ import { DateTime } from 'luxon';
     
                     }
                 }
-            }
+        }}
+        else if(year > lastYear){
+            return events;
         }
         else{
-
-            
-
-            /*for(let i = year; i <= lastYear; i++){
-                let months = new Map([...years.get(i).entries()].sort());
-                let lastMonth = [...months.keys()].pop();
-                if(i === year){
-                    for(let j = month; j <= lastMonth; j++){
-                        let days = new Map([...months.get(j).entries()].sort());    
-                        const maxKey = Math.max(...days.keys());
-                        for(let k = day; k <= maxKey; k++){
-                            if(days.has(k)){
-                                days.get(k).map((event)=>{
-                                    events.add(event);
-                                });
-                            }
-        
-        
-                        }
-                    }
-                }
-                else{
-                    for(let j = 1; j <= lastMonth; j++){
-                        let days = new Map([...months.get(j).entries()].sort());    
-                        const maxKey = Math.max(...days.keys());
-                        for(let k = 1; k <= maxKey; k++){
-                            if(days.has(k)){
-                                days.get(k).map((event)=>{
-                                    events.add(event);
-                                });
-                            }
-        
-        
-                        }
-                    }
-                }
-            }*/
+            events = this.getAllEventsIndexes();
         }
-
-
-        
         return events;
     }
 }

@@ -226,7 +226,7 @@ export function EventGrid(props){
         <>
         <EventGridStyle>
         <div className="EventGridMain">
-            <div className="EventsDetails">
+           { !props.isMonthView && <div className="EventsDetails">
                {props.filtersAndResults.results > 0 && <h1>{ props.filtersAndResults.results} resaults found</h1>}
                 <div className="EventsDetailsFiltersUsed">
                     {props.filtersAndResults.keywords.length > 0 && <div className='keyWords'>
@@ -252,7 +252,7 @@ export function EventGrid(props){
                         <p>{props.filtersAndResults.location}</p>
                     </div>}
                 </div>
-            </div>
+            </div>}
             <div className="EventGrid">
                {
                     props.children.length > 0 ?
