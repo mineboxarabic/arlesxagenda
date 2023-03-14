@@ -31,6 +31,12 @@ function SearchPage() {
   "month": DateTime.local().month ,
    "year": DateTime.local().year});
    const [ShowAll , setShowAll] = useState(false);
+   const [filtersAndResults , setFiltersAndResults] = useState({
+    "date": {},
+    "keywords": [],
+    "location": "",
+    "results": 0
+   });
   //================Filters================
 
 
@@ -43,48 +49,85 @@ function SearchPage() {
   {
     let Temp = [];
 
-
     let dateEvents = Data.getEventsAfterDate(Tdate.day , Tdate.month , Tdate.year);
+
+
     console.log('dateEvents' , Data.getEventsAfterDate(Tdate.day , Tdate.month , Tdate.year));
     let keywordsEvents = Data.getEventsByKeywords(Tkeywords);
     let locationEvents = Data.getEventsByLocation(selectedLocation);
 
     //get all events from a certain date
     
-    
+    console.log('keywordsEvents' , keywordsEvents.size);
 
     if(!ShowAll){
-      if(isDateSelected && isKeywordSelected && selectedLocation !== "")
-      {
-        dateEvents.forEach((event,i)=>{
-          
-          keywordsEvents.forEach((event2,i2)=>{
-            locationEvents.forEach((event3,i3)=>{
-              if(event === event2 && event2 === event3){
-                if(!Temp.includes(event)) 
-                  Temp.push(event);
-              }
-            });
-            
-          });
-        });
-      }
-      else if(isDateSelected){
+      if(isDateSelected){
         Temp = dateEvents;
-       
       }
-      else if(isKeywordSelected){
+      else if(keywordsEvents.size > 0){
         Temp = keywordsEvents;
-
-       
       }
       else if(selectedLocation !== ""){
         Temp = locationEvents;
-    
+      }
+
+
+
+      else if(isDateSelected && keywordsEvents.size > 0){
+        if(dateEvents.size > keywordsEvents.size){
+        dateEvents.map((event)=>{
+          keywordsEvents.map((keywordEvent)=>{
+            if(event === keywordEvent){
+              Temp.push(event);
+            }
+          });
+        });}
+      }
+      else if(isDateSelected && selectedLocation !== ""){
+
+        if(dateEvents.size > locationEvents.size){
+        dateEvents.map((event)=>{
+          locationEvents.forEach((locationEvent)=>{
+            if(event === locationEvent){
+              Temp.push(event);
+            }
+          }
+          );
+        });}
+      }
+      else if(keywordsEvents.size > 0 && selectedLocation !== ""){
+
+        if(keywordsEvents.size > locationEvents.size){
+        keywordsEvents.map((event)=>{
+          locationEvents.map((locationEvent)=>{
+            if(event === locationEvent){
+              Temp.push(event);
+            }
+          }
+          );
+        }
+        );}
+      }
+      else if(isDateSelected && keywordsEvents.size > 0 && selectedLocation !== ""){
+
+        if(dateEvents.size > keywordsEvents.size){
+        dateEvents.map((event)=>{
+          keywordsEvents.forEach((keywordEvent)=>{
+            if(event === keywordEvent){
+              locationEvents.forEach((locationEvent)=>{
+                if(event === locationEvent){
+                  Temp.push(event);
+                }
+              });
+            }
+          });
+        });
+      }
       }
       else{
         Temp = Data.getAllEventsIndexes();
       }
+
     }
     else{
       Temp = Data.getAllEventsIndexes();
@@ -100,13 +143,18 @@ function SearchPage() {
     console.log('events' , events);
     
 
-
+    setFiltersAndResults({
+      "date": Tdate,
+      "keywords": Tkeywords,
+      "location": selectedLocation,
+      "results": events.length
+      });
     setCurrentEvents(events);
 
 
 
   }
-  console.log('the date is: ' + Tdate.day + '/' + Tdate.month + '/' + Tdate.year);
+  console.log('location' , selectedLocation);
   return (
     <>
       <Header isActive={true} getLanguage={(lang)=>{setCurrentLanguage(lang)}} />
@@ -134,7 +182,7 @@ function SearchPage() {
 
        </ToolsSubMenu>
       <DetailPopup onClickClose={()=>{setShowDetail(false);}} event={currentEvent} isShow={showDetail} />
-      { <EventGrid language={currentLanguage}>
+      { <EventGrid setFiltersAndResults={setFiltersAndResults} filtersAndResults={filtersAndResults} language={currentLanguage}>
         {
           currentEvents.length > 0 ? currentEvents.map((event,i)=>
           {

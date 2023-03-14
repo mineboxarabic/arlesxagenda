@@ -11,7 +11,7 @@ import { DateTime } from 'luxon';
 
         this.newArrayOfEvents = [];
 
-        this.events.map((event)=>{
+        /*this.events.map((event)=>{
             let newEvent = {};
             newEvent.uid = event.uid;
             newEvent.title = event.title;
@@ -23,7 +23,7 @@ import { DateTime } from 'luxon';
             newEvent.image = event.image;
 
             this.newArrayOfEvents.push(newEvent);
-        });
+        });*/
 
 
         this.day = new Map([]);
@@ -33,7 +33,7 @@ import { DateTime } from 'luxon';
         this.locations = new Map([]);
 
 
-        this.newArrayOfEvents.map((event,i)=>{
+        this.events.map((event,i)=>{
 
             if(event.keywords !== undefined && event.keywords != null){
                 if(event.keywords.en !== undefined && event.keywords.en != null){
@@ -142,24 +142,66 @@ import { DateTime } from 'luxon';
         let years = new Map([...this.year.entries()].sort());
         let events = new Set([]);
         let lastYear = [...years.keys()].pop();
-        
-        for(let i = year; i <= lastYear; i++){
-            let months = new Map([...years.get(i).entries()].sort());
-            let lastMonth = [...months.keys()].pop();
-            for(let j = month; j <= lastMonth; j++){
-                let days = new Map([...months.get(j).entries()].sort());    
-                const maxKey = Math.max(...days.keys());
-                for(let k = day; k <= maxKey; k++){
-                    if(days.has(k)){
-                        days.get(k).map((event)=>{
-                            events.add(event);
-                        });
+        if(year > lastYear){
+            for(let i = year; i <= lastYear; i++){
+                let months = new Map([...years.get(i).entries()].sort());
+                let lastMonth = [...months.keys()].pop();
+                for(let j = month; j <= lastMonth; j++){
+                    let days = new Map([...months.get(j).entries()].sort());    
+                    const maxKey = Math.max(...days.keys());
+                    for(let k = day; k <= maxKey; k++){
+                        if(days.has(k)){
+                            days.get(k).map((event)=>{
+                                events.add(event);
+                            });
+                        }
+    
+    
                     }
-
-
                 }
             }
         }
+        else{
+
+            
+
+            /*for(let i = year; i <= lastYear; i++){
+                let months = new Map([...years.get(i).entries()].sort());
+                let lastMonth = [...months.keys()].pop();
+                if(i === year){
+                    for(let j = month; j <= lastMonth; j++){
+                        let days = new Map([...months.get(j).entries()].sort());    
+                        const maxKey = Math.max(...days.keys());
+                        for(let k = day; k <= maxKey; k++){
+                            if(days.has(k)){
+                                days.get(k).map((event)=>{
+                                    events.add(event);
+                                });
+                            }
+        
+        
+                        }
+                    }
+                }
+                else{
+                    for(let j = 1; j <= lastMonth; j++){
+                        let days = new Map([...months.get(j).entries()].sort());    
+                        const maxKey = Math.max(...days.keys());
+                        for(let k = 1; k <= maxKey; k++){
+                            if(days.has(k)){
+                                days.get(k).map((event)=>{
+                                    events.add(event);
+                                });
+                            }
+        
+        
+                        }
+                    }
+                }
+            }*/
+        }
+
+
         
         return events;
     }

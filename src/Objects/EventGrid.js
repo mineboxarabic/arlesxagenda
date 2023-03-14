@@ -20,6 +20,83 @@ const EventGridStyle = styled.div`
         align-items: center;
         align-content: center;
         justify-content: center;
+
+        .EventsDetails{
+            width: 100%;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            .EventsDetailsFiltersUsed{
+                .date{
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    align-content: center;
+                    justify-content: center;
+                    p{
+                        font-size: 30px;
+                        color: ${ColorPalette.light};
+                        margin: 0;
+                        text-align: center;
+                        width: 100px;
+                    }
+                }
+                .keyWords{
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    align-content: center;
+                    justify-content: center;
+                    ul{
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        align-content: center;
+                        justify-content: center;
+                        flex-wrap: wrap;
+                        li{
+                            width: 100px;
+                            height: 100%;
+                            display: flex;
+                            flex-direction: row;
+                            background-color: ${ColorPalette.medium};
+                            border-radius: 5px;
+                            color: ${ColorPalette.light};
+                            align-items: center;
+                            align-content: center;
+                            justify-content: center;
+                            margin: 5px;
+                        }
+                    }
+                }
+                .location{
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    align-content: center;
+                    justify-content: center;
+                    p{
+                        font-size: 30px;
+                        color: ${ColorPalette.light};
+                        margin: 0;
+                    }
+                }
+
+                
+
+            }
+        }
         .EventGrid{
             width: 100%;
             height: 90%;
@@ -139,11 +216,43 @@ export function EventGrid(props){
         setCurrentPage(ct);
     }
 
-
+    /*  setFiltersAndResults({
+      "date": Tdate,
+      "keywords": Tkeywords,
+      "location": selectedLocation,
+      "results": events.length
+      }); */
     return (
         <>
         <EventGridStyle>
         <div className="EventGridMain">
+            <div className="EventsDetails">
+               {props.filtersAndResults.results > 0 && <h1>{ props.filtersAndResults.results} resaults found</h1>}
+                <div className="EventsDetailsFiltersUsed">
+                    {props.filtersAndResults.keywords.length > 0 && <div className='keyWords'>
+                        <h2>Keywords: </h2>
+                        <div className="EventsDetailsFiltersUsedList">
+                        <ul>
+                                {
+                                    props.filtersAndResults.keywords.map((filter)=>{
+                                        return <li>{filter}</li>
+                                    })
+                                }
+                        </ul>
+                        </div>
+                    
+                    </div>}
+                    
+                    {props.filtersAndResults.date.day !== undefined && <div className='date'>
+                     <h2>Date: </h2>
+                         <p>{props.filtersAndResults.date.day +'/'+ props.filtersAndResults.date.month +'/'+ props.filtersAndResults.date.year}</p>
+                        </div>}
+                    {props.filtersAndResults.location !== "" && <div className='location'>
+                        <h2>Location: </h2>
+                        <p>{props.filtersAndResults.location}</p>
+                    </div>}
+                </div>
+            </div>
             <div className="EventGrid">
                {
                     props.children.length > 0 ?

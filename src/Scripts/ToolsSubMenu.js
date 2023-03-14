@@ -505,6 +505,7 @@ export function ToolsSubMenu(props){
                                          onClick={()=>{
                                             setShowPropose('none');
                                             setSearchValue(location);
+                                            props.setLocationSelected(location);
                                             
                                         }}>{location}</li>
                                     }

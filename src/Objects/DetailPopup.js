@@ -5,9 +5,7 @@ import { marked } from 'marked';
 import { useContext } from 'react';
 import { CurrentLanguage , ColorPalette} from '../Data/Context';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+
 const DetailPopupStyle = styled.div`
 
     
@@ -16,9 +14,10 @@ const DetailPopupStyle = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    
+    background-color: ${ColorPalette.darkest} 70%;
+    color: ${ColorPalette.darkest};
     z-index: 1;
+
     .DetailPopup_Body{
 
         position: absolute;
@@ -28,15 +27,37 @@ const DetailPopupStyle = styled.div`
         height: 90%;
         padding-left: 5%;
         padding-right: 5%;
-
-        background-color: #ffe4c4;
+        background-color: ${ColorPalette.light};
+        background: radial-gradient(circle, ${ColorPalette.lightest} 0%, ${ColorPalette.light} 100%);
         border-radius: 20px;
         box-shadow: 0 10px 5px 0 rgba(0,0,0,0.5);
         overflow-y: scroll;
-
         display: flex;
-        
+        .DetailPopup_Close{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 20px;
+            background-color: ${ColorPalette.lightest};
+            color: ${ColorPalette.darkest};
+            font-size: 2.0em;
+            background-color: red;
+            cursor: pointer;
+            &:hover{
+                background-color: #ff3f3f;
+                transition:  all 0.3s ease-in-out;
+            }
 
+
+        }
+        h1{
+            margin: 0;
+            margin-bottom: 10px;
+            font-weight: 2000;
+            color: ${ColorPalette.medium};
+        }
         .DetailPopup_Details_Side{
             width: 50%;
             height: 100%;
@@ -49,6 +70,8 @@ const DetailPopupStyle = styled.div`
                 width: 40vh;
                 height: 60vh;
                 object-fit: cover;
+                border-radius: 10px;
+                filter: drop-shadow(0 0 2px ${ColorPalette.darkest});
             }
 
             p{
@@ -72,20 +95,32 @@ const DetailPopupStyle = styled.div`
 
         }
         .DetailPopup_About_Text{
+            padding: 20px;
+            .DetailPopup_Dates_Details{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            .DetailPopup_Dates_Details_right{
 
+            }
+            .DetailPopup_Conditions{
+                
+            }
+    }
         }
         table{
-            border: 6px solid #948473;
-            background-color: #FFE3C6;
-            width: 100%;
+            border: 6px solid ${ColorPalette.inBetweenDarkAndDark};
+            background-color: ${ColorPalette.lightest};
+            width: 1000px;
             text-align: center;
             border-collapse: collapse;
             border-radius: 20px;
             thead{
                 background: #948473;
-            background: -moz-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
-            background: -webkit-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
-            background: linear-gradient(to bottom, #afa396 0%, #9e9081 66%, #948473 100%);
+            background: -moz-linear-gradient(top, ${ColorPalette.lightest} 0%, ${ColorPalette.light} 66%, ${ColorPalette.medium} 100%);
+            background: -webkit-linear-gradient(top, ${ColorPalette.lightest} 0%, ${ColorPalette.light} 66%, ${ColorPalette.medium} 100%);
+            background: linear-gradient(to bottom, ${ColorPalette.dark} 0%, ${ColorPalette.medium} 66%, ${ColorPalette.medium} 100%);
                 color: white;
             }
         }
@@ -94,20 +129,22 @@ const DetailPopupStyle = styled.div`
 
 
 
+
 `;
 
 const ButtonGoToWebSite = styled.button`
-    display: ${props => props.display ? 'block' : 'none'};
-    width: 100%;
+    display: ${props => props.isLinkAvailable ? 'block' : 'none'};
+    width: 50%;
     height: 50px;
-    background-color: ${ColorPalette[0]};
+    background-color: ${ColorPalette.medium};
     border: none;
     border-radius: 10px;
-    color: white;
-    font-size: 1.5em;
+    color: ${ColorPalette.darkest};
+    font-size: 1.0em;
     font-weight: bold;
     margin-top: 20px;
     cursor: pointer;
+    filter:  drop-shadow(0 0 1px ${ColorPalette.darkest});
     transition: 0.3s;
     &:hover{
         background-color: ${ColorPalette[1]};
@@ -142,6 +179,26 @@ export function DetailPopup(props){
                     }
                 }
                 
+            }
+            if(key === "timings"){
+                if(attribute === "all timings"){
+                    if(EventData[key] != undefined && EventData[key] != null){
+                        let timings = EventData[key];
+                        timings.sort((a,b)=>{
+                            let aStart = DateTime.fromISO(a.start);
+                            let bStart = DateTime.fromISO(b.start);
+                            if(aStart < bStart){
+                                return -1;
+                            }
+                            if(aStart > bStart){
+                                return 1;
+                            }
+                            return 0;
+                        })
+                        return timings;
+                        
+                    }
+                }
             }
             if(key === attribute){
                 if(key === 'title' || key === 'description' || key === 'longDescription'){
@@ -196,52 +253,36 @@ export function DetailPopup(props){
                         return EventData[key];
 
                 }
+                if(key === "conditions"){
+                    if(EventData[key][language] != undefined && EventData[key][language] != null){
+                        return EventData[key][language];
+                    }
+                }
 
             }
         }
     }
     {/*
-                    <table className='Timings' border={'1px'}>
-                    <thead>
-                        <tr>
-                            <th>{language === "fr" ? "Debut" : "Start"}</th>
-                            <th>{language === "fr" ? "Fin" : "End"}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {timings.map((timing, index) => {
-                            let start = DateTime.fromISO(timing.start);
-                            let end = DateTime.fromISO(timing.end);
-                            let now = DateTime.local();
-                            if (start < now) {
-                            return (
-                                <tr key={index}>
-                                    <td>{start.toISODate()}</td>
-                                    <td>{end.toISODate()}</td>
-                                </tr>
-                            )}
-                        })}
-
-                    </tbody>
-                </table>
+                    
     */}
     return props.isShow === true ?  (
         <DetailPopupStyle>
-            <button className="DetailPopup_Close" onClick={() => {props.onClickClose(false)}}>X</button>
+           
             <div className="DetailPopup_Body">
+            <button className="DetailPopup_Close" onClick={() => {props.onClickClose(false)}}>X</button>
                 <div className="DetailPopup_Details_Side">
                     <img src={EventData.originalImage !== false ? EventData.originalImage : "No image" } />
                     <div className="DetailPopup_Details_Side_Tags">
                         <div className='Container'>
-                            <i class="fa-sharp fa-solid fa-location-dot"></i>
+                            <i className="fa-sharp fa-solid fa-location-dot"></i>
                             <strong>{getAttributeValues('location name')}</strong>
                         </div>
                         <p>{getAttributeValues('location address')}</p>
                         <div className='Container'>
-                            <i class="fa-sharp fa-solid fa-phone"></i>
+                            <i className="fa-sharp fa-solid fa-phone"></i>
                             <p>{getAttributeValues('location phone')}</p>
                         </div>
-                        <ButtonGoToWebSite isLinkAvailable={(EventData.registrationUrl != undefined && EventData.registrationUrl != null)} className="DetailPopup_Go_to_website" onClick={() => {
+                        <ButtonGoToWebSite isLinkAvailable={EventData.registrationUrl != undefined && EventData.registrationUrl != null} className="DetailPopup_Go_to_website" onClick={() => {
                             if(EventData.registrationUrl != undefined && EventData.registrationUrl != null){
                                 window.open(EventData.registrationUrl);
                             }
@@ -254,9 +295,46 @@ export function DetailPopup(props){
                     <hr />
                     <p>{getAttributeValues('description')}</p>
                     <ReactMarkdown>{getAttributeValues('longDescription')}</ReactMarkdown>
+
+                    <div className="DetailPopup_Dates_Details">
+
+                        <div className="DetailPopup_Conditions">
+                            <h1>{language === "fr" ? "Conditions ou tarifs" :"Conditions or tarifs" }</h1>
+                            <p>{getAttributeValues('conditions')}</p>
+                        </div>
+                        <h1 className="DetailPopup_Dates_Details_right">{language === "fr" ? "Dates" : "Dates"}</h1>
+                        <div className="DetailPopup_Dates_Details_right">
+                            <table className='Timings' border={'1px'}>
+                            <thead>
+                                <tr>
+                                    <th>{language === "fr" ? "Debut" : "Start"}</th>
+                                    <th>{language === "fr" ? "Fin" : "End"}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {getAttributeValues('all timings').map((timing, index) => {
+                                    let start = DateTime.fromISO(timing.start);
+                                    let end = DateTime.fromISO(timing.end);
+                                    let now = DateTime.local();
+                                    if (start < now) {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{start.toISODate()}</td>
+                                            <td>{end.toISODate()}</td>
+                                        </tr>
+                                    )}
+                                })}
+
+                            </tbody>
+                    </table>   
+                                    
+                        </div>
+                    </div>
                 </div>
                 
             </div>
+
+            
         </DetailPopupStyle>
     ) : "";
 }
