@@ -6,7 +6,11 @@ import { DateTime } from 'luxon';
 
 let events = new Events();
 export const DataContext = createContext(events);
-export const CurrentDate = createContext(DateTime.local());
+export const CurrentDate = createContext({
+  day: DateTime.local().day,
+  month: DateTime.local().month,
+  year: DateTime.local().year,
+});
 export const CurrentLanguage = createContext("fr");
 
 

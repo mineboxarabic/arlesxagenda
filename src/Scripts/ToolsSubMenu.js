@@ -540,7 +540,7 @@ export function ToolsSubMenu(props){
                         {
                             text["Search for a keyword"]
                         }
-                        <KeywordSearch setIsKeywordSelected = {props.setIsKeywordSelected} isKeywordSelected={props.isKeywordSelected } getKeywords={props.getKeywords} setKeywords={props.setKeywords} ></KeywordSearch>
+                        <KeywordSearch getKeywords={props.getKeywords} setKeywords={props.setKeywords} ></KeywordSearch>
                     </ComboBoxView>
                     {props.children}
                 </div>

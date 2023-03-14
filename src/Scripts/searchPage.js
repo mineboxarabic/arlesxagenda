@@ -7,7 +7,7 @@ import { EventGrid } from '../Objects/EventGrid';
 import { EventObject } from '../Objects/EventObject';
 import { DetailPopup } from '../Objects/DetailPopup';
 import { DateTime } from "luxon";
-import { DataContext , CurrentLanguage } from '../Data/Context';
+import { DataContext , CurrentLanguage ,CurrentDate} from '../Data/Context';
 import { useContext } from 'react';
 function SearchPage() {
   let Data = useContext(DataContext);
@@ -16,20 +16,17 @@ function SearchPage() {
   console.log(currentLanguage);
   const [showDetail, setShowDetail] = useState(false);
   const [selectedLocation , setSelectedLocation] = useState("");
-  const [isDateSelected , setIsDateSelected] = useState(false);
-  const [isKeywordSelected , setIsKeywordSelected] = useState(false);
+
   const [currentEvents , setCurrentEvents] = useState(Data.events);
   //================Date Variables================
-  let date = {
-    "day": DateTime.local().day,
-    "month": DateTime.local().month,
-    "year": DateTime.local().year
-  }
+
   //================Temp Variables================
   const [Tkeywords , setTKeywords] = useState([]);
-  const [Tdate , setTDate] = useState({"day": DateTime.local().day , 
+  /*const [currentDate , setCurrentDate] = useState({"day": DateTime.local().day , 
   "month": DateTime.local().month ,
-   "year": DateTime.local().year});
+   "year": DateTime.local().year});*/
+   let {currentDate , setCurrentDate} = useContext(CurrentDate);
+
    const [ShowAll , setShowAll] = useState(false);
    const [filtersAndResults , setFiltersAndResults] = useState({
     "date": {},
@@ -37,30 +34,23 @@ function SearchPage() {
     "location": "",
     "results": 0
    });
-  //================Filters================
 
 
-  const [Filters , setFilters] = useState({
-    "date": [],
-    "keywords": []});
 
 
   function onClickSeachButton()
   {
     let Temp = [];
 
-    let dateEvents = Data.getEventsAfterDate(Tdate.day , Tdate.month , Tdate.year);
+    let dateEvents = Data.getEventsAfterDate(currentDate.day , currentDate.month , currentDate.year);
 
 
-    console.log('dateEvents' , Data.getEventsAfterDate(Tdate.day , Tdate.month , Tdate.year));
     let keywordsEvents = Data.getEventsByKeywords(Tkeywords);
     let locationEvents = Data.getEventsByLocation(selectedLocation);
 
-    //get all events from a certain date
-    
-    console.log('keywordsEvents' , keywordsEvents.size);
 
-    let isDateChecked = Tdate.day !== undefined && Tdate.month !== undefined && Tdate.year !== undefined;
+
+    let isDateChecked = currentDate.day !== undefined && currentDate.month !== undefined && currentDate.year !== undefined;
     let isKeywordChecked = Tkeywords.length > 0;
     let isLocationChecked = selectedLocation !== "";
     if(!ShowAll){
@@ -121,7 +111,7 @@ function SearchPage() {
     
 
     setFiltersAndResults({
-      "date": Tdate,
+      "date": currentDate,
       "keywords": Tkeywords,
       "location": selectedLocation,
       "results": events.length
@@ -137,15 +127,11 @@ function SearchPage() {
       <Header isActive={true} getLanguage={(lang)=>{setCurrentLanguage(lang)}} />
       <ToolsSubMenu
       setLocationSelected={(val)=>(setSelectedLocation(val))}
-      setDate={setTDate}
+      setDate={setCurrentDate}
       setKeywords={setTKeywords}
-      getDate = {Tdate}
+      getDate = {currentDate}
       getKeywords = {Tkeywords}
       language={currentLanguage}
-      setIsDateSelected = {(val)=>{setIsDateSelected(val)}}
-      isDateSelected = {isDateSelected}
-      setIsKeywordSelected = {(val)=>{setIsKeywordSelected(val)}}
-      isKeywordSelected = {isKeywordSelected}
       Data={Data}
       >
 

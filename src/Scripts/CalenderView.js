@@ -6,7 +6,7 @@ import ArrowLeft from "../Images/ArrowLeft.png";
 import CulumnImage from "../Images/Column.png"
 import { render } from "@testing-library/react";
 import Background3 from "../Images/Background3.png";
-import { DataContext, ColorPalette , TranslatedTextList, CurrentLanguage} from '../Data/Context';
+import { DataContext, ColorPalette , TranslatedTextList, CurrentLanguage , CurrentDate} from '../Data/Context';
 import { useContext } from 'react';
 const DaySquares = styled.button`
 position: relative;
@@ -299,9 +299,10 @@ export function CalenderView(props){
 
     let Data = useContext(DataContext);
     let {language , setLanguage} = useContext(CurrentLanguage);
+    let {currentDate , setCurrentDate} = useContext(CurrentDate);
     let text = TranslatedTextList[language];
     const [days, setDays] = useState(Array(42).fill(true));
-    let date = props.getDate;
+    let date = currentDate;
 
     function handleDateChange(newDate)
     {

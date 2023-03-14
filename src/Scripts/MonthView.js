@@ -8,7 +8,7 @@ import { EventObject } from "../Objects/EventObject.js";
 import { EventGrid } from "../Objects/EventGrid.js";
 import { DetailPopup } from "../Objects/DetailPopup.js";
 
-import { DataContext } from '../Data/Context';
+import { DataContext , CurrentDate} from '../Data/Context';
 import { useContext } from 'react';
 const AppContainer = styled.div`
     width: 100%;
@@ -47,11 +47,12 @@ const DetailsContainer = styled.div`
 function MonthView(){
     let Data = useContext(DataContext);
     const [language, setLanguage] = useState("en");
-    const [selectedDate, setSelectedDate] = useState({
+    /*const [selectedDate, setSelectedDate] = useState({
         year: DateTime.local().year,
         month: DateTime.local().month,
         day: DateTime.local().day
-    });
+    });*/
+    let {selectedDate , setSelectedDate} = useContext(CurrentDate);
     const [isSelectedDate, setIsSelectedDate] = useState(false);
     const [selectedEvents, setSelectedEvents] = useState([]);
 

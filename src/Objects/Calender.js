@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { DateTime } from "luxon";
 import CulumnImage from "../Images/Column.png";
-import { DataContext, ColorPalette } from "../Data/Context";
+import { DataContext, ColorPalette , CurrentDate} from "../Data/Context";
 import { useContext } from "react";
 const DaySquares = styled.button`
   position: relative;
@@ -234,17 +234,18 @@ const CalenderBody = styled.div`
 export function CalenderObject(props) {
   let Data = useContext(DataContext);
   const [days, setDays] = useState(Array(42).fill(true));
-  let date = props.getDate;
+  let {currentDate, setCurrentDate} = useContext(CurrentDate);
+  console.log(currentDate);
   let linkedDatesToEvents = {};
   const [isLoading, setIsLoading] = useState(true);
 
   function handleDateChange(newDate) {
-    props.setDate(newDate);
+    setCurrentDate(newDate);
     props.setIsDateSelected(true);
   }
 
-  let daysInMonth = DateTime.local(date.year, date.month).daysInMonth;
-  let firstDayOfMonth = DateTime.local(date.year, date.month, 1).weekday;
+  let daysInMonth = DateTime.local(currentDate.year, currentDate.month).daysInMonth;
+  let firstDayOfMonth = DateTime.local(currentDate.year, currentDate.month, 1).weekday;
 
   useEffect(() => {
     let days = Array(42).fill(false);
@@ -252,7 +253,7 @@ export function CalenderObject(props) {
       days[firstDayOfMonth + i] = true;
     }
     setDays(days);
-  }, [date]);
+  }, [currentDate]);
 
   return (
     <>
@@ -267,9 +268,9 @@ export function CalenderObject(props) {
             <Arrows
               onClicks={() => {
                 handleDateChange({
-                  year: date.year - 1,
-                  month: date.month,
-                  day: date.day,
+                  year: currentDate.year - 1,
+                  month: currentDate.month,
+                  day: currentDate.day,
                 });
               }}
               direction="left"
@@ -278,17 +279,17 @@ export function CalenderObject(props) {
             ></Arrows>
             <Arrows
               onClicks={() => {
-                if (date.month === 1) {
+                if (currentDate.month === 1) {
                   handleDateChange({
-                    year: date.year - 1,
+                    year: currentDate.year - 1,
                     month: 12,
-                    day: date.day,
+                    day: currentDate.day,
                   });
                 } else {
                   handleDateChange({
-                    year: date.year,
-                    month: date.month - 1,
-                    day: date.day,
+                    year: currentDate.year,
+                    month: currentDate.month - 1,
+                    day: currentDate.day,
                   });
                 }
               }}
@@ -298,24 +299,24 @@ export function CalenderObject(props) {
             ></Arrows>
           </div>
           <div className="MonthYearNameContainer">
-            <h1>{date.year.toString()}</h1>
-            <h1>{DateTime.local(date.year, date.month).monthLong}</h1>
+            <h1>{currentDate.year.toString()}</h1>
+            <h1>{DateTime.local(currentDate.year, currentDate.month).monthLong}</h1>
           </div>
           <div className="RightArrows">
             <Arrows
               onClicks={() => {
                 setIsLoading(true);
-                if (date.month === 12) {
+                if (currentDate.month === 12) {
                   handleDateChange({
-                    year: date.year + 1,
+                    year: currentDate.year + 1,
                     month: 1,
-                    day: date.day,
+                    day: currentDate.day,
                   });
                 } else {
                   handleDateChange({
-                    year: date.year,
-                    month: date.month + 1,
-                    day: date.day,
+                    year: currentDate.year,
+                    month: currentDate.month + 1,
+                    day: currentDate.day,
                   });
                 }
               }}
@@ -327,9 +328,9 @@ export function CalenderObject(props) {
             <Arrows
               onClicks={() => {
                 handleDateChange({
-                  year: date.year + 1,
-                  month: date.month,
-                  day: date.day,
+                  year: currentDate.year + 1,
+                  month: currentDate.month,
+                  day: currentDate.day,
                 });
               }}
               direction="right"
@@ -355,21 +356,21 @@ export function CalenderObject(props) {
               <div className="CalenderBodyDaySquare">
                 {days.map((day, index) => {
                   let dayNumber = index - (firstDayOfMonth - 1);
-                  let numberOfEvents = Data.getEventsByDate(dayNumber,date.month,date.year).size;
+                  let numberOfEvents = Data.getEventsByDate(dayNumber,currentDate.month,currentDate.year).size;
                   return (
                     <DaySquare
                       onClicks={() => {
                         handleDateChange({
-                          year: date.year,
-                          month: date.month,
+                          year: currentDate.year,
+                          month: currentDate.month,
                           day: dayNumber,
                         });
                         
                       }}
                       isSelected={
-                        date.day === dayNumber &&
-                        date.month === date.month &&
-                        date.year === date.year
+                        currentDate.day === dayNumber &&
+                        currentDate.month === currentDate.month &&
+                        currentDate.year === currentDate.year
                       }
                       isActive={day}
                       numberOfEvents={numberOfEvents}
