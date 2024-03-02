@@ -17,6 +17,32 @@ So in this project we needded to use new technologies to create an application t
 - React-useEffect
 - React-useRef
 - React-useContext
+- 
+
+## Screen Shots
+### Page d'Accueil
+![](https://i.ibb.co/FnxP455/1.png)
+
+
+### Modal de détail de événement
+![](https://i.ibb.co/MgRZYHy/2.png)
+
+
+### Les filtres
+![](https://i.ibb.co/3cknQVf/3.png)
+
+
+### Résultat après les filtres
+![](https://i.ibb.co/54sw6RL/4.png)
+
+
+### La vue de mois
+![](https://i.ibb.co/VtM2Wh1/6.png)
+
+
+### Les Résultats de la vue mois
+![](https://i.ibb.co/3sCfxbK/66.png)
+
 
 ## How to use the application
 - First you need to install the project on your computer.
